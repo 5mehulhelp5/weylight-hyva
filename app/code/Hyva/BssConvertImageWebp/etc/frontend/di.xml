@@ -1,0 +1,40 @@
+<?xml version="1.0"?>
+<!--
+/**
+ * BSS Commerce Co.
+ *
+ * NOTICE OF LICENSE
+ *
+ * This source file is subject to the EULA
+ * that is bundled with this package in the file LICENSE.txt.
+ * It is also available through the world-wide-web at this URL:
+ * http://bsscommerce.com/Bss-Commerce-License.txt
+ *
+ * @category  BSS
+ * @package   Hyva_BssConvertImageWebp
+ * @author    Extension Team
+ * @copyright Copyright (c) 2022 BSS Commerce Co. ( http://bsscommerce.com )
+ * @license   http://bsscommerce.com/Bss-Commerce-License.txt
+ */
+-->
+<config xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+        xsi:noNamespaceSchemaLocation="urn:magento:framework:ObjectManager/etc/config.xsd">
+    <type name="Hyva\CompatModuleFallback\Model\CompatModuleRegistry">
+        <arguments>
+            <argument name="compatModules" xsi:type="array">
+                <item name="hyva-magento2-bsscommerce-convert-image-webp" xsi:type="array">
+                    <item name="original_module" xsi:type="string">Bss_ConvertImageWebp</item>
+                    <item name="compat_module" xsi:type="string">Hyva_BssConvertImageWebp</item>
+                </item>
+            </argument>
+        </arguments>
+    </type>
+
+    <type name="Magento\Framework\View\Element\Template">
+        <plugin name="Hyva_Bss_ConvertImageWebp_ChangeImageTemplate_Plugin" type="Hyva\BssConvertImageWebp\Plugin\ChangeImageTemplate" />
+    </type>
+
+    <preference for="Bss\ConvertImageWebp\Plugin\Block" type="Hyva\BssConvertImageWebp\Override\Plugin\Block"/>
+    <preference for="Hyva\Theme\Plugin\PageBuilder\OverrideTemplatePlugin" type="Hyva\BssConvertImageWebp\Override\Plugin\ConvertImagePageBuilder"/>
+</config>
+

@@ -1,0 +1,109 @@
+<?php
+/**
+ *
+ * BSS Commerce Co.
+ *
+ * NOTICE OF LICENSE
+ *
+ * This source file is subject to the EULA
+ * that is bundled with this package in the file LICENSE.txt.
+ * It is also available through the world-wide-web at this URL:
+ * http://bsscommerce.com/Bss-Commerce-License.txt
+ *
+ *  @category  BSS
+ *  @package   Hyva_BssProductLabel
+ *  @author    Extension Team
+ *  @copyright Copyright (c) 2022 BSS Commerce Co. ( http://bsscommerce.com )
+ *  @license   http://bsscommerce.com/Bss-Commerce-License.txt
+ */
+
+declare(strict_types=1);
+
+use Magento\Catalog\Block\Product\View;
+use Bss\ProductLabel\Helper\Data;
+use Bss\ProductLabel\Block\Label;
+/** @var View $block */
+/** @var Data $helper */
+
+$labelData = $block->getLabelData();
+$productId = $block->getProduct()->getId();
+
+$helper = $this->helper(Data::class);
+$product = $block->getProduct();
+?>
+<section class="text-gray-700 body-font">
+    <div class="flex pb-6 md:py-6 lg:flex-row flex-col items-center">
+        <div class="grid grid-rows-auto grid-cols-1 md:gap-x-5 md:grid-cols-[42%_minmax(0,_1fr)] md:grid-rows-[min-content_minmax(0,_1fr)] lg:gap-x-10 lg:grid-cols-2 w-full">
+            <?= $block->getChildHtml('product.media') ?>
+            <?php if ($helper->isEnable()) {
+                echo $this->getLayout()
+                    ->createBlock(Label::class)
+                    ->setTemplate('Hyva_BssProductLabel::label_productlist.phtml')
+                    ->setProduct($product)->toHtml();
+            }
+            ?>
+            <?= $block->getChildHtml('product.info') ?>
+        </div>
+    </div>
+</section>
+<section>
+    <?= $block->getChildHtml('product_options_wrapper_bottom') ?>
+</section>
+
+<?= $block->getChildHtml('product.info.details'); ?>
+
+<section>
+    <?= $block->getChildHtml('related') ?>
+    <?= $block->getChildHtml('upsell') ?>
+    <?= $block->getChildHtml('review_list') ?>
+    <?= $block->getChildHtml('review_form') ?>
+</section>
+<script>
+    document.addEventListener('DOMContentLoaded', function() {
+        var replaceDomElementOrigin = hyva.replaceDomElement;
+        hyva.replaceDomElement = (targetSelector, content) => {
+            replaceDomElementOrigin(targetSelector, content);
+            appendLabel();
+            setLabel();
+        }
+    });
+    appendLabel();
+    function appendLabel() {
+        const labelImage = document.querySelectorAll("[data-label-product-id='<?= $productId ?>']");
+        labelImage.forEach(function (labelImage) {
+            const itemElements = document.querySelectorAll(".product-image-container-<?= $productId ?>");
+            if (itemElements) {
+                itemElements.forEach(function (itemElement) {
+                    const labelProductList = labelImage.parentElement.cloneNode(true);
+                    itemElement.style.position = 'relative';
+                    itemElement.appendChild(labelProductList);
+                })
+            }
+            labelImage.remove();
+        })
+    }
+    setLabel();
+    function setLabel() {
+        const labelImage = document.querySelectorAll('.label-image');
+        labelImage.forEach(function (labelImage) {
+            labelImage.style.position = 'absolute';
+            labelImage.style.backgroundSize = 'contain';
+            labelImage.style.backgroundRepeat = 'no-repeat';
+            labelImage.style.backgroundPosition = 'center';
+            labelImage.style.display = labelImage.getAttribute('data-display');
+            labelImage.style.backgroundImage = 'url(' + labelImage.getAttribute('data-background-image') + ')';
+            labelImage.style.top = labelImage.getAttribute('data-top');
+            labelImage.style.height = labelImage.getAttribute('data-height');
+            labelImage.style.width = labelImage.getAttribute('data-width');
+            labelImage.style.left = labelImage.getAttribute('data-left');
+            labelImage.style.zIndex = labelImage.getAttribute('data-priority');
+        })
+        const childGroupProducts = document.querySelectorAll('#product_addtocart_form .bss-label-productlist');
+        if (childGroupProducts) {
+            childGroupProducts.forEach(function (childGroupProduct) {
+                childGroupProduct.style.display = "none";
+            })
+        }
+    }
+
+</script>

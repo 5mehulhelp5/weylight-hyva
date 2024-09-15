@@ -1,0 +1,43 @@
+<?php
+/**
+ * BSS Commerce Co.
+ *
+ * NOTICE OF LICENSE
+ *
+ * This source file is subject to the EULA
+ * that is bundled with this package in the file LICENSE.txt.
+ * It is also available through the world-wide-web at this URL:
+ * http://bsscommerce.com/Bss-Commerce-License.txt
+ *
+ * @category   BSS
+ * @package    Bss_Gallery
+ * @author     Extension Team
+ * @copyright  Copyright (c) 2018-2019 BSS Commerce Co. ( http://bsscommerce.com )
+ * @license    http://bsscommerce.com/Bss-Commerce-License.txt
+ */
+namespace Bss\Gallery\Block\Adminhtml\Item\Grid;
+
+use Magento\Backend\Block\Widget\Grid\Column\Renderer\AbstractRenderer;
+use Magento\Framework\DataObject;
+
+/**
+ * Class StatusRenderer
+ *
+ * @package Bss\Gallery\Block\Adminhtml\Item\Grid
+ */
+class StatusRenderer extends AbstractRenderer
+{
+    /**
+     * Renders grid column
+     *
+     * @param Object $row
+     * @return  string
+     */
+    public function render(DataObject $row)
+    {
+        if ($this->_getValue($row) == 1) {
+            return __('Enable');
+        }
+        return __('Disable');
+    }
+}

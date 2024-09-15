@@ -1,0 +1,46 @@
+<!--
+/**
+ * BSS Commerce Co.
+ *
+ * NOTICE OF LICENSE
+ *
+ * This source file is subject to the EULA
+ * that is bundled with this package in the file LICENSE.txt.
+ * It is also available through the world-wide-web at this URL:
+ * http://bsscommerce.com/Bss-Commerce-License.txt
+ *
+ * @category   BSS
+ * @package    Bss_AdvancedHidePrice
+ * @author     Extension Team
+ * @copyright  Copyright (c) 2017-2018 BSS Commerce Co. ( http://bsscommerce.com )
+ * @license    http://bsscommerce.com/Bss-Commerce-License.txt
+ */
+-->
+<config xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="urn:magento:module:Magento_Backend:etc/menu.xsd">
+    <menu>
+        <add id="Bss_AdvancedHidePrice::callforprice"
+             title="Bss Advanced Hide Price"
+             module="Bss_AdvancedHidePrice"
+             sortOrder="35"
+             resource="Bss_AdvancedHidePrice::config_section"
+        />
+        <add id="Bss_AdvancedHidePrice::callforprice_request"
+             title="Customer Inquiry List"
+             module="Bss_AdvancedHidePrice"
+             sortOrder="1"
+             resource="Bss_AdvancedHidePrice::request_access"
+
+             parent="Bss_AdvancedHidePrice::callforprice"
+             action="callforprice/request"
+        />
+        <add id="Bss_AdvancedHidePrice::callforprice_config"
+             title="Configuration"
+             module="Bss_AdvancedHidePrice"
+             sortOrder="2"
+             resource="Bss_AdvancedHidePrice::config_section"
+
+             parent="Bss_AdvancedHidePrice::callforprice"
+             action="adminhtml/system_config/edit/section/bss_call_for_price"
+        />
+    </menu>
+</config>

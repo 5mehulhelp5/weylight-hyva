@@ -1,0 +1,50 @@
+<?xml version="1.0"?>
+<schema xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="urn:magento:framework:Setup/Declaration/Schema/etc/schema.xsd">
+  <table name="bss_gallery_category" resource="default" engine="innodb" comment="Bss Gallery Category">
+    <column xsi:type="smallint" name="category_id" padding="6" unsigned="false" nullable="false" identity="true" comment="Category ID"/>
+    <column xsi:type="varchar" name="Item_ids" nullable="true" />
+    <column xsi:type="varchar" name="url_key" nullable="true" comment="Url_key"/>
+    <column xsi:type="varchar" name="thumbnail" nullable="true" comment="Thumbnail"/>
+    <column xsi:type="varchar" name="title" nullable="false" comment="Category Title"/>
+    <column xsi:type="varchar" name="item_thumb_id" nullable="false" comment="Item Thumb Id"/>
+    <column xsi:type="varchar" name="category_meta_keywords" nullable="true" comment="Category Meta Keywords"/>
+    <column xsi:type="varchar" name="category_meta_description" nullable="true" comment="Category Meta Description"/>
+    <column xsi:type="smallint" name="item_layout" padding="6" unsigned="false" nullable="true" identity="false" default="1" comment="Category View Items Layout"/>
+    <column xsi:type="varchar" name="category_description" nullable="true" comment="Category Description"/>
+    <column xsi:type="smallint" name="slider_auto_play" padding="6" unsigned="false" nullable="true" identity="false" default="1" comment="Slide Auto Play"/>
+    <column xsi:type="smallint" name="is_active" padding="6" unsigned="false" nullable="false" identity="false" default="1" comment="Is Category Active?"/>
+    <column xsi:type="datetime" name="create_time" on_update="false" nullable="false" comment="Create Time"/>
+    <column xsi:type="datetime" name="update_time" on_update="false" nullable="false" comment="Update Time"/>
+    <column xsi:type="varchar" name="store_ids" nullable="true" comment="Store View IDs"/>
+    <constraint xsi:type="primary" referenceId="PRIMARY">
+      <column name="category_id"/>
+    </constraint>
+    <index referenceId="GALLERY_CATEGORY_URL_KEY" indexType="btree">
+      <column name="url_key"/>
+    </index>
+    <index referenceId="BSS_GALLERY_CATEGORY_TITLE_URL_KEY" indexType="fulltext">
+      <column name="title"/>
+      <column name="url_key"/>
+    </index>
+  </table>
+  <table name="bss_gallery_item" resource="default" engine="innodb" comment="Bss Gallery Item">
+    <column xsi:type="smallint" name="item_id" padding="6" unsigned="false" nullable="false" identity="true" comment="Item ID"/>
+    <column xsi:type="smallint" name="sorting" padding="6" unsigned="false" nullable="true" identity="false" comment="Sort Order"/>
+    <column xsi:type="varchar" name="category_ids" nullable="true" />
+    <column xsi:type="smallint" name="type_id" padding="6" unsigned="false" nullable="false" identity="false" comment="Type ID"/>
+    <column xsi:type="varchar" name="image" nullable="false" comment="Image"/>
+    <column xsi:type="varchar" name="video" nullable="true" comment="Video"/>
+    <column xsi:type="varchar" name="title" nullable="false" comment="Item Title"/>
+    <column xsi:type="varchar" name="description" nullable="true" comment="Item Description"/>
+    <column xsi:type="smallint" name="is_active" padding="6" unsigned="false" nullable="false" identity="false" default="1" comment="Is Item Active?"/>
+    <column xsi:type="datetime" name="create_time" on_update="false" nullable="false" comment="Create Time"/>
+    <column xsi:type="datetime" name="update_time" on_update="false" nullable="false" comment="Update Time"/>
+    <constraint xsi:type="primary" referenceId="PRIMARY">
+      <column name="item_id"/>
+    </constraint>
+    <index referenceId="BSS_GALLERY_ITEM_TITLE_DESCRIPTION" indexType="fulltext">
+      <column name="title"/>
+      <column name="description"/>
+    </index>
+  </table>
+</schema>

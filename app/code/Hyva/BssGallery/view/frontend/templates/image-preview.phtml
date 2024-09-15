@@ -1,0 +1,158 @@
+<?php
+/**
+ * BSS Commerce Co.
+ *
+ * NOTICE OF LICENSE
+ *
+ * This source file is subject to the EULA
+ * that is bundled with this package in the file LICENSE.txt.
+ * It is also available through the world-wide-web at this URL:
+ * http://bsscommerce.com/Bss-Commerce-License.txt
+ *
+ * @category  BSS
+ * @package   Hyva_BssGallery
+ * @author    Extension Team
+ * @copyright Copyright (c) 2023 BSS Commerce Co. ( http://bsscommerce.com )
+ * @license   http://bsscommerce.com/Bss-Commerce-License.txt
+ */
+
+use Hyva\Theme\Model\ViewModelRegistry;
+use Hyva\BssGallery\ViewModels\Helper as ModuleViewModel;
+
+/** @var ViewModelRegistry $viewModels */
+
+$moduleViewModel = $viewModels->require(ModuleViewModel::class);
+$helperGallery = $moduleViewModel->getHelper();
+?>
+<?php if ($helperGallery->isEnabledInFrontend()) : ?>
+    <script>
+        function imagePreviewInit() {
+            return {
+                open: false,
+                url: '',
+                title: '',
+                isVideo: false,
+                id: '',
+                showNext : true,
+                showPreview : true,
+                ele: '',
+                active(preview) {
+                    var [imageName, imageId] = this.id.split('-');
+                    var updatedImageId = parseInt(imageId);
+
+                    if (preview) {
+                        updatedImageId -= 1;
+                    } else {
+                        updatedImageId += 1;
+                    }
+
+                    var galleryWrapper =  this.ele.closest('#gallery-wrapper');
+                    var galleryElement = galleryWrapper.querySelector('#gallery-' + updatedImageId);
+
+                    if (galleryElement) {
+                        this.url = galleryElement.href;
+                        if (galleryElement.getAttribute("data-title")) {
+                            this.title = galleryElement.getAttribute("data-title");
+                        }
+                        if (galleryElement.getAttribute("data-caption")) {
+                            this.title = galleryElement.getAttribute("data-caption");
+                        }
+                        this.id = galleryElement.id;
+                        this.isVideo = this.url.includes("youtube");
+                    }
+                    this.updatePreviousAction();
+                },
+                eventListeners: {
+                    ['@bss-image-gallery-info.window'](event) {
+                        this.open = event.detail.open;
+                        this.url = event.detail.url;
+                        this.isVideo = event.detail.isVideo;
+                        this.title = event.detail.title;
+                        this.id = event.detail.id;
+                        this.ele = event.detail.ele;
+                        this.updatePreviousAction();
+                    }
+                },
+                updatePreviousAction() {
+                    var [imageName, imageId] = this.id.split('-');
+                    var updatedImageId = parseInt(imageId);
+                    var nextValue = updatedImageId + 1;
+                    var previewValue = updatedImageId - 1;
+
+                    var galleryNextElement = document.getElementById('gallery-' + nextValue);
+                    this.showNext = !!galleryNextElement;
+
+                    var galleryPreviewElement = document.getElementById('gallery-' + previewValue);
+                    this.showPreview = !!galleryPreviewElement;
+
+                },
+            }
+        }
+    </script>
+    <div x-data="imagePreviewInit()" x-show="open" x-cloak x-bind="eventListeners"
+         class="fixed inset-0 flex items-center justify-center text-left bg-black bg-opacity-50 z-30">
+        <div class="w-[90%] h-[80%] fixed top-1/2 left-1/2 bg-white z-50 flex fixed-center rounded-lg card m-2.5"
+             @click.outside="open = false" x-show="open"
+            <?php if ($helperGallery->getTransitionEffect() == 'fade'): ?>
+                x-transition:enter="transition ease-out duration-500"
+                x-transition:enter-start="opacity-0 scale-150"
+                x-transition:enter-end="opacity-100 scale-100"
+                x-transition:leave="transition ease-in duration-500"
+                x-transition:leave-start="opacity-100 scale-100"
+                x-transition:leave-end="opacity-0 scale-90"
+            <?php endif; ?>
+        >
+            <div class="absolute top-0 right-0 pt-4 pr-4">
+                <button type="button" @click="open = false"
+                        class="text-gray-400 hover:text-gray-500 focus:outline-none focus:text-gray-500 transition ease-in-out duration-150 block"
+                        aria-label="Close">
+                    <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor" width="24"
+                         height="24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                              d="M6 18L18 6M6 6l12 12"></path>
+                    </svg>
+                </button>
+            </div>
+            <button class="absolute top-1/2 text-gray-400 cursor-pointer w-10 h-10 hover:text-gray-500" type="button"
+                    @click="active(true)" x-show="showPreview">
+                <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24"
+                     stroke-width="1.5" stroke="currentColor" class="w-10 h-10 cursor-pointer">
+                    <path stroke-linecap="round" stroke-linejoin="round" d="M15.75 19.5L8.25 12l7.5-7.5"/>
+                </svg>
+            </button>
+            <button class="absolute top-1/2 right-0 text-gray-400 cursor-pointer w-10 h-10 hover:text-gray-500"
+                    type="button" @click="active(false)" x-show="showNext">
+                <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24"
+                     stroke-width="1.5" stroke="currentColor" class="w-10 h-10 cursor-pointer">
+                    <path stroke-linecap="round" stroke-linejoin="round" d="M8.25 4.5l7.5 7.5-7.5 7.5"/>
+                </svg>
+            </button>
+            <div class="relative self-center lg:mx-4 mx-8 w-full">
+                <div class="lg:p-6 p-2">
+                    <div class="lg:w-full w-auto h-full">
+                        <iframe class="w-full h-[600px]" x-show="isVideo"
+                                x-transition:enter="transition ease-out duration-500"
+                                x-transition:enter-start="opacity-0 scale-90"
+                                x-transition:enter-end="opacity-100 scale-100"
+                                allowfullscreen frameborder="0" allow="autoplay" :src="if(isVideo) {return url}">
+                        </iframe>
+                        <img class="absolute inset-0 object-contain object-center w-full m-auto max-h-screen-75 h-[600px]"
+                             x-show="!isVideo"
+                             alt="Image" title="Image"
+                             loading="lazy" :src="if(!isVideo) {return url}">
+                    </div>
+                </div>
+            </div>
+            <?php if ($helperGallery->getTitlePosition() == 'over'): ?>
+                <h4 class="text-lg my-4 truncate text-center absolute bottom-2 left-[2.5rem]" x-text="title"></h4>
+            <?php endif; ?>
+            <?php if ($helperGallery->getTitlePosition() == 'outsite'): ?>
+                <h4 class="font-semibold text-lg my-4 truncate text-center absolute bottom-[-10%] left-1/2 text-white"
+                    x-text="title"></h4>
+            <?php endif; ?>
+            <?php if ($helperGallery->getTitlePosition() == 'inside'): ?>
+                <h4 class="text-lg my-4 truncate text-center absolute bottom-2 left-1/2" x-text="title"></h4>
+            <?php endif; ?>
+        </div
+    </div>
+<?php endif; ?>

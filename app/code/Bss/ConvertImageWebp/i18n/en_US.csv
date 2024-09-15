@@ -1,0 +1,12 @@
+Between 1 and 100,Between 1 and 100
+Separated by commas. Example: pub/media/catalog/product/image.jpg,Separated by commas. Example: pub/media/catalog/product/image.jpg
+Separated by commas.,Separated by commas.
+Separated by commas. Example: image_1.jpg,Separated by commas. Example: image_1.jpg
+You cleared all images webp,You cleared all images webp
+Are you sure you want to delete all webp images? Re generation can take a long time.,Are you sure you want to delete all webp images? Re generation can take a long time.
+Clear All Webp Images,Clear All Webp Images
+Please enter an integer in quality, greater than 1 and less than 100!, Please enter an integer in quality, greater than 1 and less than 100!
+Convert Images inserted via Page Builder,Convert Images inserted via Page Builder
+Choose Yes to convert images in banners and sliders which are inserted via Magento Page Builder to .webp format.,Choose Yes to convert images in banners and sliders which are inserted via Magento Page Builder to .webp format.
+Image CDN,Image CDN
+Enter CDN url (if available). Example: "https://cdn.nxedge.io/cdn/",Enter CDN url (if available). Example: "https://cdn.nxedge.io/cdn/"

@@ -1,0 +1,69 @@
+# BSS Commerce Co.
+#
+# NOTICE OF LICENSE
+#
+# This source file is subject to the EULA
+# that is bundled with this package in the file LICENSE.txt.
+# It is also available through the world-wide-web at this URL:
+# http://bsscommerce.com/Bss-Commerce-License.txt
+#
+# @category   BSS
+# @package    Bss_ProductLabelGraphQl
+# @author     Extension Team
+# @copyright  Copyright (c) 2023 BSS Commerce Co. ( http://bsscommerce.com )
+# @license    http://bsscommerce.com/Bss-Commerce-License.txt
+type Query {
+    bssProductLabelStoreConfig(
+        store_view: Int @doc(description:"Input store view id.")
+    ): BssProductLabelStoreConfig @resolver(class: "Bss\\ProductLabelGraphQl\\Model\\Resolver\\Config") @doc(description:"Get information config module b store view id.")
+    bssProductLabel(
+        product_label_id: Int @doc(description:"Input id product label.")
+    ): BssProductLabel @resolver(class: "Bss\\ProductLabelGraphQl\\Model\\Resolver\\LabelId") @doc(description:"Get information Product Label  id product label.")
+}
+type BssProductLabelStoreConfig  {
+    active: Int @doc(description:"disable or enable magento")
+    batch_size: Int @doc(description:"batch size")
+    display_multiple_label: Int @doc(description:"Allow display multiple label.")
+    display_only_out_of_stock_label: Int @doc(description:"Allow display only out of stock label on product.")
+    not_display_label_on: String @doc(description:"Label does not display on Home page, Catalog Page...")
+    selector_product_list: String @doc(description:"Product Page Label Container.")
+    selector_product_page: String @doc(description:"Product List Label Container.")
+}
+type BssProductLabel {
+    id: Int @doc(description:"Id of product label.")
+    name: String  @doc(description:"Name of product label.")
+    active: Int  @doc(description:"Enable or disable product label .")
+    image: String  @doc(description:"Url image.")
+    image_data: Image  @doc(description:"Image data.")
+    priority: Int  @doc(description:"Priority on product.")
+    store_views: String  @doc(description:"Store view.")
+    customer_groups: String  @doc(description:"Customer Groups.")
+    valid_start_date: String  @doc(description:"Time start date product label display on Product.")
+    valid_end_date: String @doc(description:"Time end date product label on Product.")
+    apply_outofstock_product: String @doc(description:"Apply display product label when product out of stock .")
+    conditions_serialized: ConditionsSerialized @doc(description:"Conditions Serialized.")
+    created_at: String @doc(description:"Time create product label.")
+    updated_at: String @doc(description:"Time update product label.")
+}
+type ConditionsSerialized {
+    type: String @doc(description:"Type of conditions serialized.")
+    attribute: String @doc(description:"Attribute product.")
+    operator: String @doc(description:"Action Operator.")
+    value: String @doc(description:"Value .")
+    is_value_processed: String @doc(description:"Is value processed .")
+    aggregator: String @doc(description:"Aggregator .")
+    conditions: String
+}
+interface ProductInterface {
+    product_label: [BssProductLabel] @resolver(class: "Bss\\ProductLabelGraphQl\\Model\\Resolver\\ProductId") @doc(description:"Get information product query .")
+}
+type Image {
+    left: Float @doc(description:"Position left of image product label on image product .")
+    top: Float @doc(description:"Position top of image product label on image product .")
+    width: Float @doc(description:"Position width of image product label on image product .")
+    height: Float @doc(description:"Height of image product label on image product .")
+    widthOrigin: Float @doc(description:"Width origin of product label on image product .")
+    heightOrigin: Float @doc(description:"Width height origin of product label on image product .")
+    angle: Float @doc(description:"Angle of product label on image product .")
+}
+

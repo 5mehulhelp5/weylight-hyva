@@ -1,0 +1,154 @@
+<?xml version="1.0"?>
+<!--
+/**
+ * BSS Commerce Co.
+ *
+ * NOTICE OF LICENSE
+ *
+ * This source file is subject to the EULA
+ * that is bundled with this package in the file LICENSE.txt.
+ * It is also available through the world-wide-web at this URL:
+ * http://bsscommerce.com/Bss-Commerce-License.txt
+ *
+ * @category   BSS
+ * @package    Bss_AdvancedHidePrice
+ * @author     Extension Team
+ * @copyright  Copyright (c) 2017-2023 BSS Commerce Co. ( http://bsscommerce.com )
+ * @license    http://bsscommerce.com/Bss-Commerce-License.txt
+ */
+-->
+<config xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="urn:magento:framework:Config/etc/system_file.xsd">
+    <system>
+        <!-- Add new Tab -->
+        <tab id="bss" translate="label" sortOrder="300">
+            <label>Bss Commerce</label>
+        </tab>
+        <section id="bss_call_for_price" translate="label" type="text" sortOrder="140" showInDefault="1" showInWebsite="1" showInStore="1">
+            <label>Advanced Hide Price</label>
+            <tab>bss</tab>
+            <!-- resource tag name which we have to defined in the acl.xml -->
+            <resource>Bss_AdvancedHidePrice::config_section</resource>
+            <group id="general" translate="label" type="text" sortOrder="1" showInDefault="1" showInWebsite="1" showInStore="1">
+                <label><![CDATA[General Config]]></label>
+                <field id="enable" translate="label" type="select" sortOrder="10" showInDefault="1" showInWebsite="1" showInStore="1">
+                    <label><![CDATA[Enabled Advanced Hide Price]]></label>
+                    <source_model>Magento\Config\Model\Config\Source\Yesno</source_model>
+                    <comment><![CDATA[Version 1.2.3]]></comment>
+                </field>
+                <field id="selector" translate="label" type="text" sortOrder="30" showInDefault="1" showInWebsite="1" showInStore="1">
+                    <label><![CDATA['Add to Cart' Button Selector]]></label>
+                    <comment><![CDATA[Magento default: '.action.tocart'. Change selector of 'Add to Cart' button according to theme/site.]]></comment>
+                </field>
+                <field id="email_sender" translate="label" type="select" sortOrder="40" showInDefault="1" showInWebsite="1" showInStore="1">
+                    <label><![CDATA[Email Answer Customer Inquiry]]></label>
+                    <source_model>Magento\Config\Model\Config\Source\Email\Identity</source_model>
+                </field>
+                <field id="admin_response_email_template" translate="label comment" type="select" sortOrder="50" showInDefault="1" showInWebsite="1" showInStore="1">
+                    <label><![CDATA[Email Template]]></label>
+                    <comment>Email template chosen based on theme fallback when "Default" option is selected.</comment>
+                    <source_model>Magento\Config\Model\Config\Source\Email\Template</source_model>
+                </field>
+                <field id="admin_notify_email" translate="label" type="text" sortOrder="60" showInDefault="1" showInWebsite="1" showInStore="1">
+                    <label><![CDATA[Email Notify Admin]]></label>
+                    <validate>required-entry</validate>
+                </field>
+                <field id="admin_notify_email_template" translate="label comment" type="select" sortOrder="70" showInDefault="1" showInWebsite="1" showInStore="1">
+                    <label><![CDATA[Email Template]]></label>
+                    <comment><![CDATA[Email template chosen based on theme fallback when "Default" option is selected.]]></comment>
+                    <source_model>Magento\Config\Model\Config\Source\Email\Template</source_model>
+                </field>
+            </group>
+            <group id="priority" translate="label" type="text" sortOrder="2" showInDefault="1" showInWebsite="1"
+                   showInStore="1">
+                <label><![CDATA[Call For Price/ Hide Price Priority]]></label>
+                <field id="priority" translate="label comment" type="select" sortOrder="10" showInDefault="1" showInWebsite="0" showInStore="0">
+                    <label>Priority</label>
+                    <source_model>Bss\AdvancedHidePrice\Model\Config\Source\Priority</source_model>
+                </field>
+            </group>
+            <group id="callforprice_design" translate="label" type="text" sortOrder="3" showInDefault="1" showInWebsite="1" showInStore="1">
+                <label><![CDATA[Call For Price Form Design]]></label>
+                <field id="form_fields" translate="label" type="select" sortOrder="20" showInDefault="1"
+                       showInWebsite="1" showInStore="1">
+                    <label><![CDATA[Call For Price Form]]></label>
+                    <frontend_model>Bss\AdvancedHidePrice\Block\Adminhtml\System\Config\FormFields</frontend_model>
+                    <backend_model>Bss\AdvancedHidePrice\Model\System\Config\FormFields</backend_model>
+                    <comment><![CDATA[Add more fields to customize Inquiry Form]]></comment>
+                </field>
+                <field id="is_show_customer_fields" translate="label" type="select" sortOrder="30" showInDefault="1"
+                       showInWebsite="1" showInStore="1">
+                    <label><![CDATA[Show Customer Name And Email Fields]]></label>
+                    <source_model>Magento\Config\Model\Config\Source\Yesno</source_model>
+                    <comment><![CDATA[Show/Hide customer name field and email field when customer has logged in]]></comment>
+                </field>
+                <field id="recaptcha" translate="label" type="select" sortOrder="40" showInDefault="1" showInWebsite="1" showInStore="1">
+                    <label><![CDATA[AntiSpam Protection]]></label>
+                    <source_model>Magento\Config\Model\Config\Source\Yesno</source_model>
+                </field>
+                <field id="site_key" translate="label comment" type="text" sortOrder="50" showInDefault="1" showInWebsite="1" showInStore="1">
+                    <label><![CDATA[Site Key]]></label>
+                    <validate>required-entry</validate>
+                    <depends><field id="*/callforprice_design/recaptcha">1</field></depends>
+                    <comment><![CDATA[&lt;a href="https://www.google.com/recaptcha/admin" target="_blank"&gt;Create a site key&lt;/a&gt;]]></comment>
+                </field>
+                <field id="secret_key" translate="label comment" type="text" sortOrder="60" showInDefault="1" showInWebsite="1" showInStore="1">
+                    <label><![CDATA[Secret Key]]></label>
+                    <validate>required-entry</validate>
+                    <depends><field id="*/callforprice_design/recaptcha">1</field></depends>
+                    <comment><![CDATA[&lt;a href="https://www.google.com/recaptcha/admin" target="_blank"&gt;Create a site key&lt;/a&gt;]]></comment>
+                </field>
+            </group>
+            <group id="callforprice_global" translate="label" type="text" sortOrder="4" showInDefault="1" showInWebsite="1" showInStore="1">
+                <label><![CDATA[Call For Price Global Config]]></label>
+                <field id="text" translate="label comment" type="text" sortOrder="10" showInDefault="1"
+                       showInWebsite="1" showInStore="1">
+                    <label><![CDATA[Call For Price Text]]></label>
+                    <validate>required-entry</validate>
+                </field>
+                <field id="categories" translate="label comment" type="multiselect" sortOrder="15" showInDefault="1"
+                       showInWebsite="1" showInStore="1">
+                    <label><![CDATA[Apply For Categories]]></label>
+                    <source_model>Bss\AdvancedHidePrice\Model\Config\Source\CallHidePriceCategories</source_model>
+                    <can_be_empty>1</can_be_empty>
+                </field>
+                <field id="customers" translate="label comment" type="multiselect" sortOrder="20" showInDefault="1"
+                       showInWebsite="1" showInStore="0">
+                    <label><![CDATA[Apply For Customer Groups]]></label>
+                    <source_model>Bss\AdvancedHidePrice\Model\Config\Source\ProductCallForPriceCustomerGroup</source_model>
+                    <can_be_empty>1</can_be_empty>
+                </field>
+                <field id="not_apply" translate="label" type="text" sortOrder="30" showInDefault="1" showInWebsite="1"
+                       showInStore="1">
+                    <label><![CDATA[Not Applied For Product IDs]]></label>
+                    <comment><![CDATA[Seperate by comma.]]></comment>
+                </field>
+            </group>
+            <group id="hideprice_global" translate="label" type="text" sortOrder="5" showInDefault="1" showInWebsite="1"
+                   showInStore="1">
+                <label><![CDATA[Hide Price Global Config]]></label>
+                <field id="text" translate="label comment" type="text" sortOrder="10" showInDefault="1"
+                       showInWebsite="1" showInStore="1">
+                    <label><![CDATA[Hide Price Text]]></label>
+                    <validate>required-entry</validate>
+                </field>
+                <field id="categories" translate="label comment" type="multiselect" sortOrder="15" showInDefault="1"
+                       showInWebsite="1" showInStore="1">
+                    <label><![CDATA[Apply For Categories]]></label>
+                    <source_model>Bss\AdvancedHidePrice\Model\Config\Source\CallHidePriceCategories</source_model>
+                    <can_be_empty>1</can_be_empty>
+                </field>
+                <field id="customers" translate="label comment" type="multiselect" sortOrder="20" showInDefault="1"
+                       showInWebsite="1" showInStore="0">
+                    <label><![CDATA[Apply For Customer Groups]]></label>
+                    <source_model>Bss\AdvancedHidePrice\Model\Config\Source\ProductCallForPriceCustomerGroup</source_model>
+                    <can_be_empty>1</can_be_empty>
+                </field>
+                <field id="not_apply" translate="label" type="text" sortOrder="30" showInDefault="1" showInWebsite="1"
+                       showInStore="1">
+                    <label><![CDATA[Not Applied For Product IDs]]></label>
+                    <comment><![CDATA[Seperate by comma.]]></comment>
+                </field>
+            </group>
+        </section>
+    </system>
+</config>

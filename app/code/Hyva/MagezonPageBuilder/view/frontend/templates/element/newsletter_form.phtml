@@ -1,0 +1,48 @@
+<?php
+/**
+ * Hyvä Themes - https://hyva.io
+ * Copyright © Hyvä Themes 2020-present. All rights reserved.
+ * This product is licensed per Magento install
+ * See https://hyva.io/license
+ */
+
+use Magezon\Newsletter\Block\Element\NewsletterForm;
+/** @var NewsletterForm $block */
+
+$element = $this->getElement();
+$title = $element->getData('title');
+$titleTag = $element->getData('title_tag') ? $element->getData('title_tag') : 'h2';
+$headingSize = trim($titleTag, 'h');
+if ($headingSize < 5) {
+    $size = 6 - $headingSize.'xl';
+} elseif ($headingSize == 5) {
+    $size = 'xl';
+} else {
+    $size = 'base';
+}
+$description = $element->getData('description');
+
+$objectManager = \Magento\Framework\App\ObjectManager::getInstance();
+$moduleList = $objectManager->create(\Magento\Framework\Module\ModuleListInterface::class);
+$hasNewsletter = false;
+if(in_array('Magezon_Newsletter', $moduleList->getNames())) {
+    $form = $block->getLayout()->createBlock(\Magezon\Newsletter\Block\Subscribe::class)->setTemplate('Hyva_MagezonPageBuilder::subscriber.phtml');
+    $form->setData('show_firstname', $element->getData('show_firstname'));
+    $form->setData('show_lastname', $element->getData('show_lastname'));
+    $form->setData('layout_type', $element->getData('layout_type'));
+    $hasNewsletter = true;
+}
+$form->setData('btn_fullwidth', $element->getData('btn_fullwidth'));
+if ($element->getData('form_width')) $form->setData('width', $element->getData('form_width'));
+if ($element->getData('form_height')) $form->setData('height', $element->getData('form_height'));
+?>
+<?php if($hasNewsletter) :?>
+    <?php if ($title) { ?>
+        <<?= $titleTag ?> class="newsletter-title mb-2 mt-0 text-<?= $size ?> font-medium leading-tight text-primary"><?= $title ?></<?= $titleTag ?>>
+    <?php } ?>
+    <?php if ($description) { ?>
+        <div class="newsletter-description"><?= $description ?></div>
+    <?php } ?>
+    <?= $form->toHtml() ?>
+
+<?php endif; ?>

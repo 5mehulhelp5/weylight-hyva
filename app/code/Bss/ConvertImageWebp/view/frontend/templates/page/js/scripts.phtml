@@ -1,0 +1,71 @@
+<?php
+/**
+ * BSS Commerce Co.
+ *
+ * NOTICE OF LICENSE
+ *
+ * This source file is subject to the EULA
+ * that is bundled with this package in the file LICENSE.txt.
+ * It is also available through the world-wide-web at this URL:
+ * http://bsscommerce.com/Bss-Commerce-License.txt
+ *
+ * @category   BSS
+ * @package    Bss_ConvertImageWebp
+ * @author     Extension Team
+ * @copyright  Copyright (c) 2022 BSS Commerce Co. ( http://bsscommerce.com )
+ * @license    http://bsscommerce.com/Bss-Commerce-License.txt
+ */
+?>
+<script type="text/javascript" xml="space">
+    try {
+        var canDisplayWebp = false;
+
+        /**
+         * Check browser support image webp
+         */
+        function useWebP() {
+            return new Promise(res => {
+                const webP = new Image();
+                webP.src = 'data:image/webp;base64,UklGRjoAAABXRUJQVlA4IC4AAACyAgCdASoCAAIALmk0mk0iIiIiIgBoSygABc6WWgAA/veff/0PP8bA\/\/LwYAAA';
+                webP.onload = webP.onerror = () => {
+                    res(webP.height === 2);
+                };
+            })
+        }
+
+        /**
+         * Check browser support image webp
+         */
+        useWebP().then(function (result) {
+            canDisplayWebp = result;
+            replaceLinkSrcWebp(canDisplayWebp);
+
+        })
+    } catch (e) {
+        replaceLinkSrcWebp(false);
+    }
+
+    /**
+     * Replace link src webp if browser not support webp
+     */
+    function replaceLinkSrcWebp(canDisplayWebp)
+    {
+        if (!canDisplayWebp) {
+            var image = document.querySelectorAll('img');
+            image.forEach(replaceLinkSrc);
+
+            function replaceLinkSrc(image) {
+                if (image.hasAttribute("data-safari-src")) {
+                    if (image.hasAttribute("src")) {
+                        image.setAttribute('src', image.getAttribute('data-safari-src'))
+                    }
+                    if (image.hasAttribute("data-src")) {
+                        image.setAttribute('data-src', image.getAttribute('data-safari-src'))
+                    }
+                }
+            }
+        }
+    }
+
+
+</script>

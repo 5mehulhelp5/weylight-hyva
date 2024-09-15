@@ -1,0 +1,111 @@
+/**
+ * BSS Commerce Co.
+ *
+ * NOTICE OF LICENSE
+ *
+ * This source file is subject to the EULA
+ * that is bundled with this package in the file LICENSE.txt.
+ * It is also available through the world-wide-web at this URL:
+ * http://bsscommerce.com/Bss-Commerce-License.txt
+ *
+ * @category   BSS
+ * @package    Bss_AdvancedHidePrice
+ * @author     Extension Team
+ * @copyright  Copyright (c) 2017-2018 BSS Commerce Co. ( http://bsscommerce.com )
+ * @license    http://bsscommerce.com/Bss-Commerce-License.txt
+ */
+& when (@media-common = true) {
+	.callforprice-bundle-option, .bss-hide {
+		display: none;
+	}
+	.callforprice-container {
+		.callforprice_clickme {
+			margin-bottom: 15px;
+			text-align: center;
+		}
+	}
+	.grid.products-grid ,
+	.products-grid.wishlist,
+	.catalog-product-compare-index {
+		.callforprice-container {
+			.callforprice_clickme {
+				overflow: hidden;
+				white-space: nowrap;
+				text-overflow: ellipsis;
+				max-width:170px;
+			}
+		}
+	} 
+
+	#wishlist-view-form {
+		.callforprice_text{
+			display: table-cell;
+			vertical-align: bottom;
+		}
+	}
+	.products-grid.wishlist {
+		.callforprice-container {
+			.callforprice_clickme {
+				margin-bottom: 0!important;
+			}
+		}
+	}
+	.catalog-product-view {
+		.callforprice_text {
+			font-size: 20px;
+			float: left;
+			width: 100%;
+		}
+		.callforprice-container {
+			width: 100%;
+			display: block;
+			margin-top: 10px;
+			.callforprice_clickme {
+				overflow: hidden;
+				text-overflow:ellipsis;
+				white-space: nowrap
+			}
+		}
+	}
+
+	.modals-wrapper.callforprice-modals-wrapper {
+		.modal-popup {
+			.modal-inner-wrap {
+				max-width : 500px;
+
+				.fieldset {
+					.label,
+					.control {
+						float: none;
+						width: auto;
+					}
+
+					.field {
+						margin-bottom: 20px;
+					}
+				}
+			}
+		}
+	}
+
+	.bss-item-hidden {
+		display: none !important;
+		visibility: hidden !important;
+		border: none !important;
+		background: transparent !important;
+	}
+
+	.bundle-options-container {
+		.product-options-wrapper {
+			.field.choice {
+				.label {
+					margin-left: 0 !important;
+				}
+			}
+			.callforprice_text {
+				margin-bottom: 15px;
+				float: none;
+			}
+		}
+	}
+}

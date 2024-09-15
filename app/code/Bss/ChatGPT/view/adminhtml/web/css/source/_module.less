@@ -1,0 +1,179 @@
+/**
+ * BSS Commerce Co.
+ *
+ * NOTICE OF LICENSE
+ *
+ * This source file is subject to the EULA
+ * that is bundled with this package in the file LICENSE.txt.
+ * It is also available through the world-wide-web at this URL:
+ * http://bsscommerce.com/Bss-Commerce-License.txt
+ *
+ * @category   BSS
+ * @package    Bss_ChatGPT
+ * @author     Extension Team
+ * @copyright  Copyright (c) 2023-2023 BSS Commerce Co. ( http://bsscommerce.com )
+ * @license    http://bsscommerce.com/Bss-Commerce-License.txt
+ */
+& when (@media-common = true) {
+    .modal-chat_gpt {
+        /* General modal */
+        .label-title-chatgpt {
+            font-weight: bolder;
+            font-size: 24px;
+            color: #514943;
+        }
+        .chatgpt-control {
+            margin-top: 10px;
+            display: grid;
+            grid-template-columns: 2fr 5fr;
+            grid-gap: 20px;
+
+            .label-chatgpt {
+                font-weight: 600;
+            }
+
+            .model-right {
+                display: flex;
+                flex-direction: column;
+
+                .input-wrapper {
+                    position: relative;
+
+                    input#system_role {
+                        padding: 10px 50px 10px 20px;
+                    }
+
+                    .reload-icon {
+                        position: absolute;
+                        right: 10px;
+                        top: 55%;
+                        transform: translateY(-50%);
+                        cursor: pointer;
+                        font-size: 25px;
+                        padding: 5px;
+                    }
+                }
+            }
+
+            /* Textarea */
+            textarea, input#system_role {
+                border: 1px solid #ccc;
+                border-radius: 8px;
+                font-size: 14px;
+                line-height: 2;
+                padding: 10px 20px;
+                margin-top: 5px;
+            }
+            textarea:focus,input#system_role:focus {
+                outline: none;
+                border-color: #555;
+            }
+            textarea#prompt {
+                resize: vertical;
+            }
+        }
+        #system_role {
+            height: fit-content;
+            width: 100%;
+            padding: 10px 20px;
+        }
+        #prompt {
+            min-height: 100%;
+            width: 100%;
+            padding: 10px 20px;
+        }
+        #chatgpt-attributes, #chatgpt-variables {
+            height: 100%;
+            width: 100%;
+        }
+        p.note {
+            color: #2196F3;
+            margin-top: 10px;
+        }
+
+        /* Select box all attribute */
+        #chatgpt-attributes {
+            padding: 8px;
+            border: 1px solid #ccc;
+            border-radius: 8px;
+            font-size: 14px;
+            margin-top: 5px;
+        }
+        #chatgpt-attributes:focus {
+            outline: none;
+            border-color: #555;
+        }
+        #chatgpt-attributes option {
+            padding: 4px 8px;
+        }
+        #chatgpt-attributes option:hover {
+            background-color: #eee;
+        }
+        select.chatgpt-variables::-webkit-scrollbar {
+            width: 8px;
+        }
+        select.chatgpt-variables::-webkit-scrollbar-track {
+            background-color: #f1f1f1;
+            border-radius: 4px;
+        }
+        select.chatgpt-variables::-webkit-scrollbar-thumb {
+            background-color: #888;
+            border-radius: 4px;
+        }
+        select.chatgpt-variables::-webkit-scrollbar-thumb:hover {
+            background-color: #555;
+        }
+
+        /* Check box */
+        .chatgpt-checkbox {
+            display: flex;
+            align-items: center;
+            gap: 5px;
+            margin-top: 5px;
+
+            input[type="checkbox"] {
+                appearance: none;
+                -webkit-appearance: none;
+                -moz-appearance: none;
+                width: 16px;
+                height: 16px;
+                border: 1px solid #ccc;
+                border-radius: 4px;
+                outline: none;
+                cursor: pointer;
+                transition: all 0.3s ease-in-out;
+            }
+            input[type="checkbox"]:checked {
+                background-color: #2196F3;
+                border-color: #2196F3;
+            }
+            input[type="checkbox"]:checked::before {
+                content: "\2714";
+                display: block;
+                color: #fff;
+                text-align: center;
+                font-size: 12px;
+                line-height: 14px;
+            }
+
+            label[for="all-attr"] {
+                font-weight: 600;
+            }
+        }
+    }
+
+    button.chatgpt {
+        margin-top: 5px;
+    }
+    button.btn-get-mess-default {
+        float: left;
+    }
+    p#chatgpt-alert {
+        color: #00CC33;
+        font-weight: bolder;
+        padding-top: 5px;
+    }
+    #system-chatgpt-messages {
+        margin-bottom: 10px
+    }
+}

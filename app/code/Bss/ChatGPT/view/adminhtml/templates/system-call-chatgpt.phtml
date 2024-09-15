@@ -1,0 +1,43 @@
+<?php
+/**
+ * BSS Commerce Co.
+ *
+ * NOTICE OF LICENSE
+ *
+ * This source file is subject to the EULA
+ * that is bundled with this package in the file LICENSE.txt.
+ * It is also available through the world-wide-web at this URL:
+ * http://bsscommerce.com/Bss-Commerce-License.txt
+ *
+ * @category   BSS
+ * @package    Bss_ChatGPT
+ * @author     Extension Team
+ * @copyright  Copyright (c) 2023-2023 BSS Commerce Co. ( http://bsscommerce.com )
+ * @license    http://bsscommerce.com/Bss-Commerce-License.txt
+ */
+?>
+<?php
+// phpcs:disable Magento2.Templates.ThisInTemplate.FoundThis
+
+/* @var \Bss\ChatGPT\Block\System\Config\ChatGPT $block */
+?>
+<div id="system-chatgpt-messages">
+</div>
+
+<div class="pp-buttons-container">
+    <button id="check_api_key"
+            type="button">
+        <?= /* @noEscape */  __('Call ChatGPT') ?>
+    </button>
+</div>
+
+<script type="text/x-magento-init">
+    {
+        "#check_api_key": {
+            "system-chatgpt": {
+                "url": "<?= /* @noEscape */ $block->getUrlApi(); ?>",
+                "form_key": "<?= /* @noEscape */ $block->getFormKey(); ?>"
+            }
+        }
+    }
+</script>

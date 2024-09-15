@@ -1,0 +1,145 @@
+<?php
+/**
+ * BSS Commerce Co.
+ *
+ * NOTICE OF LICENSE
+ *
+ * This source file is subject to the EULA
+ * that is bundled with this package in the file LICENSE.txt.
+ * It is also available through the world-wide-web at this URL:
+ * http://bsscommerce.com/Bss-Commerce-License.txt
+ *
+ * @category   BSS
+ * @package    Bss_Gallery
+ * @author     Extension Team
+ * @copyright  Copyright (c) 2018-2019 BSS Commerce Co. ( http://bsscommerce.com )
+ * @license    http://bsscommerce.com/Bss-Commerce-License.txt
+ */
+
+// @codingStandardsIgnoreFile
+
+/**
+ * Block
+ *
+ * @var $block \Bss\Gallery\Block\CategoryView
+ */
+$category = $block->getCategory();
+$items = $block->getCollection();
+?>
+<?php
+$isAutoLoad = $block->isAutoLoad();
+$pageSpeed = $block->getPageSpeed();
+$titlePosition = $block->getTitlePosition();
+$transitionEffect = $block->getTransitionEffect();
+$layout = $this->getData('bss_gallery_layout');
+?>
+<div id="gallery-wrapper">
+    <?php if ($items && $items->getSize() > 0) : ?>
+        <?php
+        $sliderSpeed = $this->getData('bss_gallery_slider_autoplay_timeout');
+        if ($sliderSpeed == '') {
+            $sliderSpeed = $pageSpeed;
+        }
+        ?>
+
+        <h2 class="gallery-category-item-title"><?= $block->escapeHtml($this->getData('bss_gallery_description')); ?></h2>
+    <?php if ($layout == 'standard') : ?>
+        <ul class="gallery-category-list-widget gallery-item-list-widget">
+            <?php foreach ($items as $item): ?>
+                <li class="gallery-category-list-item-widget">
+                    <div class="gallery-category-item-widget">
+                        <?php if ($item->getVideo() != null) : ?>
+                            <a title="<?= $block->escapeHtml($item->getDescription()) ?>"
+                               href="<?= $block->escapeUrl($item->getVideo()) ?>"
+                               data-caption="<?= $block->escapeHtml($item->getDescription()) ?>"
+                               class="fancybox-widget fancybox.iframe.widget" rel="gallery">
+                                <img
+                                    src="<?= $block->escapeUrl($block->getImageResize($item->getImage(), 'item')) ?>"/>
+                            </a>
+                        <?php else : ?>
+                            <a title="<?= $block->escapeHtml($item->getDescription()) ?>"
+                               href="<?= $block->escapeUrl($block->getImageUrl($item->getImage())) ?>"
+                               data-caption="<?= $block->escapeHtml($item->getDescription()) ?>"
+                               class="fancybox-widget" rel="gallery">
+                                <img
+                                    src="<?= $block->escapeUrl($block->getImageResize($item->getImage(), 'item')) ?>"/>
+                            </a>
+                        <?php endif ?>
+                    </div>
+                    <h4 class="gallery-category-item-title-widget">
+                        <?= $block->escapeHtml($item->getTitle()) ?>
+                    </h4>
+                </li>
+            <?php endforeach; ?>
+        </ul>
+        <script type="text/x-magento-init">
+                {
+                    "*": {
+                        "Bss_Gallery/js/gallery_click_standard":{
+                        "isAutoLoad" : <?= $block->escapeHtml($isAutoLoad); ?>,
+                        "pageSpeed" : <?= $block->escapeHtml($pageSpeed); ?>,
+                        "nextEffect": "<?= $block->escapeHtml($transitionEffect); ?>",
+                        "titlePosition": "<?= $block->escapeHtml($titlePosition); ?>"
+                        }
+                    }
+                }
+            </script>
+    <?php endif; ?>
+    <?php if ($layout == 'slider') : ?>
+        <ul class="gallery_slider owl-carousel">
+            <?php foreach ($items as $item) : ?>
+                <li class="item">
+                    <div class="gallery-category-item-widget">
+                        <?php if ($item->getVideo() != null) : ?>
+                            <a title="<?= $block->escapeHtml($item->getDescription()) ?>"
+                               href="<?= $block->escapeUrl($item->getVideo()) ?>"
+                               data-caption="<?= $block->escapeHtml($item->getDescription()) ?>"
+                               class="fancybox-widget fancybox.iframe.widget" rel="gallery">
+                                <img
+                                    src="<?= $block->escapeUrl($block->getImageResize($item->getImage(), 'item')) ?>"/>
+                            </a>
+                        <?php else : ?>
+                            <a title="<?= $block->escapeHtml($item->getDescription()) ?>"
+                               href="<?= $block->escapeUrl($block->getImageUrl($item->getImage())) ?>"
+                               data-caption="<?= $block->escapeHtml($item->getDescription()) ?>"
+                               class="fancybox-widget" rel="gallery">
+                                <img
+                                    src="<?= $block->escapeUrl($block->getImageResize($item->getImage(), 'item')) ?>"/>
+                            </a>
+                        <?php endif; ?>
+                    </div>
+                    <h4 class="gallery-category-item-title">
+                        <?= $block->escapeHtml($item->getTitle()) ?>
+                    </h4>
+                </li>
+            <?php endforeach; ?>
+        </ul>
+        <div id="popup-modal" style="display:none;"></div>
+        <script type="text/x-magento-init">
+                {
+                    "*": {
+                        "Bss_Gallery/js/gallery_click": {
+                            "isAutoLoad" : <?= $block->escapeHtml($isAutoLoad) ?>,
+                            "pageSpeed" : <?= $block->escapeHtml($pageSpeed) ?>,
+                            "nextEffect": "<?= $block->escapeHtml($transitionEffect) ?>",
+                            "titlePosition": "<?= $block->escapeHtml($titlePosition) ?>"
+                        }
+                    }
+                }
+            </script>
+        <script type="text/x-magento-init">
+                {
+                    "*": {
+                        "Bss_Gallery/js/gallery": {
+                            "getAutoPlay" : <?= $block->escapeHtml($this->getData('bss_gallery_slider_autoplay')); ?>,
+                            "timeOut" : "<?= $block->escapeHtml($sliderSpeed); ?>",
+                            "loop": <?= $block->escapeHtml($this->getData('bss_gallery_enable_repeated_images')) == '1' ? ($items->getSize() > 5 ? '1' : '0') : '0' ?>
+                        }
+                    }
+                }
+            </script>
+    <?php endif; ?>
+    <?php else : ?>
+        <p><?= $block->escapeHtml(__('This Category has no image !')) ?></p>
+    <?php endif; ?>
+</div>

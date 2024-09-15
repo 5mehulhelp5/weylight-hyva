@@ -1,0 +1,56 @@
+<?php
+/**
+ * BSS Commerce Co.
+ *
+ * NOTICE OF LICENSE
+ *
+ * This source file is subject to the EULA
+ * that is bundled with this package in the file LICENSE.txt.
+ * It is also available through the world-wide-web at this URL:
+ * http://bsscommerce.com/Bss-Commerce-License.txt
+ *
+ * @category   BSS
+ * @package    Hyva_BssProductLabel
+ * @author     Extension Team
+ * @copyright  Copyright (c) 2022 BSS Commerce Co. ( http://bsscommerce.com )
+ * @license    http://bsscommerce.com/Bss-Commerce-License.txt
+ */
+
+declare(strict_types=1);
+
+use Hyva\Theme\Model\ViewModelRegistry;
+use Hyva\Theme\ViewModel\ProductPage;
+use Magento\Framework\View\Element\Template;
+use Magento\Framework\Escaper;
+
+/** @var Template $block */
+/** @var Escaper $escaper */
+/** @var ViewModelRegistry $viewModels */
+
+/** @var ProductPage $productViewModel */
+$productViewModel = $viewModels->require(ProductPage::class);
+
+/** @var Magento\Catalog\Model\Product $product */
+$product = $block->getData('product');
+$imageDisplayArea = $block->getData('image_display_area');
+$viewMode = $block->getData('view_mode');
+$viewIsGrid = $viewMode === 'grid';
+$productId = $product->getId();
+$productImage = $productViewModel->getImage($product, $imageDisplayArea);
+?>
+<span class="product-image-container-<?= $escaper->escapeUrl($productId) ?> all-image-product" >
+    <a href="<?= $escaper->escapeUrl($product->getProductUrl()) ?>"
+       class="product photo product-item-photo block mx-auto mb-3 <?= $viewIsGrid ? '' : 'md:mb-0 md:mr-5' ?>"
+       tabindex="-1">
+        <img class="hover:shadow-sm object-contain"
+             loading="lazy"
+             x-data=""
+             @update-gallery-<?= (int)$productId ?>.window="$el.src = $event.detail"
+             alt="<?= $escaper->escapeHtmlAttr($productImage->getLabel()) ?>"
+             title="<?= $escaper->escapeHtmlAttr($productImage->getLabel()) ?>"
+             src="<?= $escaper->escapeUrl($productImage->getImageUrl()) ?>"
+             width="<?= $escaper->escapeHtmlAttr($productImage->getWidth()) ?>"
+             height="<?= $escaper->escapeHtmlAttr($productImage->getHeight()) ?>"
+        />
+    </a>
+</span>

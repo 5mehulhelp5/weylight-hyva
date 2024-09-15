@@ -1,0 +1,278 @@
+<?php
+/**
+ * BSS Commerce Co.
+ *
+ * NOTICE OF LICENSE
+ *
+ * This source file is subject to the EULA
+ * that is bundled with this package in the file LICENSE.txt.
+ * It is also available through the world-wide-web at this URL:
+ * http://bsscommerce.com/Bss-Commerce-License.txt
+ *
+ * @category   BSS
+ * @package    Hyva_BssBreadcrumbs
+ * @author     Extension Team
+ * @copyright  Copyright (c) 2022-present BSS Commerce Co. ( http://bsscommerce.com )
+ * @license    http://bsscommerce.com/Bss-Commerce-License.txt
+ */
+
+declare(strict_types=1);
+
+use Magento\Theme\Block\Html\Breadcrumbs;
+use Magento\Framework\Escaper;
+
+// phpcs:disable Generic.Files.LineLength.TooLong
+
+/** @var \Bss\Breadcrumbs\ViewModel\Product\Breadcrumbs $viewModel */
+/** @var Escaper $escaper */
+/** @var Breadcrumbs $block */
+/** @var array $crumbs */
+$viewModel = $block->getData('viewModel');
+$breadcrumbsSeo = $viewModel->getBreadcrumbsBlock(); // This get custom seo suite block
+$widgetOptions = $breadcrumbsSeo->getBreadCrumbsOptions();
+?>
+<?php if ($breadcrumbsSeo->isProductInSingleCat()): ?>
+    <?php $crumbs = $viewModel->getCrumbs(); ?>
+    <?php if ($crumbs && is_array($crumbs)): ?>
+        <?php reset($crumbs); ?>
+        <?php $crumbs[key($crumbs)]['first'] = true; ?>
+    <?php endif ?>
+<?php endif ?>
+
+<?php if ($crumbs && is_array($crumbs)): ?>
+
+<script>
+    function initBreadCrumbs() {
+        var widgetOptions = <?= /* @noEscape */ $widgetOptions ?>;
+        var breadcrumbList = <?= /* @noEscape */ json_encode($crumbs); ?>;
+
+        return {
+
+            /**
+             * @return {string}
+             * @private
+             */
+            _getPathNamesDefault: function () {
+                var pathNamesDefault = '';
+
+                Object.keys(breadcrumbList).forEach(function (index) {
+                    if (index.includes('category')) {
+                        pathNamesDefault = pathNamesDefault + breadcrumbList[index].label + '+';
+                    }
+                });
+                return pathNamesDefault;
+            },
+
+            /**
+             * @param pathIds
+             * @param list
+             * @return {string}
+             * @private
+             */
+            _getPathNames: function (pathIds, list) {
+                // Get path names by path ids, to compare with default
+                var pathNames = '';
+
+                pathIds.forEach(function (pathId) {
+                    Object.keys(list).forEach(function (index) {
+                        var item = list[index];
+
+                        if (item.entity_id === pathId &&
+                            item.entity_id !== "1" &&
+                            item.entity_id !== "2") { // CHECK PATH NOT INCLUDED ROOT CATE
+                            pathNames = pathNames + item.name + '+';
+                        }
+                    });
+                });
+
+                return pathNames;
+            },
+
+            /**
+             * @param configSeo
+             * @param list
+             * @return {boolean}
+             * @private
+             */
+            _checkBreadcrumbsOrNot(configSeo, list) {
+                return configSeo.enabled === "1" &&
+                    configSeo.breadcrumbs_type === 'short' &&
+                    configSeo.used_priority === "1" &&
+                    !this._checkDrirectlyVisitProduct() &&
+                    undefined !== list;
+            },
+
+            /**
+             * @return {boolean}
+             * @private
+             */
+            _checkDrirectlyVisitProduct: function () {
+                // If customer go to product directly by enter product url
+                // So, we will force check this case
+                if (Object.keys(breadcrumbList).length === 2) {
+                    if (undefined !== Object.keys(breadcrumbList)[0] &&
+                        Object.keys(breadcrumbList)[0] === 'home' &&
+                        Object.values(breadcrumbList)[0]['first'] === true &&
+                        undefined !==  Object.keys(breadcrumbList)[1] &&
+                        Object.keys(breadcrumbList)[1] === 'product' &&
+                        Object.values(breadcrumbList)[1]['last'] === true) {
+                        return true;
+                    }
+                }
+
+                return false;
+            },
+
+            /**
+             * @param item
+             * @param pathItemArr
+             * @return {Array}
+             * @private
+             */
+            _getRemoveItemIds: function (item, pathItemArr) {
+                var priority = item.priority_id,
+                    i = 0,
+                    removeItems = [];
+                // ex: 1/2/4/12/6/10
+                // if prior = 12, them remove items is [6, 10]
+                if (priority !== null && !isNaN(parseInt(priority))) {
+                    for (; i < pathItemArr.length; i++) {
+                        if (priority === pathItemArr[i]) {
+                            break;
+                        }
+                    }
+                }
+                if (i !== 0) {
+                    removeItems = pathItemArr.splice(i + 1);
+                }
+                return removeItems;
+            },
+
+            /**
+             * @param removeItems
+             * @param list
+             * @return {Array}
+             * @private
+             */
+            _getRemoveItemNames: function (removeItems, list) {
+                var removeItemNames = [];
+
+                if (removeItems.length) {
+                    Object.keys(list).forEach(function (index) {
+                        var item = list[index];
+
+                        if (removeItems.indexOf(item.entity_id) !== -1) {
+                            removeItemNames.push(item.name);
+                        }
+                    });
+                }
+                return removeItemNames;
+            },
+
+            /**
+             * @param removeItemNames
+             * @private
+             */
+            _prepareBreadcrumbs: function (removeItemNames) {
+                var clonedBreadcrumblist = breadcrumbList;
+                if (removeItemNames.length) {
+                    breadcrumbList = [];
+
+                    Object.keys(clonedBreadcrumblist).forEach(function (index) {
+                        var item = clonedBreadcrumblist[index];
+
+                        if (removeItemNames.indexOf(item.label) === -1) {
+                            breadcrumbList.push(item);
+                        }
+                    });
+                }
+            },
+
+            initRerender() {
+                var $widget = this;
+
+                if (undefined !== widgetOptions.seo_breadcrumbs) {
+                    var configSeo = widgetOptions.seo_breadcrumbs.config,
+                        list = widgetOptions.seo_breadcrumbs.list;
+
+                    if ($widget._checkBreadcrumbsOrNot(configSeo, list)) {
+                        // Create breadcrumbs base on the seo suite breadcrumbs
+                        // First, get path of name from home to last category
+                        var pathNamesDefault = $widget._getPathNamesDefault();
+
+                        // Next, get path of category conresponse to last cat which we took at step 1
+                        var finalPath = [],
+                            removeItems = [];
+
+                        Object.keys(list).forEach(function (index) {
+                            var item = list[index],
+                                pathItemArr = item.path.split('/'),
+                                pathNamesSeo = '',
+                                priority = 0;
+                            pathNamesSeo = $widget._getPathNames(pathItemArr, list);
+
+                            if (pathNamesSeo === pathNamesDefault) {
+                                removeItems = $widget._getRemoveItemIds(item, pathItemArr);
+                            }
+                        });
+
+                        // Last, check priority and remove item from breadcrumbs if item have no priority
+                        var removeItemNames = $widget._getRemoveItemNames(removeItems, list);
+                        $widget._prepareBreadcrumbs(removeItemNames);
+
+                        // Recreate breadcrumbs
+                        var html = '';
+
+                        html += `<ol class="items list-reset py-4 rounded flex flex-wrap text-grey text-sm">`;
+                        Object.keys(breadcrumbList).forEach(function (index) {
+                            var item = breadcrumbList[index];
+
+                            html += `<li class="item flex ">`;
+
+                            !item.first ? html += `<span aria-hidden="true" class="separator text-primary-lighter px-2">/</span>` : null;
+
+                            if (item.link) {
+                                html += `<a href="${item.link}" class="no-underline" title="${item.title}">${item.label}</a>`;
+                            } else if (item.last) {
+                                html += `<a href="${item.link}" class="text-primary-lighter" aria-current="page">${item.label}</a>`;
+                            } else {
+                                html += item.label;
+                            }
+
+                        });
+
+                        document.querySelector("nav div.container").innerHTML = html;
+                    }
+                }
+            }
+        }
+    }
+</script>
+
+<nav class="breadcrumbs bg-container-lighter shadow-sm" aria-label="Breadcrumb">
+    <div class="container" x-data="initBreadCrumbs()" x-init="initRerender()">
+        <ol class="items list-reset py-4 rounded flex flex-wrap text-grey text-sm">
+            <?php foreach ($crumbs as $crumbName => $crumbInfo): ?>
+                <li class="item flex <?= $escaper->escapeHtmlAttr($crumbName) ?>">
+                <?php if (!isset($crumbInfo['first'])): ?>
+                    <span aria-hidden="true" class="separator text-primary-lighter px-2">/</span>
+                <?php endif; ?>
+                <?php if ($crumbInfo['link']): ?>
+                    <a href="<?= $escaper->escapeUrl($crumbInfo['link']) ?>"
+                    class="no-underline"
+                    title="<?= $escaper->escapeHtmlAttr($crumbInfo['title']) ?>"
+                    ><?= $escaper->escapeHtml($crumbInfo['label']) ?></a>
+                <?php elseif ($crumbInfo['last']): ?>
+                    <a href="<?= $escaper->escapeUrl($crumbInfo['link']) ?>"
+                    class="text-primary-lighter"
+                    aria-current="page"
+                    ><?= $escaper->escapeHtml($crumbInfo['label']) ?></a>
+                <?php else: ?>
+                    <?= $escaper->escapeHtml($crumbInfo['label']) ?>
+                <?php endif; ?>
+                </li>
+            <?php endforeach; ?>
+        </ol>
+    </div>
+</nav>
+<?php endif; ?>

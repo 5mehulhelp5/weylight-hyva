@@ -1,0 +1,21 @@
+{
+	"name": "bsscommerce/advanced-breadcrumbs-seo",
+	"description": "Bss Advanced Breadcrumbs SEO",
+	"type": "magento2-module",
+	"version": "1.1.4",
+	"extra": {
+		"suite-version": "28"
+	},
+	"license": [
+		"OSL-3.0",
+		"AFL-3.0"
+	],
+	"autoload": {
+		"files": [
+			"registration.php"
+		],
+		"psr-4": {
+			"Bss\\Breadcrumbs\\": ""
+		}
+	}
+}

@@ -1,0 +1,94 @@
+<?php
+/**
+ * BSS Commerce Co.
+ *
+ * NOTICE OF LICENSE
+ *
+ * This source file is subject to the EULA
+ * that is bundled with this package in the file LICENSE.txt.
+ * It is also available through the world-wide-web at this URL:
+ * http://bsscommerce.com/Bss-Commerce-License.txt
+ *
+ * @category   BSS
+ * @package    Bss_AdvancedHidePrice
+ * @author     Extension Team
+ * @copyright  Copyright (c) 2017-2018 BSS Commerce Co. ( http://bsscommerce.com )
+ * @license    http://bsscommerce.com/Bss-Commerce-License.txt
+ */
+/**
+ * @var $block \Bss\AdvancedHidePrice\Block\Adminhtml\Request\Edit\Tab\Info
+ */
+// @codingStandardsIgnoreFile
+?>
+
+<?php
+$request = $block->getFormRequest();
+$productInfo = $block->getProductInfo();
+$customerInfo = $block->getCustomerInfo();
+$addtional = $block->getAdditonalInfo();
+$customOption = $block->getCustomOption();
+?>
+<form id="callforprice_form" action="" method="post" data-hasrequired="<?php /* @escapeNotVerified */
+echo __('* Required Fields') ?>" data-mage-init='{"validation":{}}'>
+    <fieldset class="fieldset callforprice_request">
+        <legend class="admin__legend legend">
+            <span><?php echo __('General Information') ?></span>
+        </legend>
+        <div class="field">
+            <label class="label"><?php echo __('Customer') ?></label>
+            <div class="control"><?php echo $customerInfo ?></div>
+        </div>
+        <div class="field">
+            <label class="label"><?php echo __('Product') ?></label>
+            <div class="control"><?php echo $productInfo ?></div>
+        </div>
+        <?php if ($customOption):?>
+        <div class="field">
+            <label class="label"><?php echo __('Custom Options') ?></label>
+            <div class="control">
+        <?php foreach ($customOption as $option): ?>
+            <?php if ($option['option_type'] == 'file') : ?>
+                <?php $url = $block->getMediaPath().'callprice/'.$block->getProductId().'/'.$block->getCustomerEmail().'/'.$option['value']; ?>
+                <p><?php echo $option['name'] ?> :  <a href="<?php echo $url;?> "><?php echo $option['value']?></a> <?php echo " + " . $block->setPriceForOption($option['price']) ?></p>
+            <?php else : ?>
+                <p><?php echo $option['name'] ?> : <?php echo $option['value']?><?php echo " + " . $block->setPriceForOption($option['price']) ?></p>
+            <?php endif; ?>
+        <?php endforeach; ?>
+            </div>
+        </div>
+        <?php endif; ?>
+        <div class="field">
+            <label class="label"><?php echo __('Created At') ?></label>
+            <div class="control"><?php echo $request->getCreatedAt() ?></div>
+        </div>
+        <?php if ($request->getStoreId()): ?>
+            <div class="field">
+                <label class="label"><?php echo __('Created from :') ?></label>
+                <div class="control"><?php echo $block->getStoreName($request->getStoreId()) ?></div>
+            </div>
+        <?php endif ?>
+
+    </fieldset>
+
+    <fieldset class="fieldset callforprice_request bss-hp">
+        <legend class="admin__legend legend">
+            <span><?php echo __('Additional Information') ?></span>
+        </legend>
+        <?php foreach ($addtional as $key => $value) : ?>
+            <?php if (!$block->checkKey($key)): ?>
+                <?php $label = explode('__BssAdvancedHidePrice__', $key)[0]; ?>
+                <?php $type = explode('__BssAdvancedHidePrice__', $key)[2]; ?>
+                <?php echo $block->fieldToHtmlBackend($label, $type, $value) ?>
+            <?php endif ?>
+        <?php endforeach; ?>
+    </fieldset>
+</form>
+<style>
+    .control {
+        line-height: 3rem
+    }
+
+    textarea {
+        width: 100%;
+    }
+</style>

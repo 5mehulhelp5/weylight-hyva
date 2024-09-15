@@ -1,0 +1,20 @@
+{
+  "name": "bss/module-advanced-hide-price-graph-ql",
+  "version": "1.0.0",
+  "description": "Module is use for calling graphQl",
+  "type": "magento2-module",
+  "require": {
+    "magento/framework": "*"
+  },
+  "license": [
+    "Proprietary"
+  ],
+  "autoload": {
+    "files": [
+      "registration.php"
+    ],
+    "psr-4": {
+      "Bss\\AdvancedHidePriceGraphQl\\": ""
+    }
+  }
+}

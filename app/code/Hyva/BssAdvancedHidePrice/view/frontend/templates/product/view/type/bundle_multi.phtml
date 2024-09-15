@@ -1,0 +1,135 @@
+<?php
+/**
+ * BSS Commerce Co.
+ *
+ * NOTICE OF LICENSE
+ *
+ * This source file is subject to the EULA
+ * that is bundled with this package in the file LICENSE.txt.
+ * It is also available through the world-wide-web at this URL:
+ * http://bsscommerce.com/Bss-Commerce-License.txt
+ *
+ * @category   BSS
+ * @package    Hyva_BssAdvancedHidePrice
+ * @author     Extension Team
+ * @copyright  Copyright (c) 2023-present BSS Commerce Co. ( http://bsscommerce.com )
+ * @license    http://bsscommerce.com/Bss-Commerce-License.txt
+ */
+
+declare(strict_types=1);
+
+use Magento\Bundle\Block\Catalog\Product\View\Type\Bundle\Option\Multi;
+use Magento\Framework\Escaper;
+use Hyva\Theme\Model\ViewModelRegistry;
+use Hyva\BssAdvancedHidePrice\ViewModel\Helper;
+
+// phpcs:disable Generic.Files.LineLength.TooLong
+
+/** @var Multi $block */
+/** @var Escaper $escaper */
+/** @var ViewModelRegistry $viewModels */
+
+$option = $block->getOption();
+$selections = $option->getSelections();
+
+$optionId = $option->getId();
+$selectedOptions = [];
+
+$default = $option->getDefaultSelection();
+list($defaultQty, $canChangeQty) = $block->getDefaultValues();
+
+$product = $block->getProduct();
+$helper = $viewModels->require(Helper::class)->getAdvancedHidePriceHelper();
+?>
+<?php if ($block->showSingle()): ?>
+    <?= /* @noEscape */ $block->getSelectionQtyTitlePrice($selections[0]) ?>
+    <?php $disable = ''; ?>
+    <?php if ($product->getActiveCallHidePrice()): ?>
+        <?php $disable = $helper->activeCallHidePrice($product) ? "disabled" : '';  ?>
+        <?php if ($product->getActiveCallHidePrice() == "callforprice"): ?>
+            <div id="callforprice" class="callforprice-container callforprice_<?= $escaper->escapeHtml($selections[0]->getId()); ?>">
+                <input type="hidden" name="product" value="<?= $escaper->escapeHtml($selections[0]->getId()); ?>">
+                <input type="hidden" name="product_name" value="<?= $escaper->escapeHtml(__($selections[0]->getName())); ?>">
+                <a onclick="openBssCfpDialog(this)"
+                    class="callforprice_clickme btn btn-primary justify-center cursor-pointer"
+                    aria-label="<?= $escaper->escapeHtml(__($helper->getCallforpriceText($product))) ?>"
+                >
+                    <?= $escaper->escapeHtml(__($helper->getCallforpriceText($product))); ?>
+                </a>
+            </div>
+        <?php endif; ?>
+        <?php if ($product->getActiveCallHidePrice() == "hideprice"): ?>
+            <div id="callforprice_text" class="callforprice-container callforprice_text">
+                <?= $escaper->escapeHtml(__($helper->getCallforpriceText($product))); ?>
+            </div>
+        <?php endif; ?>
+    <?php elseif ($selections[0]->getActiveCallHidePrice()): ?>
+        <?php $disable = $helper->activeCallHidePrice($selections[0]) ? "disabled" : '';  ?>
+
+        <?php if ($selections[0]->getActiveCallHidePrice() == "callforprice"): ?>
+            <div id="callforprice" class="flex callforprice-container callforprice_<?= $escaper->escapeHtml($selections[0]->getId()); ?>">
+                <input type="hidden" name="product" value="<?= $escaper->escapeHtml($selections[0]->getId()); ?>" />
+                <input type="hidden" name="product_name" value="<?= $escaper->escapeHtml(__($_selections[0]->getName())); ?>" />
+                <a onclick="openBssCfpDialog(this)"
+                    class="callforprice_clickme btn btn-primary justify-center cursor-pointer"
+                    aria-label="<?= $escaper->escapeHtml(__($helper->getCallforpriceText($selections[0]))); ?>"
+                >
+                    <?= $escaper->escapeHtml(__($helper->getCallforpriceText($selections[0]))); ?>
+                </a>
+            </div>
+        <?php endif; ?>
+        <?php if ($selections[0]->getActiveCallHidePrice() == "hideprice"): ?>
+            <div id="callforprice_text" class="callforprice-container callforprice_text">
+                <?= $block->escapeHtml(__($helper->getCallforpriceText($selections[0]))); ?>
+            </div>
+        <?php endif; ?>
+    <?php endif; ?>
+    <input type="hidden"
+           class="bundle-option-<?= (int)$optionId ?>  product bundle option"
+           name="bundle_option[<?= (int)$optionId ?>]"
+           form="product_addtocart_form"
+           value="<?= (int)$selections[0]->getSelectionId() ?>"
+           id="bundle-option-<?= (int)$optionId ?>-<?= (int)$selections[0]->getSelectionId() ?>"
+           checked="checked"
+           data-option-id="<?= (int)$optionId ?>"
+           data-selection-id="<?= (int)$selections[0]->getSelectionId() ?>"
+           <?= $escaper->escapeHtml($disable); ?>
+    />
+<?php else: ?>
+    <select multiple="multiple"
+            size="5"
+            id="bundle-option-<?= (int)$optionId ?>"
+            name="bundle_option[<?= (int)$optionId ?>][]"
+            form="product_addtocart_form"
+            class="bundle-option-<?= (int)$optionId ?>
+                form-multiselect max-w-full"
+            <?php if ($option->getRequired()): ?>
+                required="required"
+            <?php endif; ?>
+            x-on:change="calculateTotalPrice()"
+    >
+        <?php if (!$option->getRequired()): ?>
+            <?php if (!$option->getData('bssClasses')): ?>
+                <option value=""><?= $escaper->escapeHtml(__('None')) ?></option>
+            <?php endif; ?>
+        <?php endif; ?>
+        <?php foreach ($selections as $selection): ?>
+            <?php $selectionId = $selection->getSelectionId(); ?>
+            <?php $optionSelectionId = $optionId . '-' . $selectionId ?>
+            <option value="<?= (int)$selectionId ?>"
+                <?php if ($block->isSelected($selection)): ?>
+                    selected="selected"
+                <?php endif; ?>
+                <?php if ($helper->activeCallHidePrice($selection) || $product->getActiveCallHidePrice()): ?>
+                    disabled="disabled"
+                <?php endif; ?>
+                <?php if (!$selection->isSaleable()): ?>
+                    disabled="disabled"
+                <?php endif; ?>
+                    data-option-id="<?= $escaper->escapeHtmlAttr($optionSelectionId) ?>"
+            >
+                <?= /* @noEscape */ $block->getSelectionQtyTitlePrice($selection, false) ?>
+            </option>
+        <?php endforeach; ?>
+    </select>
+<?php endif; ?>

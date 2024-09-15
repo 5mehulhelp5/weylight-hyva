@@ -1,0 +1,34 @@
+.standard-shadow {
+    &:hover {
+         box-shadow: 0px 0px 8px #333;
+     }
+}
+
+.gallery-category-list-item {
+    @apply box-border float-left py-0 lg:my-0 px-2 lg:w-1/5
+    w-1/2 h-[300px] min-h-[220px];
+}
+
+.gallery-category-item {
+    @apply p-1;
+}
+
+.gallery-category-item a {
+    @apply flex flex-col justify-center h-full;
+}
+
+.gallery-category-item a img {
+    @apply h-[200px];
+}
+
+.gallery-category-item-title {
+    @apply text-lg my-4 truncate;
+}
+
+.item-active {
+    @apply bg-[#13a01f];
+}
+
+.fixed-center {
+    transform: translate(-50%, -50%);
+}

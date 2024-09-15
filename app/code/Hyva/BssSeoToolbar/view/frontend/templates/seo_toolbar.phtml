@@ -1,0 +1,672 @@
+<?php
+/**
+ * BSS Commerce Co.
+ *
+ * NOTICE OF LICENSE
+ *
+ * This source file is subject to the EULA
+ * that is bundled with this package in the file LICENSE.txt.
+ * It is also available through the world-wide-web at this URL:
+ * http://bsscommerce.com/Bss-Commerce-License.txt
+ *
+ * @category   BSS
+ * @package    Hyva_BssSeoToolbar
+ * @author     Extension Team
+ * @copyright  Copyright (c) 2022-present BSS Commerce Co. ( http://bsscommerce.com )
+ * @license    http://bsscommerce.com/Bss-Commerce-License.txt
+ */
+?>
+
+<?php
+/**
+ * SEO Toolbar template
+ *
+ * @var $block \Bss\SeoToolbar\Block\SeoToolbar
+ */
+
+// phpcs:disable Generic.Files.LineLength.TooLong
+?>
+
+<?php
+$ajaxUrl = $block->getAjaxUrl();
+$entityObject = $block->getEntityObject();
+
+$dataJson = [
+    "ajaxUrl" => $ajaxUrl,
+    "entityId" => $entityObject['entity_id'],
+    "entityType" => $entityObject['entity_type'],
+    "logoUrl" => $block->getViewFileUrl('Bss_SeoToolbar::images/logo_bss.svg')
+];
+$dataJsonEncode = $block->getDataHelper()->jsonEncode($dataJson);
+?>
+
+<script>
+    function initBssSeoToolbar() {
+
+        function getUrlVars() {
+            let vars = [], hash;
+            let hashes = window.location.href.slice(window.location.href.indexOf('?') + 1).split('&');
+            for(let i = 0; i < hashes.length; i++)
+            {
+                hash = hashes[i].split('=');
+                vars.push(hash[0]);
+                vars[hash[0]] = hash[1];
+            }
+            return vars;
+        }
+
+        function createCookie(name, value, days) {
+            let expires;
+            if (days) {
+                let date = new Date();
+                date.setTime(date.getTime() + (days * 24 * 60 * 60 * 1000));
+                expires = "; expires=" + date.toGMTString();
+            }
+            else {
+                expires = "";
+            }
+
+            document.cookie = name + "=" + value + expires + "; path=/";
+        }
+
+        function getCookie(cookie_name) {
+            let cookie_value = "";
+            if (document.cookie.length > 0) {
+                let c_start = document.cookie.indexOf(cookie_name + "=");
+                if (c_start !== -1) {
+                    c_start = c_start + cookie_name.length + 1;
+                    let c_end = document.cookie.indexOf(";", c_start);
+                    if (c_end === -1) {
+                        c_end = document.cookie.length;
+                    }
+                    cookie_value = unescape(document.cookie.substring(c_start, c_end));
+                }
+            }
+            return cookie_value;
+        }
+
+        function renderToolbar(DOMToolbar) {
+            document.querySelector('#bss_seo_toolbar').innerHTML = DOMToolbar;
+            document.querySelector('#bss_seo_toolbar').classList.remove('hidden');
+        }
+
+        return {
+            statusHide: false,
+            urlEdit: '',
+            dataToolbar: {
+                url: '',
+                canonicalTag: '',
+                title: '',
+                metaTitle: '',
+                metaDescription: '',
+                metaKeyword: '',
+                headings: {
+                    h1Elements: '',
+                    h2Elements: '',
+                    h3Elements: '',
+                    h4Elements: '',
+                    h5Elements: ''
+                },
+                imageObject: [],
+                openGraph: {
+                    ogTitle: '',
+                    ogImage: '',
+                    ogDescription: '',
+                    ogUrl: '',
+                    ogType: ''
+                },
+                twitterCard: {
+                    twitterSite: '',
+                    twitterTitle: '',
+                    twitterDescription: '',
+                    twitterImage: ''
+                }
+            },
+            translations: {
+                seo_toolbar: "<?= /* @noEscape */ __('SEO Toolbar') ?>",
+                url: "<?= /* @noEscape */ __('URL:') ?>",
+                canonical_tag: "<?= /* @noEscape */ __('Canonical Tag:') ?>",
+                title: "<?= /* @noEscape */ __('Title:') ?>",
+                meta_description: "<?= /* @noEscape */ __('Meta Description:') ?>",
+                meta_keywords: "<?= /* @noEscape */ __('Meta Keywords:') ?>",
+                headings: "<?= /* @noEscape */ __('Headings') ?>",
+                all_images_have_alt_attribute: "<?= /* @noEscape */ __('All images have ALT attribute.') ?>",
+                image_without_alt:  "<?= /* @noEscape */ __(' image without ALT.') ?>",
+                images_without_alt:  "<?= /* @noEscape */ __(' images without ALT.') ?>",
+                we_have_found_several_open_graph_objects: "<?= /* @noEscape */ __('Great! We have found several Open Graph objects.') ?>",
+                your_page_does_not_have_any_open_graph_objects: "<?= /* @noEscape */ __('Your page does not have any Open Graph objects.') ?>",
+                open_graph: "<?= /* @noEscape */ __('Open Graph:') ?>",
+                we_have_found_twitter_cards_on_your_page: "<?= /* @noEscape */ __('Nice! We have found Twitter Cards on your page.') ?>",
+                your_page_does_not_have_any_twitter_cards: "<?= /* @noEscape */ __('Your page does not have any Twitter Cards.') ?>",
+                twitter_card: "<?= /* @noEscape */ __('Twitter Card:') ?>",
+                edit_in_backend: "<?= /* @noEscape */ __('Edit In Backend') ?>",
+            },
+            
+            iconToolbar: {
+                success: '<svg viewBox="0 0 512 512" class="float-left"><path fill="#28a745" d="M504 256c0 136.967-111.033 248-248 248S8 392.967 8 256 119.033 8 256 8s248 111.033 248 248zM227.314 387.314l184-184c6.248-6.248 6.248-16.379 0-22.627l-22.627-22.627c-6.248-6.249-16.379-6.249-22.628 0L216 308.118l-70.059-70.059c-6.248-6.248-16.379-6.248-22.628 0l-22.627 22.627c-6.248 6.248-6.248 16.379 0 22.627l104 104c6.249 6.249 16.379 6.249 22.628.001z"></path></svg>',
+                false: ' <svg viewBox="0 0 512 512" class="tooltip-toggle float-left"><path fill="#dc3545" d="M504 256c0 136.997-111.043 248-248 248S8 392.997 8 256C8 119.083 119.043 8 256 8s248 111.083 248 248zm-248 50c-25.405 0-46 20.595-46 46s20.595 46 46 46 46-20.595 46-46-20.595-46-46-46zm-43.673-165.346l7.418 136c.347 6.364 5.609 11.346 11.982 11.346h48.546c6.373 0 11.635-4.982 11.982-11.346l7.418-136c.375-6.874-5.098-12.654-11.982-12.654h-63.383c-6.884 0-12.356 5.78-11.981 12.654z"></path></svg>',
+                warming: ' <svg viewBox="0 0 512 512" class="tooltip-toggle float-left"><path fill="#aaa" d="M256 8C119.043 8 8 119.083 8 256c0 136.997 111.043 248 248 248s248-111.003 248-248C504 119.083 392.957 8 256 8zm0 110c23.196 0 42 18.804 42 42s-18.804 42-42 42-42-18.804-42-42 18.804-42 42-42zm56 254c0 6.627-5.373 12-12 12h-88c-6.627 0-12-5.373-12-12v-24c0-6.627 5.373-12 12-12h12v-64h-12c-6.627 0-12-5.373-12-12v-24c0-6.627 5.373-12 12-12h64c6.627 0 12 5.373 12 12v100h12c6.627 0 12 5.373 12 12v24z"></path></svg>'
+            },
+
+            toolTipObject: {
+                url: 'A SEO-friendly URL should be easy-to-read, definitive, and keyword-rich so that Google can easily index your website.',
+                headings: 'You only use one &lt;H1&gt; heading for each page to strengthen your SEO.<br/>This &lt;H1&gt; heading should contain your main keyword.',
+                images: 'You should add ALT text to your images to help search engines easily index them.<br/>The reason is search engines don\'t physically see images like the way people do. Hence, ALT text plays a role in describing the image so that they show up in Google™ and other search engine\'s image results.<br/>Make sure your website images have their own specific ALT text.',
+                openGraph: 'Open Graph is a technology introduced by Facebook that integrates between Facebook and its user data and a website. When integrating Open Graph meta tags into your page, you can identify which elements of your page you desire to display when your page is shared.',
+                twitterCard: 'By using Twitter Cards, you can easily attach photo, videos, and media experience to Tweets to increase traffic to your site.',
+                canonicalTag: 'A canonical tag is used to prevent issues caused by duplicated content appearing on multiple URLs. On the other hand, the canonical tag lets search engines which version of URL will be included in search results.',
+                title: 'A perfect length of a title should be about 50-70 characters, including spaces. You need to make your title concise and contain the main keyword.',
+                description: 'Meta description determines how your pages are displayed in the search results. Hence, you should keep it 200-255 characters long for the best effectiveness. Also, don\'t forget to include your main keyword in the meta description and make it attractive to encourage customers to click.',
+                metaKeyword: 'Meta keywords are words or phrases that pertain to your site\'s content. In the past, people have tried to take advantage of this tag so now it doesn\'t affect your search rankings the way that it used to.'
+            },
+
+            initToolbar() {
+                let urlVars = getUrlVars();
+                let cookieName = 'bss_seo_toolbar_token';
+                if (typeof urlVars.token !== "undefined") {
+                    let token = urlVars.token;
+                    //Set to Cookie
+                    createCookie(cookieName, token, 30);
+                }
+                //get Token from Cookie
+                let cookieValue = getCookie(cookieName);
+                let hideCookieName = 'bss_seo_toolbar_hide';
+                let statusHideValue = getCookie(hideCookieName);
+
+                this.statusHide = statusHideValue !== '' && statusHideValue !== null && Number(statusHideValue) === 1;
+                this.handleToolbarStatus();
+                // this.handleClickToolbar();
+                if (cookieValue !== '' && cookieValue !== null) {
+                    //Show Loading
+                    this.setData();
+                    this.handleAjaxCheckAdmin(cookieValue);
+                }
+            },
+
+            handleToolbarStatus: function() {
+                let bssSeoToolbarDOM = document.querySelector('#bss_seo_toolbar');
+
+                bssSeoToolbarDOM.classList.remove('toolbar_hide', 'p-0');
+                if (this.statusHide) {
+                    bssSeoToolbarDOM.classList.add('toolbar_hide', 'p-0');
+                }
+            },
+
+            handleClickToolbar: function() {
+                let valueCookieHide = '0';
+
+                if (!this.statusHide) {
+                    //Save a Cookie and Hide it
+                    valueCookieHide = '1';
+                    this.statusHide = true;
+                } else {
+                    this.statusHide = false;
+                }
+                let hideCookieName = 'bss_seo_toolbar_hide';
+
+                createCookie(hideCookieName, valueCookieHide, 30);
+                this.handleToolbarStatus();
+
+                let DOMToolbar = this.getDOMToolbar();
+                renderToolbar(DOMToolbar);
+            },
+
+            getDOMToolbar: function() {
+                let headerToolbar = this.getHeaderToolbar(),
+                    bodyToolbar = this.getBodyToolbar();
+
+                return headerToolbar + bodyToolbar;
+            },
+
+            getHeaderToolbar: function() {
+                return '<div class="bss_toolbar_header float-left w-full"><img src="<?= /* @noEscape */ $block->getViewFileUrl('Bss_SeoToolbar::images/logo_bss.svg'); ?>" alt="Logo" class="w-12 float-left" /><p class="float-left font-black text-base text-white text-center">' + this.translations.seo_toolbar + '</p><svg viewBox="0 0 448 512" @click="handleClickToolbar()" class="fill-white float-right cursor-pointer"><path d="M441.9 167.3l-19.8-19.8c-4.7-4.7-12.3-4.7-17 0L224 328.2 42.9 147.5c-4.7-4.7-12.3-4.7-17 0L6.1 167.3c-4.7 4.7-4.7 12.3 0 17l209.4 209.4c4.7 4.7 12.3 4.7 17 0l209.4-209.4c4.7-4.7 4.7-12.3 0-17z"></path></svg></div>';
+            },
+
+            getBodyToolbar: function() {
+                let firstBodyToolbar = '';
+
+                if (this.statusHide) {
+                    firstBodyToolbar = '<div class="bss_toolbar_body hidden">';
+                } else {
+                    firstBodyToolbar = '<div class="bss_toolbar_body block float-left w-full">';
+                }
+
+                let lastBodyToolbar = '</div>';
+                let urlDOM = this.getItemToolbar(
+                    this.translations.url,
+                    this.dataToolbar.url,
+                    "success",
+                    this.toolTipObject.url
+                );
+
+                //For Canonical Tag
+                let statusCanonicalTag = "success";
+                if (this.dataToolbar.canonicalTag === '' || this.dataToolbar.canonicalTag === null) {
+                    statusCanonicalTag = "false";
+                }
+                let canonicalTagDOM = this.getItemToolbar(
+                    this.translations.canonical_tag,
+                    this.dataToolbar.canonicalTag,
+                    statusCanonicalTag,
+                    this.toolTipObject.canonicalTag
+                );
+
+                //For Meta Title
+                let statusMetaTitle = "false";
+
+                if (this.dataToolbar.title === '' || this.dataToolbar.title === null) {
+                    statusMetaTitle = "false";
+                } else {
+                    if (this.dataToolbar.title.length >= 50 && this.dataToolbar.title.length <= 70) {
+                        statusMetaTitle = "success";
+                    }
+                    if (this.dataToolbar.title.length > 70) {
+                        statusMetaTitle = "false"
+                    }
+                    if (this.dataToolbar.title.length < 50) {
+                        statusMetaTitle = "warming";
+                    }
+                }
+                let titleDOM = this.getItemToolbar(
+                    this.translations.title,
+                    this.dataToolbar.title,
+                    statusMetaTitle,
+                    this.toolTipObject.title
+                );
+
+                //For Meta Description
+                let statusMetaDescription = "false";
+
+                if (this.dataToolbar.metaDescription === '' || this.dataToolbar.metaDescription === null) {
+                    statusMetaDescription = "false";
+                } else {
+                    if (this.dataToolbar.metaDescription.length >= 200 && this.dataToolbar.metaDescription.length <= 255) {
+                        statusMetaDescription = "success";
+                    }
+                    if (this.dataToolbar.metaDescription.length > 255) {
+                        statusMetaDescription = "false"
+                    }
+                    if (this.dataToolbar.metaDescription.length >= 100 && this.dataToolbar.metaDescription.length < 200) {
+                        statusMetaDescription = "warming";
+                    }
+                }
+
+                let metaDescriptionDOM = this.getItemToolbar(
+                    this.translations.meta_description,
+                    this.dataToolbar.metaDescription,
+                    statusMetaDescription,
+                    this.toolTipObject.description
+                );
+                //For Meta Keyword
+                let statusMetaKeywords = "success";
+
+                if (this.dataToolbar.metaKeyword === '' || this.dataToolbar.metaKeyword === null) {
+                    statusMetaKeywords = "warming";
+                }
+                let metaKeywordDOM = this.getItemToolbar(
+                    this.translations.meta_keywords,
+                    this.dataToolbar.metaKeyword,
+                    statusMetaKeywords,
+                    this.toolTipObject.metaKeyword
+                );
+
+                //For Headings Status
+                let headingText = 'H1 [' + this.dataToolbar.headings.h1Elements + '] - H2 [' + this.dataToolbar.headings.h2Elements + '] - H3 [' + this.dataToolbar.headings.h3Elements + '] - H4 [' + this.dataToolbar.headings.h4Elements + '] - H5 [' + this.dataToolbar.headings.h5Elements + ']';
+                let statusHeading = "false";
+                if (this.dataToolbar.headings.h1Elements === 1 && this.dataToolbar.headings.h2Elements > 0) {
+                    statusHeading = "success";
+                }
+                if (this.dataToolbar.headings.h1Elements === 1 && this.dataToolbar.headings.h2Elements === 0) {
+                    statusHeading = "warming";
+                }
+                let headingsDOM =  this.getItemToolbar(
+                    this.translations.headings,
+                    headingText,
+                    statusHeading,
+                    this.toolTipObject.headings
+                );
+
+                //For Image status
+                let lostAltNumbmer = 0;
+                this.dataToolbar.imageObject.forEach(function(image) {
+                    let alt = image.getAttribute("alt");
+                    if (typeof alt === 'undefined' || alt === null || alt === '') {
+                        lostAltNumbmer++;
+                    }
+                });
+                let imageAltDOM = '';
+                let statusImages = "false";
+                if (lostAltNumbmer === 0) {
+                    statusImages = "success";
+                    imageAltDOM = this.getItemToolbar(
+                        this.translations.all_images_have_alt_attribute,
+                        '',
+                        statusImages,
+                        statusHeading,
+                        this.toolTipObject.images
+                    );
+                } else {
+                    let textImageAltDOM = '';
+                    if (lostAltNumbmer === 1) {
+                        textImageAltDOM = lostAltNumbmer + this.translations.image_without_alt;
+                    } else {
+                        textImageAltDOM = lostAltNumbmer + this.translations.images_without_alt;
+                    }
+                    imageAltDOM = this.getItemToolbar(
+                        textImageAltDOM,
+                        '',
+                        statusImages,
+                        this.toolTipObject.images
+                    );
+                }
+
+                //For Open Graph
+                let countOpenGraph = 0;
+                if (typeof this.dataToolbar.openGraph.ogTitle !== "undefined" && this.dataToolbar.openGraph.ogTitle !== '' && this.dataToolbar.openGraph.ogTitle !== null) {
+                    countOpenGraph++;
+                }
+                if (typeof this.dataToolbar.openGraph.ogDescription !== "undefined" && this.dataToolbar.openGraph.ogDescription !== '' && this.dataToolbar.openGraph.ogDescription !== null) {
+                    countOpenGraph++;
+                }
+                if (typeof this.dataToolbar.openGraph.ogImage !== "undefined" && this.dataToolbar.openGraph.ogImage !== '' && this.dataToolbar.openGraph.ogImage !== null) {
+                    countOpenGraph++;
+                }
+                if (typeof this.dataToolbar.openGraph.ogUrl !== "undefined" && this.dataToolbar.openGraph.ogUrl !== '' && this.dataToolbar.openGraph.ogUrl !== null) {
+                    countOpenGraph++;
+                }
+                if (typeof this.dataToolbar.openGraph.ogType !== "undefined" && this.dataToolbar.openGraph.ogType !== '' && this.dataToolbar.openGraph.ogType !== null) {
+                    countOpenGraph++;
+                }
+
+                let textOpenGraph = '';
+                let statusOpenGraphRender = "false";
+
+                if (countOpenGraph > 0) {
+                    textOpenGraph = this.translations.we_have_found_several_open_graph_objects;
+                    statusOpenGraphRender = "success";
+                } else {
+                    textOpenGraph = this.translations.your_page_does_not_have_any_open_graph_objects;
+                }
+
+                let openGraphDOM = this.getItemToolbar(
+                    this.translations.open_graph,
+                    textOpenGraph,
+                    statusOpenGraphRender,
+                    this.toolTipObject.openGraph
+                );
+
+                //For Twitter Card
+                let countTwitterCard = 0;
+                if (typeof this.dataToolbar.twitterCard.twitterSite !== "undefined" && this.dataToolbar.twitterCard.twitterSite !== '' && this.dataToolbar.twitterCard.twitterSite !== null) {
+                    countTwitterCard++;
+                }
+                if (typeof this.dataToolbar.twitterCard.twitterTitle !== "undefined" && this.dataToolbar.twitterCard.twitterTitle !== '' && this.dataToolbar.twitterCard.twitterTitle !== null) {
+                    countTwitterCard++;
+                }
+                if (typeof this.dataToolbar.twitterCard.twitterDescription !== "undefined" && this.dataToolbar.twitterCard.twitterDescription !== '' && this.dataToolbar.twitterCard.twitterDescription !== null) {
+                    countTwitterCard++;
+                }
+                if (typeof this.dataToolbar.twitterCard.twitterImage !== "undefined" && this.dataToolbar.twitterCard.twitterImage !== '' && this.dataToolbar.twitterCard.twitterImage !== null) {
+                    countTwitterCard++;
+                }
+                let textTwitterCard = '';
+                let statusTwitterCardRender = "false";
+                if (countTwitterCard > 0) {
+                    textTwitterCard = this.translations.we_have_found_twitter_cards_on_your_page;
+                    statusTwitterCardRender = "success";
+                } else {
+                    textTwitterCard = this.translations.your_page_does_not_have_any_twitter_cards;
+                }
+
+                let twitterCardDOM = this.getItemToolbar(
+                    this.translations.twitter_card,
+                    textTwitterCard,
+                    statusTwitterCardRender,
+                    this.toolTipObject.twitterCard
+                );
+
+                let editLink = this.urlEdit;
+                let editBody = '';
+                if (editLink) {
+                    editBody = '<div class="edit_body_toolbar float-left text-center"><a href="' + editLink + '" target="_blank">' + this.translations.edit_in_backend + '</a></div>';
+                }
+                return firstBodyToolbar + urlDOM + canonicalTagDOM + titleDOM + metaDescriptionDOM + metaKeywordDOM + headingsDOM + imageAltDOM +  openGraphDOM + twitterCardDOM + editBody + lastBodyToolbar;
+
+            },
+
+            getItemToolbar: function(title, value, status, toolTip) {
+                let icon = '';
+                let self = this;
+                switch (status) {
+                    case 'success':
+                        icon = self.iconToolbar.success;
+                        break;
+                    case 'false':
+                        icon = self.iconToolbar.false;
+                        break;
+                    case 'warming':
+                        icon = self.iconToolbar.warming;
+                        break;
+                }
+                return '<div class="bss_toolbar_item tooltip-toggle relative whitespace-pre-line border-b float-left">' + icon + '<div class="toolbar_content float-right"> <strong>' + title + '</strong> ' + value + ' </div><span class="tooltip-content invisible text-white text-left p-2.5 absolute z-10 mr-0 opacity-0">'+toolTip+'</span> </div>';
+            },
+
+            setData: function() {
+                this.dataToolbar.url = window.location.href;
+                let canonicalTag = document.querySelector('link[rel=canonical]') ?
+                    document.querySelector('link[rel=canonical]').getAttribute("href") : undefined;
+
+                if (typeof canonicalTag !== "undefined") {
+                    this.dataToolbar.canonicalTag = canonicalTag;
+                }
+
+                let title = document.title;
+                if (typeof title !== "undefined") {
+                    this.dataToolbar.title = title;
+                }
+
+                let metaTitle = document.querySelector('meta[name=title]') ?
+                    document.querySelector('meta[name=title]').getAttribute("content") : undefined;
+                if (typeof metaTitle !== "undefined") {
+                    this.dataToolbar.metaTitle = metaTitle;
+                }
+
+                let metaDescription = document.querySelector('meta[name=description]') ?
+                    document.querySelector('meta[name=description]').getAttribute("content") : undefined;
+                if  (typeof metaDescription !== "undefined") {
+                    this.dataToolbar.metaDescription = metaDescription;
+                }
+
+                let metaKeyword = document.querySelector('meta[name=keywords]') ?
+                    document.querySelector('meta[name=keywords]').getAttribute("content") : undefined;
+                if (typeof metaKeyword !== "undefined") {
+                    this.dataToolbar.metaKeyword = metaKeyword;
+                }
+                this.dataToolbar.headings.h1Elements = document.querySelectorAll('h1').length;
+                this.dataToolbar.headings.h2Elements = document.querySelectorAll('h2').length;
+                this.dataToolbar.headings.h3Elements = document.querySelectorAll('h3').length;
+                this.dataToolbar.headings.h4Elements = document.querySelectorAll('h4').length;
+                this.dataToolbar.headings.h5Elements = document.querySelectorAll('h5').length;
+                this.dataToolbar.imageObject = document.querySelectorAll('img');
+
+                this.dataToolbar.openGraph.ogTitle = document.querySelector('meta[property="og:title"]') ?
+                    document.querySelector('meta[property="og:title"]').getAttribute("content") : '';
+                this.dataToolbar.openGraph.ogImage = document.querySelector('meta[property="og:image"]') ?
+                    document.querySelector('meta[property="og:image"]').getAttribute("content") : '';
+                this.dataToolbar.openGraph.ogDescription = document.querySelector('meta[property="og:description"]') ?
+                    document.querySelector('meta[property="og:description"]').getAttribute("content") : '';
+                this.dataToolbar.openGraph.ogUrl = document.querySelector('meta[property="og:url"]') ?
+                    document.querySelector('meta[property="og:url"]').getAttribute("content") : '';
+                this.dataToolbar.openGraph.ogType = document.querySelector('meta[property="og:type"]') ?
+                    document.querySelector('meta[property="og:type"]').getAttribute("content") : '';
+                this.dataToolbar.twitterCard.twitterSite = document.querySelector('meta[name="twitter:site"]') ?
+                    document.querySelector('meta[name="twitter:site"]').getAttribute("content") : '';
+                this.dataToolbar.twitterCard.twitterTitle = document.querySelector('meta[name="twitter:title"]') ?
+                    document.querySelector('meta[name="twitter:title"]').getAttribute("content") : '';
+                this.dataToolbar.twitterCard.twitterDescription = document.querySelector('meta[name="twitter:description"]') ?
+                    document.querySelector('meta[name="twitter:description"]').getAttribute("content") : '';
+                this.dataToolbar.twitterCard.twitterImage = document.querySelector('meta[name="twitter:image"]') ?
+                    document.querySelector('meta[name="twitter:image"]').getAttribute("content") : '';
+            },
+
+            handleAjaxCheckAdmin: function (token) {
+                let ajaxUrl = '<?= /* @noEscape */ $ajaxUrl; ?>';
+                let self = this;
+
+                fetch(ajaxUrl, {
+                    "headers": {
+                        "content-type": "application/x-www-form-urlencoded; charset=UTF-8",
+                    },
+                    "body": `form_key=${hyva.getFormKey()}&isAjax=true&token=${token}&entity_id=<?= /* @noEscape */ $entityObject['entity_id']; ?>&entity_type=<?= /* @noEscape */ $entityObject['entity_type']; ?>`,
+                    "method": "POST",
+                    "mode": "cors",
+                    "credentials": "include"
+                }).then(response => {
+                    if (response.redirected) {
+                        window.location.href = response.url;
+                    } else if (response.ok) {
+                        return response.json();
+                    } else {
+                        window.dispatchMessages && window.dispatchMessages([{
+                            type: 'warning',
+                            text: 'Could\u0020not\u0020get\u0020toolbar.'
+                        }]);
+                    }
+                }).then(result => {
+                    if (!result.status) {
+                        window.dispatchMessages && window.dispatchMessages([{
+                            type: 'error',
+                            text: result.message
+                        }]);
+                    } else {
+                        self.urlEdit = result.data.backend_url;
+                        let DOMToolbar = self.getDOMToolbar();
+                        renderToolbar(DOMToolbar);
+                    }
+                });
+            },
+        }
+    }
+</script>
+
+<div id="bss_seo_toolbar" x-data="initBssSeoToolbar()" x-init="initToolbar()" class="hidden h-auto fixed z-50 bg-white rounded-lg"></div>
+
+<style>
+    #bss_seo_toolbar {
+    width: 500px;
+    bottom: 15px;
+    right: 15px;
+    -webkit-box-shadow: 0 7px 8px -4px rgba(0,0,0,.2), 0 13px 19px 2px rgba(0,0,0,.14), 0 5px 24px 4px rgba(0,0,0,.12);
+    box-shadow: 0 7px 8px -4px rgba(0,0,0,.2), 0 13px 19px 2px rgba(0,0,0,.14), 0 5px 24px 4px rgba(0,0,0,.12);
+}
+
+#bss_seo_toolbar.toolbar_hide .bss_toolbar_header {
+    height: 20px;
+    border-radius: 8px;
+    display: inline-table;
+    padding: 5px 10px;
+}
+
+#bss_seo_toolbar .bss_toolbar_header {
+    padding: 15px;
+    background: rgb(242 133 42);
+    border-radius: 8px 8px 0 0;
+}
+
+#bss_seo_toolbar .bss_toolbar_header img {
+    margin: 3px 0 0 0;
+}
+
+#bss_seo_toolbar .bss_toolbar_header p {
+    width: calc(100% - 100px);
+    margin: 7px 0 0 0;
+    font-weight: 700;
+}
+
+#bss_seo_toolbar .bss_toolbar_header svg {
+    width: 18px;
+    height: 18px;
+    margin: 10px 0 0 0;
+    fill: white;
+    float: right;
+}
+
+#bss_seo_toolbar .bss_toolbar_header svg path {
+    stroke: #ffffff;
+    stroke-width: 30px;
+}
+
+#bss_seo_toolbar .bss_toolbar_item {
+    width: calc(100% - 30px);
+    padding: 10px 0 10px 0;
+    margin: 0 15px 0 15px;
+    -ms-word-break: break-all;
+    word-break: break-word;
+    word-wrap: break-word;
+    -webkit-hyphens: auto;
+    -moz-hyphens: auto;
+    border-bottom: 1px rgb(240 240 240) solid;
+    hyphens: auto;
+}
+
+#bss_seo_toolbar .bss_toolbar_item svg {
+    width: 16px;
+    height: 16px;
+    margin: 4px 15px 0 0;
+}
+
+#bss_seo_toolbar.toolbar_hide .bss_toolbar_header svg {
+    transform: rotate(180deg);
+    margin: 10px 5px 0 0;
+}
+
+#bss_seo_toolbar .bss_toolbar_item .toolbar_content {
+    width: calc(100% - 35px);
+}
+
+#bss_seo_toolbar .bss_toolbar_item .tooltip-content {
+    width: 400px;
+    background-color: rgb(85 85 85);
+    border-radius: 6px;
+    bottom: calc(100% - 40px);
+    right: calc(100% + 15px);
+    transition: opacity .3s;
+}
+
+#bss_seo_toolbar .bss_toolbar_item .tooltip-content::after {
+    content: "";
+    position: absolute;
+    top: calc(100% - 30px);
+    left: calc(100% + 5px);
+    margin-left: -5px;
+    border-width: 5px;
+    border-style: solid;
+    border-color: transparent transparent transparent #555;
+}
+
+#bss_seo_toolbar .edit_body_toolbar {
+    width: calc(100% - 30px);
+    padding: 10px 0 15px 0;
+    margin: 0 15px 0 15px;
+}
+
+#bss_seo_toolbar.toolbar_hide {
+    width: 260px;
+    opacity: 0.6;
+}
+
+@media only screen and (max-width: 768px) {
+    #bss_seo_toolbar {
+        width: calc(100% - 30px);
+        height: calc(100% - 30px);
+    }
+
+    #bss_seo_toolbar .bss_toolbar_body {
+        height: -webkit-fill-available;
+        overflow: scroll;
+        position: absolute;
+        margin-top: 65px;
+    }
+}
+
+</style>

@@ -1,0 +1,60 @@
+<?php
+/**
+ * Hyvä Themes - https://hyva.io
+ * Copyright © Hyvä Themes 2020-present. All rights reserved.
+ * This product is licensed per Magento install
+ * See https://hyva.io/license
+ */
+
+use Magezon\Builder\Block\Element;
+/** @var $block Element */
+
+$element = $this->getElement();
+$items = $this->toObjectArray($element->getData('items'));
+$speed = ((float)$element->getData('speed')) * 1000;
+$delay = (float)$element->getData('delay');
+$unit = $element->getData('units');
+$striped = $element->getData('striped');
+$textPosition = $element->getData('text_position');
+?>
+<?php if ($items) { ?>
+	<div class="mgz-progress-bar mgz-progress-bar-text-position-<?= $textPosition ?>">
+	<?php foreach ($items as $i => $item) { ?>
+		<div class="mgz-single-bar mgz-waypoint mgz-single-bar-<?= $i ?>">
+			<?php if ($textPosition == 'above') { ?>
+				<div class="mgz-single-bar-label-wrapper mgz-numbercounter-string">
+					<span class="mgz-numbercounter-label"><?= $item['label'] ?></span> <span class="mgz-numbercounter-int-wrapper"><span class="mgz-numbercounter-int">0</span><?= $unit ?></span>
+				</div>
+			<?php } ?>
+			<div class="mgz-single-bar-inner">
+				<?php if ($textPosition == 'inside') { ?>
+					<div class="mgz-single-bar-label-wrapper mgz-numbercounter-string">
+						<span class="mgz-numbercounter-label"><?= $item['label'] ?></span> <span class="mgz-numbercounter-int-wrapper"><span class="mgz-numbercounter-int">0</span><?= $unit ?></span>
+					</div>
+				<?php } ?> 
+				<div class="mgz-numbercounter-bar<?= $striped ? ' mgz-bar-striped' : '' ?>"></div>
+			</div>
+			<?php if ($textPosition == 'below') { ?>
+				<div class="mgz-single-bar-label-wrapper mgz-numbercounter-string">
+					<span class="mgz-numbercounter-label"><?= $item['label'] ?></span> <span class="mgz-numbercounter-int-wrapper"><span class="mgz-numbercounter-int">0</span><?= $unit ?></span>
+				</div>
+			<?php } ?>
+		</div>
+        <script>
+            loadScript('<?= $block->getViewFileUrl('Hyva_MagezonBuilder::js/jquery.min.js') ?>', 'jquery')
+                .then(() => {
+                    return loadScript('<?= $block->getViewFileUrl('Hyva_MagezonBuilder::js/number-counter.min.js') ?>', 'number_counter');
+                })
+                .then(() => {
+                    $('.<?= $element->getId() ?>-s .mgz-single-bar-<?= $i ?>').number_counter({
+                        "layout": "bars",
+                        "type": "percent",
+                        "number": <?= $item['value'] ?>,
+                        "speed":<?= $speed ?> ,
+                        "delay": <?= $delay ?>
+                    });
+                })
+        </script>
+	<?php } ?>
+	</div>
+<?php } ?>

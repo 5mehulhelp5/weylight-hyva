@@ -1,0 +1,27 @@
+/**
+ * BSS Commerce Co.
+ *
+ * NOTICE OF LICENSE
+ *
+ * This source file is subject to the EULA
+ * that is bundled with this package in the file LICENSE.txt.
+ * It is also available through the world-wide-web at this URL:
+ * http://bsscommerce.com/Bss-Commerce-License.txt
+ *
+ * @category   BSS
+ * @package    Hyva_BssAdvancedHidePrice
+ * @author     Extension Team
+ * @copyright  Copyright (c) 2023-present BSS Commerce Co. ( http://bsscommerce.com )
+ * @license    http://bsscommerce.com/Bss-Commerce-License.txt
+ */
+
+#callforprice_modal [x-ref="bss-cfp-dialog"] {
+    @apply absolute;
+    max-width: 500px;
+    max-height: 90%;
+}
+
+#callforprice_modal [x-ref="bss-cfp-dialog"] .field.required label:after {
+    @apply mb-1 text-lg text-red-500;
+    content: '*';
+}

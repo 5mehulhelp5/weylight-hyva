@@ -1,0 +1,208 @@
+<?php
+/**
+ * BSS Commerce Co.
+ *
+ * NOTICE OF LICENSE
+ *
+ * This source file is subject to the EULA
+ * that is bundled with this package in the file LICENSE.txt.
+ * It is also available through the world-wide-web at this URL:
+ * http://bsscommerce.com/Bss-Commerce-License.txt
+ *
+ * @category   BSS
+ * @package    Hyva_BssAdvancedHidePrice
+ * @author     Extension Team
+ * @copyright  Copyright (c) 2023-present BSS Commerce Co. ( http://bsscommerce.com )
+ * @license    http://bsscommerce.com/Bss-Commerce-License.txt
+ */
+/**
+ * @var $block \Bss\AdvancedHidePrice\Block\Popup
+ */
+// @codingStandardsIgnoreFile
+
+use Hyva\Theme\ViewModel\StoreConfig;
+use Hyva\Theme\ViewModel\ReCaptcha;
+use Hyva\Theme\ViewModel\HeroiconsOutline;
+
+/** @var ViewModelRegistry $viewModels */
+
+/** @var StoreConfig $storeConfig */
+$storeConfig = $viewModels->require(StoreConfig::class);
+
+/** @var HeroiconsOutline $heroicons */
+$heroicons = $viewModels->require(HeroiconsOutline::class);
+
+$siteKey = $storeConfig->getStoreConfig('bss_call_for_price/callforprice_design/site_key');
+$recaptcha = $viewModels->require(ReCaptcha::class);
+?>
+<?php
+$fields = $block->getHelper()->getExtraField();
+$customOptions = $block->getOptions();
+$optionType = $block->getOptionType();
+
+$modalViewModel = $viewModels->require(\Hyva\Theme\ViewModel\Modal::class);
+$modal = $modalViewModel->createModal();
+$customerNameInfo = '';
+$fieldsHtml = '';
+$recaptchaHtml = '';
+$title = __('Call For Price Form');
+$submitBtn = __('Submit');
+$xHtml = $heroicons->xHtml();
+
+if ($block->isShowCustomerNameInfo()) {
+    $customerNameInfo = '<div class="field required mb-5">
+        <label class="label font-semibold">' . __("Name") . '</label>
+        <div class="control">
+            <input class="w-full border-gray-300 rounded-sm" type="text" name="customer_name" required />
+        </div>
+    </div>
+    <div class="field required mb-5">
+        <label class="label font-semibold">' . __("Email") . '</label>
+        <div class="control">
+            <input class="w-full border-gray-300 rounded-sm" type="email" name="customer_email" required />
+        </div>
+    </div>';
+}
+
+if (!empty($fields)) {
+    foreach ($fields as $key => $field) {
+        if (isset($field['field_enable']) && $field['field_enable']) {
+            $fieldsHtml .= $block->getHelper()->fieldToHtmlFrontend($key, $field);
+        }
+    }
+}
+
+if ($block->getHelper()->enableAntispam()) {
+    $recaptchaHtml = '
+        <div id="tab-antispam-recaptcha-call-for-price"></div>
+        <input required class="w-full border-gray-300 rounded-sm" type="text" id="antispam-recaptcha" name="antispam-recaptcha" value="" class="hide" readonly style="visibility:hidden; position:absolute; left:-1000000px" />
+    ';
+}
+?>
+
+<script>
+function initCallForPrice() {
+    return {
+        ...hyva.modal(),
+        ...hyva.formValidation(document.querySelector('#callforprice_form')),
+        init() {
+            window.openBssCfpDialog = function (element) {
+                this.addProductData(element);
+                if (document.getElementById('tab-antispam-recaptcha-call-for-price') && antispam_recaptcha && grecaptcha) {
+                    grecaptcha.reset(antispam_recaptcha);
+                }
+                this.show('bss-cfp-dialog', element);
+
+                setTimeout(function() {
+                    if (
+                        document.querySelector('.g-recaptcha-bubble-arrow') &&
+                        document.querySelector('.g-recaptcha-bubble-arrow').parentElement.hasAttribute('inert')
+                    ) {
+                        document.querySelector('.g-recaptcha-bubble-arrow').parentElement.removeAttribute('inert');
+                    }
+                }, 500);
+            }.bind(this);
+        },
+        addProductData(element) {
+            var parentId = '',
+                product = 0,
+                product_name = '';
+            if (element.closest('form')) {
+                element.closest('form').querySelector('input[name="parent_id"]') ?
+                    parentId = element.closest('form').querySelector('input[name="parent_id"]').value : null;
+                element.closest('form').querySelector('input[name="productGroup"]') ?
+                    product = element.closest('form').querySelector('input[name="productGroup"]').value :
+                    product = element.closest('form').querySelector('input[name="product"]').value;
+                product_name = element.closest('form').querySelector('input[name="product_name"]').value;
+            } else if (element.closest('#callforprice')) {
+                element.closest('#callforprice').querySelector('input[name="parent_id"]') ?
+                    parentId = element.closest('#callforprice').querySelector('input[name="parent_id"]').value : null;
+                element.closest('#callforprice').querySelector('input[name="productGroup"]') ?
+                    product = element.closest('#callforprice').querySelector('input[name="productGroup"]').value :
+                    product = element.closest('#callforprice').querySelector('input[name="product"]').value;
+                product_name = element.closest('#callforprice').querySelector('input[name="product_name"]').value;
+            } else if (element.closest('.callforprice-container').parentElement) {
+                element.closest('.callforprice-container').parentElement.querySelector('input[name="parent_id"]') ?
+                    parentId = element.closest('.callforprice-container').parentElement.querySelector('input[name="parent_id"]').value : null;
+                    element.closest('.callforprice-container').parentElement.querySelector('input[name="productGroup"]') ?
+                    product = element.closest('.callforprice-container').parentElement.querySelector('input[name="productGroup"]').value :
+                    product = element.closest('.callforprice-container').parentElement.querySelector('input[name="product"]').value;
+                product_name = element.closest('.callforprice-container').parentElement.querySelector('input[name="product_name"]').value;
+            }
+
+            document.querySelector('.callforprice_request .parent_id').value = parentId;
+            document.querySelector('.callforprice_request .product_ids').value = product;
+            document.querySelector('.callforprice_request .product_name').value = product_name;
+            document.querySelector('#callforprice_form').reset();
+        },
+        submitForm() {
+            this.validate()
+                .then(() => {
+                    const $form = document.querySelector('#callforprice_form');
+                        
+                    $form.submit();
+                })
+                .catch((invalid) => {
+                    if (invalid.length > 0) {
+                        invalid[0].focus();
+                    }
+                });
+        },
+    };
+}
+</script>
+
+<?php if ($block->getHelper()->enableAntispam() && $siteKey): ?>
+<script>
+    'use strict';
+    document.addEventListener('DOMContentLoaded', () => {
+        const containerId = 'tab-antispam-recaptcha-call-for-price';
+        const container = document.getElementById(containerId);
+
+        if (container) {
+            grecaptchaV2LoadCallbacks.push(() => {
+                var expCallbackReview = function () {
+                    grecaptcha.reset(window.antispam_recaptcha);
+                };
+
+                window.antispam_recaptcha = grecaptcha.render(containerId, {
+                    'sitekey': '<?= $escaper->escapeJs($siteKey) ?>',
+                    'expired-callback': expCallbackReview,
+                    'callback': function (response) {
+                        if (response.length > 0) {
+                            document.getElementById('antispam-recaptcha').value = 'success';
+                        }
+                    }
+                });
+            });
+
+            forceLoadRecaptchaScript(container.closest('form'));
+        }
+    })
+</script>
+<?php endif; ?>
+
+<div id="callforprice_modal" x-data="initCallForPrice()" x-init="init()">
+    <?= $modal->withDialogRefName('bss-cfp-dialog')->withContent(<<<END_OF_CONTENT
+        <h1 class="border-b pb-2.5 font-light text-2xl">{$title}</h1>
+        <button @click="hide" type="button" class="text-gray-400 hover:text-gray-500 focus:outline-none focus:text-gray-500
+        transition ease-in-out duration-150 absolute right-3 top-2 focus-visible:outline-none">
+            {$xHtml}
+        </button>
+        <form id="callforprice_form" action="{$block->getSubmitUrl()}" method="post" @submit.prevent="submitForm()">
+            <fieldset class="fieldset callforprice_request">
+                <input type="hidden" value="" name="parent_id" class="parent_id"/>
+                <input type="hidden" value="" name="product_ids" class="product_ids"/>
+                <input type="hidden" value="" name="product_name" class="product_name"/>
+                <input type="hidden" value="" name="required_options" class="required_options"/>
+                {$block->getBlockHtml('formkey')}
+                {$customerNameInfo}
+                {$fieldsHtml}
+                {$recaptchaHtml}
+            </fieldset>
+            <button type="submit" class="w-auto btn btn-primary justify-center text-sm float-right" aria-label="{$submitBtn}">{$submitBtn}</button>
+        </form>
+    END_OF_CONTENT
+    )
+    ?>
+</div>

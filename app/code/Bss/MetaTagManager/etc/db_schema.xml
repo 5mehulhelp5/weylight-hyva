@@ -1,0 +1,50 @@
+<?xml version="1.0"?>
+<!--
+/**
+ * BSS Commerce Co.
+ *
+ * NOTICE OF LICENSE
+ *
+ * This source file is subject to the EULA
+ * that is bundled with this package in the file LICENSE.txt.
+ * It is also available through the world-wide-web at this URL:
+ * http://bsscommerce.com/Bss-Commerce-License.txt
+ *
+ * @category   BSS
+ * @package    Bss_MetaTagManager
+ * @author     Extension Team
+ * @copyright  Copyright (c) 2018-2023 BSS Commerce Co. ( http://bsscommerce.com )
+ * @license    http://bsscommerce.com/Bss-Commerce-License.txt
+ */
+-->
+<schema xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="urn:magento:framework:Setup/Declaration/Schema/etc/schema.xsd">
+  <table name="bss_meta_template" resource="default" engine="innodb" comment="bss_meta_template">
+    <column xsi:type="int" name="id" padding="10" unsigned="true" nullable="false" identity="true" comment="Entity ID"/>
+    <column xsi:type="varchar" name="name" nullable="false" length="200" comment="Template name"/>
+    <column xsi:type="smallint" name="status" padding="6" unsigned="false" nullable="true" identity="false" comment="Enable/Disable Template"/>
+    <column xsi:type="text" name="meta_type" nullable="true" comment="Meta Tag Template Type"/>
+    <column xsi:type="datetime" name="created_at" on_update="false" nullable="true" comment="Meta Tag Created At"/>
+    <column xsi:type="datetime" name="updated_at" on_update="false" nullable="true" comment="Meta Tag Template Updated At"/>
+    <column xsi:type="text" name="store" nullable="true" comment="Store view effect"/>
+    <column xsi:type="smallint" name="priority" padding="6" unsigned="false" nullable="true" identity="false" comment="priority "/>
+    <column xsi:type="smallint" name="replace_meta_data" padding="6" unsigned="false" nullable="true" identity="false" comment="replace_meta_data"/>
+    <column xsi:type="smallint" name="replace_description" padding="6" unsigned="false" nullable="true" identity="false" comment="replace_description"/>
+    <column xsi:type="smallint" name="use_sub" padding="6" unsigned="false" nullable="true" identity="false" comment="use_sub"/>
+    <column xsi:type="text" name="meta_title" nullable="true" comment="Meta Title"/>
+    <column xsi:type="text" name="meta_description" nullable="true" comment="Meta Description"/>
+    <column xsi:type="text" name="meta_keyword" nullable="true" comment="Meta Keyword"/>
+    <column xsi:type="text" name="url_key" nullable="true" comment="URL Key"/>
+    <column xsi:type="text" name="main_keyword" nullable="true" comment="Main Keyword"/>
+    <column xsi:type="text" name="short_description" nullable="true" comment="Short Description"/>
+    <column xsi:type="text" name="full_description" nullable="true" comment="Full Description"/>
+    <column xsi:type="text" name="conditions_serialized" nullable="true" comment="Conditions Serialized"/>
+    <column xsi:type="text" name="category" nullable="false" comment="Category effect"/>
+    <constraint xsi:type="primary" referenceId="PRIMARY">
+      <column name="id"/>
+    </constraint>
+    <index referenceId="BSS_META_TEMPLATE_ID" indexType="btree">
+      <column name="id"/>
+    </index>
+  </table>
+  <table name="bss_category_meta_template" disabled="true" resource="default"/>
+</schema>

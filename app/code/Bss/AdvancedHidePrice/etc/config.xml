@@ -1,0 +1,45 @@
+<?xml version="1.0"?>
+<!--
+/**
+ * BSS Commerce Co.
+ *
+ * NOTICE OF LICENSE
+ *
+ * This source file is subject to the EULA
+ * that is bundled with this package in the file LICENSE.txt.
+ * It is also available through the world-wide-web at this URL:
+ * http://bsscommerce.com/Bss-Commerce-License.txt
+ *
+ * @category   BSS
+ * @package    Bss_AdvancedHidePrice
+ * @author     Extension Team
+ * @copyright  Copyright (c) 2017-2018 BSS Commerce Co. ( http://bsscommerce.com )
+ * @license    http://bsscommerce.com/Bss-Commerce-License.txt
+ */
+-->
+<config xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="urn:magento:module:Magento_Store:etc/config.xsd">
+    <default>
+        <bss_call_for_price>
+            <general>
+                <enable>1</enable>
+                <email_sender>general</email_sender>
+                <is_show_customer_fields>1</is_show_customer_fields>
+                <admin_response_email_template>bss_call_for_price_general_admin_response_email_template</admin_response_email_template>
+                <admin_notify_email_template>bss_call_for_price_general_admin_notify_email_template</admin_notify_email_template>
+            </general>
+            <callforprice_global>
+                <text>Call For Price</text>
+                <categories>0</categories>
+                <customers>-1</customers>
+            </callforprice_global>
+            <hideprice_global>
+                <text>Call For Price</text>
+                <categories>0</categories>
+                <customers>-1</customers>
+            </hideprice_global>
+            <priority>
+                <priority>callforprice</priority>
+            </priority>
+        </bss_call_for_price>
+    </default>
+</config>

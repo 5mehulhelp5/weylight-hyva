@@ -1,0 +1,79 @@
+<?xml version="1.0"?>
+<!--
+/**
+ * BSS Commerce Co.
+ *
+ * NOTICE OF LICENSE
+ *
+ * This source file is subject to the EULA
+ * that is bundled with this package in the file LICENSE.txt.
+ * It is also available through the world-wide-web at this URL:
+ * http://bsscommerce.com/Bss-Commerce-License.txt
+ *
+ * @category   BSS
+ * @package    Bss_AdvancedHidePrice
+ * @author     Extension Team
+ * @copyright  Copyright (c) 2017-2018 BSS Commerce Co. ( http://bsscommerce.com )
+ * @license    http://bsscommerce.com/Bss-Commerce-License.txt
+ */
+-->
+<config xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="urn:magento:framework:ObjectManager/etc/config.xsd">
+   <type name="Magento\Wishlist\Controller\Index\Cart">
+        <plugin name="bss_callforpirce_plugin_add_item_wishlist_to_cart" type="Bss\AdvancedHidePrice\Plugin\WishlistCart" sortOrder="10"/>
+    </type>
+
+    <type name="Magento\Wishlist\Model\Wishlist">
+        <plugin name="bss_callforpirce_plugin_wishlist_collection" type="Bss\AdvancedHidePrice\Plugin\WishlistItem" sortOrder="10"/>
+    </type>
+
+    <type name="Magento\Catalog\Pricing\Render\FinalPriceBox">
+        <plugin name="bss_callforpirce_plugin_finalprice" type="Bss\AdvancedHidePrice\Plugin\CategoryAvancedHidePrice" sortOrder="10"/>
+    </type>
+
+    <type name="Magento\Catalog\Block\Product\View">
+        <plugin name="bss_callforpirce_hide_button" type="Bss\AdvancedHidePrice\Plugin\HideButtonCart" sortOrder="10"/>
+    </type>
+
+    <type name="Magento\Catalog\Block\Product\View\Options\AbstractOptions">
+        <plugin name="bss_callforpirce_hide_custom_option_price"
+                type="Bss\AdvancedHidePrice\Plugin\Catalog\Block\Product\View\Options\AbstractOptions" sortOrder="10"/>
+    </type>
+    <type name="Magento\Catalog\Model\Product\Option\Value">
+        <plugin name="bss_callforpirce_hide_custom_option_price_select"
+                type="Bss\AdvancedHidePrice\Plugin\Catalog\Model\Option\Value" sortOrder="10"/>
+    </type>
+    <type name="Magento\Bundle\Block\Catalog\Product\View\Type\Bundle\Option">
+        <plugin name="bss_callforpirce_hide_custom_option_bundle"
+                type="Bss\AdvancedHidePrice\Plugin\Bundle\Block\Option" sortOrder="10"/>
+    </type>
+
+    <type name="Magento\Bundle\Block\Catalog\Product\View\Type\Bundle">
+        <plugin name="bss_hide_price_hide_custom_option_bundle_data"
+                type="Bss\AdvancedHidePrice\Plugin\Bundle\Block\Bundle" sortOrder="10"/>
+    </type>
+
+    <type name="Magento\Catalog\Pricing\Render\PriceBox">
+        <plugin name="bss_callforpirce_plugin_pricebox" type="Bss\AdvancedHidePrice\Plugin\ProductAvancedHidePrice" sortOrder="10"/>
+    </type>
+
+    <type name="Magento\Catalog\Ui\DataProvider\Product\Listing\Collector\Price">
+        <plugin name="bss_hide_price_recently_widget_price" type="Bss\AdvancedHidePrice\Plugin\Block\Ui\DataProvider\Product\Listing\Collector\Price" sortOrder="10"/>
+    </type>
+    <type name="Magento\Catalog\Block\Ui\ProductViewCounter">
+        <plugin name="bss_callhide_price_recently_widget_price" type="Bss\AdvancedHidePrice\Plugin\Block\Ui\ProductViewCounter" sortOrder="10"/>
+    </type>
+    <type name="Magento\ConfigurableProduct\Block\Product\View\Type\Configurable">
+        <plugin name="bss_callforpirce_jsonconfig" type="Bss\AdvancedHidePrice\Plugin\Block\Product\View\Type\Configurable" sortOrder="10"/>
+    </type>
+
+    <type name="Magento\Catalog\Pricing\Render\FinalPriceBox">
+        <plugin name="bss_callforpirce_plugin_final_pricebox" type="Bss\AdvancedHidePrice\Plugin\ProductAvancedHidePriceFinal" sortOrder="10"/>
+    </type>
+    <type name="Magento\Catalog\Model\Product\Type\AbstractType">
+        <plugin name="bss_callforpirce_plugin_check_add_cart" type="Bss\AdvancedHidePrice\Plugin\Catalog\Model\Product\Type\AbstractType" sortOrder="10"/>
+    </type>
+    <type name="Magento\Bundle\Model\Product\Type">
+        <plugin name="bss_callhide_price_unset_all_hide_price_product" type="Bss\AdvancedHidePrice\Plugin\Catalog\Model\Product\Type\CheckHidePriceProduct" sortOrder="10"/>
+    </type>
+    <preference for="Magento\Catalog\Model\Product\Type\Price" type="Bss\AdvancedHidePrice\Model\Product\Type\Price"/>
+</config>

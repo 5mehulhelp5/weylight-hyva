@@ -1,0 +1,76 @@
+<!--
+/**
+ *
+ * BSS Commerce Co.
+ *
+ * NOTICE OF LICENSE
+ *
+ * This source file is subject to the EULA
+ * that is bundled with this package in the file LICENSE.txt.
+ * It is also available through the world-wide-web at this URL:
+ * http://bsscommerce.com/Bss-Commerce-License.txt
+ *
+ *  @category  BSS
+ *  @package   Bss_ChatGPT
+ *  @author    Extension Team
+ *  @copyright Copyright (c) 2023-2023 BSS Commerce Co. ( http://bsscommerce.com )
+ *  @license   http://bsscommerce.com/Bss-Commerce-License.txt
+ */
+-->
+<div class="admin__control-wysiwig">
+    <div id="buttonspagebuilder_html_form_html" class="buttons-set">
+        <button type="button"
+                class="scalable action-add-widget plugin"
+                click="clickInsertWidget">
+            <span>
+                <span>
+                    <span translate="'Insert Widget...'"></span>
+                </span>
+            </span>
+        </button>
+        <button type="button"
+                class="scalable action-add-image plugin"
+                click="clickInsertImage">
+            <span>
+                <span>
+                    <span translate="'Insert Image...'"></span>
+                </span>
+            </span>
+        </button>
+        <button type="button"
+                class="scalable add-variable plugin"
+                click="clickInsertVariable">
+            <span>
+                <span>
+                    <span translate="'Insert Variable...'"></span>
+                </span>
+            </span>
+        </button>
+
+        <!-- Bss_ChatGPT add button ChatGPT -->
+        <button if="isEnableChatGPT()"
+                type="button"
+                class="scalable action-primary chatgpt"
+                click="clickChatGPTContent">
+            <span>
+                <span>
+                    <span translate="'ChatGPT Content'"></span>
+                </span>
+            </span>
+        </button>
+    </div>
+</div>
+<textarea class="admin__control-textarea" data-bind="
+    value: value,
+    valueUpdate: valueUpdate,
+    hasFocus: focused,
+    attr: {
+        name: inputName,
+        cols: cols,
+        rows: rows,
+        'aria-describedby': noticeId,
+        placeholder: placeholder,
+        id: uid,
+        disabled: disabled
+    }"
+></textarea>

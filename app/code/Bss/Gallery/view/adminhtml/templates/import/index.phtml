@@ -1,0 +1,106 @@
+<?php
+/**
+ * BSS Commerce Co.
+ *
+ * NOTICE OF LICENSE
+ *
+ * This source file is subject to the EULA
+ * that is bundled with this package in the file LICENSE.txt.
+ * It is also available through the world-wide-web at this URL:
+ * http://bsscommerce.com/Bss-Commerce-License.txt
+ *
+ * @category   BSS
+ * @package    Bss_Gallery
+ * @author     Extension Team
+ * @copyright  Copyright (c) 2018-2019 BSS Commerce Co. ( http://bsscommerce.com )
+ * @license    http://bsscommerce.com/Bss-Commerce-License.txt
+ */
+
+// @codingStandardsIgnoreFile
+
+/**
+ * Block
+ *
+ * @var $block \Magento\Framework\View\Element\Template
+ */
+?>
+<table class="bss-gallery-table">
+    <tr class="bss-import-category">
+        <form action="<?= $block->escapeUrl($block->getUrl('gallery/import/importCategory')); ?>" enctype="multipart/form-data"
+              method="post">
+            <th><b class="admin__field-label"><?= $block->escapeHtml(__('Import Album:')); ?></b></th>
+            <td><input type="file" name="file-category" id="file-category" class="input-file required-entry"/>&nbsp;
+                <input type="submit" class="action-default scalable" name="import-category" id="import-category"
+                       value="<?= $block->escapeHtml(__('Import Album')); ?>" disabled="disabled"/>
+                </br>
+                <a href="<?= $block->escapeUrl($block->getUrl('gallery/import/download', ['filename' => 'image-category'])); ?>">
+                    <?= $block->escapeHtml(__('Download Sample File')); ?>
+                </a>
+            </td>
+            <input name="form_key" type="hidden" value="<?php /* @escapeNotVerified */
+            echo $block->escapeHtml($block->getFormKey()) ?>"/>
+        </form>
+    </tr>
+
+    <tr class="bss-export-category">
+        <form action="<?= $block->escapeUrl($block->getUrl('gallery/export/exportCategory')); ?>" enctype="multipart/form-data"
+              method="post">
+            <th>
+                <b class="admin__field-label"><?= $block->escapeHtml(__('Export Album:')); ?></b>
+            </th>
+            <td>
+                <select name="export_file_type" class=" select admin__control-select">
+                    <option>CSV</option>
+                </select>
+                <input type="submit" class="action-default scalable" name="export" id="export"
+                       value="<?= $block->escapeHtml(__('Export Album')); ?>"/>
+            </td>
+            <input name="form_key" type="hidden" value="<?php /* @escapeNotVerified */
+            echo $block->escapeHtml($block->getFormKey()) ?>"/>
+        </form>
+    </tr>
+
+    <tr class="bss-import-item">
+        <form action="<?= $block->escapeUrl($block->getUrl('gallery/import/importItem')); ?>" enctype="multipart/form-data"
+              method="post">
+            <th>
+                <b class="admin__field-label"><?= $block->escapeHtml(__('Import Item:')); ?></b>
+            </th>
+            <td><input type="file" name="file-item" id="file-item" class="input-file required-entry"/>&nbsp;
+                <input type="submit" class="action-default scalable" name="import-item" id="import-item"
+                       value="<?= $block->escapeHtml(__('Import Item')); ?>" disabled="disabled"/>
+                </br><a href="<?= $block->escapeUrl($block->getUrl('gallery/import/download', ['filename' => 'image-item'])); ?>">
+                    <?= $block->escapeHtml(__('Download Sample File')); ?>
+                </a>
+            </td>
+            <input name="form_key" type="hidden" value="<?php /* @escapeNotVerified */
+            echo $block->escapeHtml($block->getFormKey()) ?>"/>
+        </form>
+    </tr>
+
+    <tr class="bss-export-item">
+        <form action="<?= $block->escapeUrl($block->getUrl('gallery/export/exportItem')); ?>" enctype="multipart/form-data"
+              method="post">
+            <th>
+                <b class="admin__field-label"><?= $block->escapeHtml(__('Export Item:')); ?></b>
+            </th>
+            <td>
+                <select name="export_file_type" class=" select admin__control-select">
+                    <option>CSV</option>
+                </select>
+                <input type="submit" class="action-default scalable" name="export" id="export"
+                       value="<?= $block->escapeHtml(__('Export Item')); ?>"/>
+            </td>
+            <input name="form_key" type="hidden" value="<?php /* @escapeNotVerified */
+            echo $block->escapeHtml($block->getFormKey()) ?>"/>
+        </form>
+    </tr>
+</table>
+<script type="text/x-magento-init">
+    {
+        "*": {
+            "Bss_Gallery/js/import": {}
+        }
+    }
+
+</script>

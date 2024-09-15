@@ -1,0 +1,101 @@
+<?php
+/**
+ * BSS Commerce Co.
+ *
+ * NOTICE OF LICENSE
+ *
+ * This source file is subject to the EULA
+ * that is bundled with this package in the file LICENSE.txt.
+ * It is also available through the world-wide-web at this URL:
+ * http://bsscommerce.com/Bss-Commerce-License.txt
+ *
+ * @category  BSS
+ * @package   Hyva_BssConvertImageWebp
+ * @author    Extension Team
+ * @copyright Copyright (c) 2022 BSS Commerce Co. ( http://bsscommerce.com )
+ * @license   http://bsscommerce.com/Bss-Commerce-License.txt
+ */
+
+declare(strict_types=1);
+
+use Hyva\BssConvertImageWebp\ViewModel\Webp;
+use Hyva\Theme\Model\ViewModelRegistry;
+use Magento\Catalog\Block\Product\Image;
+use Magento\Framework\Escaper;
+
+// @codingStandardsIgnoreFile
+/** @var Image $block */
+/** @var Escaper $escaper */
+/** @var ViewModelRegistry $viewModels */
+
+$viewModelWebp = $viewModels->require(Webp::class);
+$urlWebp = $viewModelWebp->replaceUrlImage($block->getImageUrl());
+$isEnable = $viewModelWebp->getConfig()->isEnableModule();
+
+$hasLoadingAttribute = ($block->getCustomAttributes() ?: [])['loading'] ?? false;
+
+?>
+
+<script>
+    function initImage()
+    {
+        return {
+            replaceUrl(ele,img){
+                ele.setAttribute('srcset', img);
+            }
+        }
+    }
+</script>
+
+<?php if($isEnable): ?>
+<picture x-data="initImage()">
+
+    <source type="image/webp"
+            class="hover:shadow-sm object-contain <?= $escaper->escapeHtmlAttr($block->getClass()) ?>"
+            @update-gallery-<?= (int)$block->getProductId() ?>.window="replaceUrl($el,$event.detail)"
+            <?php foreach ($block->getCustomAttributes() as $name => $value): ?>
+                <?= $escaper->escapeHtmlAttr($name) ?>="<?= $escaper->escapeHtmlAttr($value) ?>"
+            <?php endforeach; ?>
+            srcset="<?= $escaper->escapeUrl($urlWebp) ?>"
+            <?php if (! $hasLoadingAttribute): ?>
+                loading="lazy"
+            <?php endif; ?>
+            width="<?= $escaper->escapeHtmlAttr($block->getWidth()) ?>"
+            height="<?= $escaper->escapeHtmlAttr($block->getHeight()) ?>"
+            alt="<?= $escaper->escapeHtmlAttr($block->getLabel()) ?>"
+            title="<?= $escaper->escapeHtmlAttr($block->getLabel()) ?>"
+    />
+
+    <img class="hover:shadow-sm object-contain <?= $escaper->escapeHtmlAttr($block->getClass()) ?>"
+             @update-gallery-<?= (int)$block->getProductId() ?>.window="$root.src = $event.detail"
+        <?php foreach ($block->getCustomAttributes() as $name => $value): ?>
+            <?= $escaper->escapeHtmlAttr($name) ?>="<?= $escaper->escapeHtmlAttr($value) ?>"
+        <?php endforeach; ?>
+        src="<?= $escaper->escapeUrl($block->getImageUrl()) ?>"
+        <?php if (! $hasLoadingAttribute): ?>
+            loading="lazy"
+        <?php endif; ?>
+        width="<?= $escaper->escapeHtmlAttr($block->getWidth()) ?>"
+        height="<?= $escaper->escapeHtmlAttr($block->getHeight()) ?>"
+        alt="<?= $escaper->escapeHtmlAttr($block->getLabel()) ?>"
+        title="<?= $escaper->escapeHtmlAttr($block->getLabel()) ?>"
+    />
+
+</picture>
+<?php else: ?>
+    <img class="hover:shadow-sm object-contain <?= $escaper->escapeHtmlAttr($block->getClass()) ?>"
+         @update-gallery-<?= (int)$block->getProductId() ?>.window="$root.src = $event.detail"
+    <?php foreach ($block->getCustomAttributes() as $name => $value): ?>
+        <?= $escaper->escapeHtmlAttr($name) ?>="<?= $escaper->escapeHtmlAttr($value) ?>"
+    <?php endforeach; ?>
+    src="<?= $escaper->escapeUrl($block->getImageUrl()) ?>"
+    <?php if (! $hasLoadingAttribute): ?>
+        loading="lazy"
+    <?php endif; ?>
+    width="<?= $escaper->escapeHtmlAttr($block->getWidth()) ?>"
+    height="<?= $escaper->escapeHtmlAttr($block->getHeight()) ?>"
+    alt="<?= $escaper->escapeHtmlAttr($block->getLabel()) ?>"
+    title="<?= $escaper->escapeHtmlAttr($block->getLabel()) ?>"
+    />
+<?php endif; ?>
+

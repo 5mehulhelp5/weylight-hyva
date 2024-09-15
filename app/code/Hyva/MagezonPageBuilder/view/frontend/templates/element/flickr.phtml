@@ -1,0 +1,98 @@
+<?php
+/**
+ * Hyvä Themes - https://hyva.io
+ * Copyright © Hyvä Themes 2020-present. All rights reserved.
+ * This product is licensed per Magento install
+ * See https://hyva.io/license
+ */
+
+use Magezon\Builder\Block\Element;
+/** @var $block Element */
+
+$coreHelper = $this->helper('\Magezon\Core\Helper\Data');
+$element = $this->getElement();
+$title = $coreHelper->filter($element->getData('title'));
+$titleAlign = $element->getData('title_align');
+$titleTag = $element->getData('title_tag') ? $element->getData('title_tag') : 'h2';
+$headingSize = trim($titleTag, 'h');
+if ($headingSize < 5) {
+    $size = 6 - $headingSize.'xl';
+} elseif ($headingSize == 5) {
+    $size = 'xl';
+} else {
+    $size = 'base';
+}
+$description = $coreHelper->filter($element->getData('description'));
+$showLine = $element->getData('show_line');
+$options['apiKey'] = $element->getData('flickr_api_key');
+$options['photosetId'] = $element->getData('flickr_album_id');
+$options['showPhotoTitle'] = $element->getData('show_photo_title');
+$options['thumSize'] = $element->getData('thum_size');
+$maxItems = $element->getData('max_items');
+if ($maxItems) $options['photosLimit'] = $maxItems;
+$xl = $element->getData('item_xl');
+$lg = $element->getData('item_lg');
+$md = $element->getData('item_md');
+$sm = $element->getData('item_sm');
+$xs = $element->getData('item_xs');
+?>
+<div class="mgz-block">
+	<?php if ($title || $description) { ?>
+	<div class="mgz-block-heading mgz-block-heading-align-<?= $titleAlign ?><?= $showLine ? ' mgz-block-heading-line' : '' ?>">
+		<?php if ($title) { ?>
+			<<?= $titleTag ?> class="inline-block relative mb-2 mt-0 text-<?= $size ?> font-medium leading-tight text-primary" style="padding: 0 10px; background: #fafafa"><?= $title ?></<?= $titleTag ?>>
+		<?php } ?>
+		<?php if ($description) { ?>
+			<div class="info"><?= $description ?></div>
+		<?php } ?>
+	</div>
+	<?php } ?>
+	<div class="mgz-block-content">
+		<div class="mgz-flick mgz-flick-<?= $element->getId() ?>">
+			<div class="spinner-wrapper">
+                <div class="spinner"></div>
+            </div>
+			<div class="gallery-container mgz-grid-col-xl-<?= $xl ?> mgz-grid-col-lg-<?= $lg ?> mgz-grid-col-md-<?= $md ?> mgz-grid-col-sm-<?= $sm ?> mgz-grid-col-xs-<?= $xs ?>"></div>
+		</div>
+	</div>
+</div>
+
+<script>
+    loadScript('<?= $block->getViewFileUrl('Hyva_MagezonBuilder::js/jquery.min.js') ?>', 'jquery')
+        .then(() => {
+            return loadScript('<?= $block->getViewFileUrl('Magezon_PageBuilder::js/flickr-jquery.js') ?>', 'flickr-jquery');
+        })
+        .then(() => {
+            return loadScript('<?= $block->getViewFileUrl('Magezon_PageBuilder::vendor/imagesloaded/imagesloaded.pkgd.min.js') ?>', 'imagesloaded');
+        })
+        .then(() => {
+            return loadScript('<?= $block->getViewFileUrl('Magezon_PageBuilder::vendor/blueimp/js/blueimp-gallery.js') ?>', 'blueimp');
+        })
+        .then(() => {
+            return loadScript('<?= $block->getViewFileUrl('Magezon_PageBuilder::vendor/blueimp/js/blueimp-gallery-fullscreen.js') ?>', 'fullscreen');
+        })
+        .then(() => {
+            return loadScript('<?= $block->getViewFileUrl('Magezon_PageBuilder::vendor/blueimp/js/blueimp-gallery-indicator.js') ?>', 'indicator');
+        })
+        .then(() => {
+            return loadScript('<?= $block->getViewFileUrl('Magezon_PageBuilder::vendor/blueimp/js/blueimp-gallery-video.js') ?>', 'video');
+        })
+        .then(() => {
+            return loadScript('<?= $block->getViewFileUrl('Magezon_PageBuilder::vendor/blueimp/js/blueimp-gallery-vimeo.js') ?>', 'vimeo');
+        })
+        .then(() => {
+            return loadScript('<?= $block->getViewFileUrl('Magezon_PageBuilder::vendor/blueimp/js/blueimp-gallery-youtube.js') ?>', 'youtube');
+        })
+        .then(() => {
+            var html = '<div id="blueimp-gallery" class="blueimp-gallery blueimp-gallery-controls" style="display: none;"><div class="slides"></div><h3 class="title"></h3><a class="prev">‹</a><a class="next">›</a><a class="close">×</a><a class="play-pause"></a><ol class="indicator"></ol><div class="modal fade"><div class="modal-dialog"><div class="modal-content"><div class="modal-header"><button type="button" class="close" aria-hidden="true">×</button><h4 class="modal-title"></h4></div><div class="modal-body next"></div><div class="modal-footer"><button type="button" class="btn btn-default pull-left prev"><i class="glyphicon glyphicon-chevron-left"></i> Previous</button><button type="button" class="btn btn-primary next">Next<i class="glyphicon glyphicon-chevron-right"></i></button></div></div></div></div></div>';
+            if (!$('body').children('#blueimp-gallery').length) {
+                $('body').append(html);
+            }
+        })
+        .then(() => {
+            return loadScript('<?= $block->getViewFileUrl('Hyva_MagezonBuilder::js/flick.min.js') ?>', 'flick');
+        })
+        .then(() => {
+            $('.mgz-flick-<?= $element->getId() ?>').flick(<?= $coreHelper->serialize($options) ?>);
+        })
+</script>

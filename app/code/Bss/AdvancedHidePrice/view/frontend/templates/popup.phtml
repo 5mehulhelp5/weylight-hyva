@@ -1,0 +1,88 @@
+<?php
+/**
+ * BSS Commerce Co.
+ *
+ * NOTICE OF LICENSE
+ *
+ * This source file is subject to the EULA
+ * that is bundled with this package in the file LICENSE.txt.
+ * It is also available through the world-wide-web at this URL:
+ * http://bsscommerce.com/Bss-Commerce-License.txt
+ *
+ * @category   BSS
+ * @package    Bss_AdvancedHidePrice
+ * @author     Extension Team
+ * @copyright  Copyright (c) 2017-2018 BSS Commerce Co. ( http://bsscommerce.com )
+ * @license    http://bsscommerce.com/Bss-Commerce-License.txt
+ */
+/**
+ * @var $block \Bss\AdvancedHidePrice\Block\Popup
+ */
+// @codingStandardsIgnoreFile
+?>
+<?php
+$fields = $block->getHelper()->getExtraField();
+$customOptions = $block->getOptions();
+$optionType = $block->getOptionType();
+?>
+<div id="callforprice_modal" style="display:none">
+    <form id="callforprice_form" action="<?php echo $block->getSubmitUrl() ?>" method="post"
+          data-hasrequired="<?php /* @escapeNotVerified */
+            echo __('* Required Fields') ?>" data-mage-init='{"validation":{}}'>
+        <fieldset class="fieldset callforprice_request">
+            <input type="hidden" value="" name="parent_id" class="parent_id"/>
+            <input type="hidden" value="" name="product_ids" class="product_ids"/>
+            <input type="hidden" value="" name="product_name" class="product_name"/>
+            <input type="hidden" value="" name="required_options" class="required_options"/>
+            <?= /* @noEscape */ $block->getBlockHtml('formkey'); ?>
+            <?php if ($block->isShowCustomerNameInfo()) : ?>
+                <div class="field required">
+                    <label class="label"><?php echo __('Name') ?></label>
+                    <div class="control">
+                        <input type="text" name="customer_name" data-validate="{required:true}"/>
+                    </div>
+                </div>
+                <div class="field required">
+                    <label class="label"><?php echo __('Email') ?></label>
+                    <div class="control">
+                        <input type="text" name="customer_email" data-validate="{required:true,'validate-email':true}"/>
+                    </div>
+                </div>
+            <?php endif ?>
+            <?php if (!empty($fields)) : ?>
+                <?php foreach ($fields as $key => $field) : ?>
+                    <?php if (isset($field['field_enable']) && $field['field_enable']) : ?>
+                            <?php echo $block->getHelper()->fieldToHtmlFrontend($key, $field) ?>
+                    <?php endif ?>
+                <?php endforeach ?>
+            <?php endif ?>
+            <?php if ($block->getHelper()->enableAntispam()) : ?>
+                <div class="recaptcha field required" style="overflow:hidden;position:relative;margin-bottom:10px;">
+                    <div id="tab-antispam-recaptcha-call-for-price"></div>
+                    <input type="text" id="antispam-recaptcha" name="antispam-recaptcha" value="" class="hide" data-validate="{required:true, 'required-entry':true}" readonly style="visibility:hidden; position:absolute; left:-1000000px" />
+                </div>
+                <script type="text/x-magento-init">
+                    {
+                        "#tab-antispam-recaptcha-call-for-price": {
+                            "Bss_AdvancedHidePrice/js/recaptcha": {
+                            "siteKey" : "<?php echo $block->getSiteKey(); ?>",
+                            "src" : "<?php echo $block->getRecaptchaScript(); ?>"
+                            }
+                        }
+                    }
+                </script>
+            <?php endif ?>
+        </fieldset>
+    </form>
+</div>
+
+<script type="text/x-magento-init">
+    {
+        "*": {
+            "Bss_AdvancedHidePrice/js/popup_modal": {
+            "customOptions": <?= $customOptions ?: "\"\"" ?>,
+            "optionType": <?= $optionType ?: "\"\"" ?>
+            }
+        }
+    }
+</script>
