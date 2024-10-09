@@ -1,0 +1,114 @@
+<?php
+/**
+ * BSS Commerce Co.
+ *
+ * NOTICE OF LICENSE
+ *
+ * This source file is subject to the EULA
+ * that is bundled with this package in the file LICENSE.txt.
+ * It is also available through the world-wide-web at this URL:
+ * http://bsscommerce.com/Bss-Commerce-License.txt
+ *
+ * @category   BSS
+ * @package    Hyva_BssProductLabel
+ * @author     Extension Team
+ * @copyright  Copyright (c) 2017-2022 BSS Commerce Co. ( http://bsscommerce.com )
+ * @license    http://bsscommerce.com/Bss-Commerce-License.txt
+ */
+?>
+
+<script>
+    window.addEventListener('configurable-selection-changed', e => {
+        var productId = e.detail.productIndex;
+        var parentProductId = e.detail.productId;
+        var itemElement = document.getElementsByClassName("product-image-container-" + parentProductId)[0];
+        var labelImage = document.querySelectorAll('[data-label-product-id="' + productId + '"]');
+        var parentLabelImage = document.querySelector('[data-label-product-id="' + parentProductId + '"]');
+        if (parentLabelImage !== null) {
+            parentLabelImage.style.display = 'none';
+            var parentDiv = parentLabelImage.parentNode;
+        } else {
+            if (labelImage.length > 0) {
+                labelImage.forEach(function (labelImage) {
+                    appendLabelChild(labelImage,parentProductId);
+                })
+            }
+        }
+        if (parentDiv !== null) {
+            activeLabel(productId, itemElement);
+        }
+    });
+
+    function appendLabelChild(labelImage, parentProductId) {
+        const itemElement = document.getElementsByClassName("product-image-container-" + parentProductId)[0];
+        if (typeof (itemElement) != 'undefined' && itemElement != null) {
+            itemElement.style.position = 'relative';
+            itemElement.appendChild(labelImage.parentElement);
+        }
+    }
+
+    function activeLabel(product_id, parentDiv) {
+        const labelImage = parentDiv.querySelectorAll('.label-image');
+        labelImage.forEach(function (labelImage) {
+            var productId = labelImage.getAttribute('data-label-product-id');
+            if (typeof productId != 'undefined' && productId === product_id) {
+                labelImage.style.display = 'block';
+            } else {
+                labelImage.style.display = 'none';
+            }
+        })
+    }
+</script>
+<script>
+    document.addEventListener('DOMContentLoaded', function() {
+        var allLabelImage = document.querySelectorAll(".all-image-product");
+
+        allLabelImage.forEach(function (oneLabelImage) {
+            appendLabel(oneLabelImage);
+            setLabel(oneLabelImage);
+        })
+
+
+    });
+    window.addEventListener("loadProduct", function() {
+        var allLabelImage = document.querySelectorAll(".all-image-product");
+
+        allLabelImage.forEach(function (oneLabelImage) {
+            appendLabel(oneLabelImage);
+            setLabel(oneLabelImage);
+        })
+    });
+
+    function appendLabel(e) {
+        const allLabelImage = e.closest("form").querySelectorAll('.bss-label-product');
+
+        allLabelImage.forEach(function (labelImage) {
+            const itemElements = labelImage.closest("form").querySelectorAll(".all-image-product");
+            if (itemElements) {
+                itemElements.forEach(function (itemElement) {
+                    const labelProductList = labelImage.parentElement.cloneNode(true);
+                    itemElement.style.position = 'relative';
+                    itemElement.appendChild(labelProductList);
+                })
+            }
+            labelImage.remove();
+        })
+    }
+
+    function setLabel(e) {
+        const labelImages = e.querySelectorAll('.label-image');
+        labelImages.forEach(function (labelImage) {
+            labelImage.style.position = 'absolute';
+            labelImage.style.backgroundSize = 'contain';
+            labelImage.style.backgroundRepeat = 'no-repeat';
+            labelImage.style.backgroundPosition = 'center';
+            labelImage.style.display = labelImage.getAttribute('data-display');
+            labelImage.style.backgroundImage = 'url(' + labelImage.getAttribute('data-background-image') + ')';
+            labelImage.style.top = labelImage.getAttribute('data-top');
+            labelImage.style.height = labelImage.getAttribute('data-height');
+            labelImage.style.width = labelImage.getAttribute('data-width');
+            labelImage.style.left = labelImage.getAttribute('data-left');
+            labelImage.style.zIndex = labelImage.getAttribute('data-priority');
+        })
+    }
+</script>

@@ -1,0 +1,113 @@
+<?php
+/**
+ * BSS Commerce Co.
+ *
+ * NOTICE OF LICENSE
+ *
+ * This source file is subject to the EULA
+ * that is bundled with this package in the file LICENSE.txt.
+ * It is also available through the world-wide-web at this URL:
+ * http://bsscommerce.com/Bss-Commerce-License.txt
+ *
+ * @category   BSS
+ * @package    Hyva_BssAdvancedHidePrice
+ * @author     Extension Team
+ * @copyright  Copyright (c) 2023-present BSS Commerce Co. ( http://bsscommerce.com )
+ * @license    http://bsscommerce.com/Bss-Commerce-License.txt
+ */
+/**
+ * @var $block \Magento\Framework\View\Element\Template
+ */
+// @codingStandardsIgnoreFile
+?>
+
+<?php
+    $selector = $block->getHelper()->getSelector() ? $block->getHelper()->getSelector() : '.action.tocart,[data-role="tocart"],[aria-label="' . __('Add to Cart') . '"]';
+?>
+
+<style type="text/css">
+    .product-item-details <?= $selector ?> {
+        display: none;
+    }
+    <?= $selector ?> {
+        display: none;
+    }
+</style>
+
+<script>
+    function replaceCallForPrice() {
+        if (window.bssCallForPriceCartBtn) {
+            document.querySelectorAll('.callforprice-container').forEach((element) => {
+                if (element.closest('.product-item')) {
+                    if (element.closest('.product-item').querySelector("#callforprice.callforprice-container")) {
+                        element.closest('.product-item').querySelector("#callforprice.callforprice-container").innerHTML = element;
+                    }
+
+                    if (element.closest('.product-item').querySelector(window.bssCallForPriceCartBtn)) {
+                        var area = element.closest('.product-item').querySelector(window.bssCallForPriceCartBtn).parentElement;
+                        element.closest('.product-item').querySelector(window.bssCallForPriceCartBtn).style.display = 'none';
+                        area.prepend(element);
+                    }
+                }
+            });
+        }
+    }
+
+    function bssCallForPriceShow() {
+        if (window.bssShowCartBtnClasses) {
+            window.bssShowCartBtnClasses.forEach((cls) => {
+                document.querySelector(cls).parentElement.querySelector('.action.tocart') ?
+                    document.querySelector(cls).parentElement.querySelector('.action.tocart').style.display = 'block' : null;
+
+                if (bssShowCartBtn && document.querySelector(cls).parentElement.querySelectorAll(bssShowCartBtn)) {
+                    document.querySelector(cls).parentElement.querySelectorAll(bssShowCartBtn).forEach((element) => {
+                        element.style.display = 'block';
+                    });
+                }
+
+                if (
+                    document.querySelector(cls).closest(".product-item-details") &&
+                    document.querySelector(cls).closest(".product-item-details").querySelectorAll('.action.tocart')
+                ) {
+                    document.querySelector(cls).closest(".product-item-details").querySelectorAll('.action.tocart').forEach((element) => {
+                        element.style.display = 'block';
+                    });
+                }
+
+                if (
+                    bssShowCartBtn &&
+                    document.querySelector(cls).closest(".product-item-details") &&
+                    document.querySelector(cls).closest(".product-item-details").querySelectorAll(bssShowCartBtn)
+                ) {
+                    document.querySelector(cls).closest(".product-item-details").querySelectorAll(bssShowCartBtn).forEach((element) => {
+                        element.style.display = 'block';
+                    });
+                }
+
+                if (
+                    document.querySelector(cls).closest(".product-info") &&
+                    document.querySelector(cls).closest(".product-info").querySelectorAll('.action.tocart')
+                ) {
+                    document.querySelector(cls).closest(".product-info").querySelectorAll('.action.tocart').forEach((element) => {
+                        element.style.display = 'block';
+                    });
+                }
+
+                if (
+                    bssShowCartBtn &&
+                    document.querySelector(cls).closest(".product-info") &&
+                    document.querySelector(cls).closest(".product-info").querySelectorAll(bssShowCartBtn)
+                ) {
+                    document.querySelector(cls).closest(".product-info").querySelectorAll(bssShowCartBtn).forEach((element) => {
+                        element.style.display = 'block';
+                    });
+                }
+            })
+        }
+    }
+
+    document.addEventListener('DOMContentLoaded', () => {
+        replaceCallForPrice();
+        bssCallForPriceShow();
+    })
+</script>

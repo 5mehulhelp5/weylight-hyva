@@ -1,0 +1,150 @@
+<?php
+/**
+ * BSS Commerce Co.
+ *
+ * NOTICE OF LICENSE
+ *
+ * This source file is subject to the EULA
+ * that is bundled with this package in the file LICENSE.txt.
+ * It is also available through the world-wide-web at this URL:
+ * http://bsscommerce.com/Bss-Commerce-License.txt
+ *
+ * @category   BSS
+ * @package    Bss_Gallery
+ * @author     Extension Team
+ * @copyright  Copyright (c) 2018-2019 BSS Commerce Co. ( http://bsscommerce.com )
+ * @license    http://bsscommerce.com/Bss-Commerce-License.txt
+ */
+
+// @codingStandardsIgnoreFile
+
+/**
+ * Block
+ *
+ * @var $block \Bss\Gallery\Block\ListCategoryGallery
+ */
+?>
+<?php $categories = $block->getCollection(); ?>
+<?php $limit = $block->getLimit(); ?>
+<?php $isAutoLoad = $block->isAutoLoad(); ?>
+<?php $pageSpeed = $block->getPageSpeed(); ?>
+<?php $titlePosition = $block->getTitlePosition(); ?>
+<?php $transitionEffect = $block->getTransitionEffect(); ?>
+
+<div id="gallery-wrapper">
+    <h1 class="gallery-category-item-title"><?= $block->escapeHtml($block->getAlbumTitle()) ?></h1>
+    <?php if ($categories->getSize() > 0) : ?>
+        <?php
+        $layoutType = $block->getLayoutType();
+        ?>
+        <!-- STANDRAD LAYOUT -->
+        <?php if ($layoutType == 'standard') : ?>
+            <div class="gallery-category-list-standard-wrapper">
+                <ul class="gallery-category-list">
+                    <?php foreach ($block->getCollection() as $category) : ?>
+                        <?php $storeIds = explode(',', $category->getStoreIds() ?? ''); ?>
+                        <?php if (in_array($block->getCurrentStoreId(), $storeIds) || in_array(0, $storeIds)) : ?>
+                            <li class="gallery-category-list-item">
+                                <div class="gallery-category-item">
+                                    <a href="<?= $block->escapeUrl($category->getUrl()) ?>">
+                                        <img src="<?= $block->escapeUrl($block->getImageResize($category->getThumbnail(), 'item')) ?>"
+                                        />
+                                    </a>
+                                </div>
+                                <h4 class="gallery-category-item-title">
+                                    <a href="<?= $block->escapeUrl($category->getUrl()) ?>"><?= $block->escapeHtml($category->getTitle()) ?>
+                                        <span
+                                            class="item_count"><?= $block->escapeHtml('(' . $block->countItems($category) . ')') ?></span>
+                                    </a>
+                                </h4>
+                            </li>
+                        <?php endif; ?>
+                    <?php endforeach; ?>
+                </ul>
+            </div>
+            <!-- LIST AJAX -->
+        <?php elseif ($layoutType == 'list_ajax') : ?>
+            <div class="gallery-category-list-ajax-wrapper">
+                <ul class="gallery-category-list gallery-category-list-ajax">
+                    <?php $i = 0 ?>
+                    <?php foreach ($block->getCollection() as $category) : ?>
+                        <?php $storeIds = explode(',', $category->getStoreIds() ?? ''); ?>
+                        <?php if (in_array($block->getCurrentStoreId(), $storeIds) || in_array('0', $storeIds)) : ?>
+                            <li class="gallery-category-list-item-ajax <?php if ($i == 0) {
+                                echo $block->escapeHtml(' active');
+                            } ?>"
+                                cate-id="<?= $block->escapeHtml($category->getId()) ?>"
+                                item-ids="<?= $block->escapeHtml($category->getData('Item_ids')) ?>">
+                                <h4 class="gallery-category-item-title-ajax">
+                                    <a><?= $block->escapeHtml($category->getTitle()) ?></a>
+                                </h4>
+                            </li>
+                        <?php endif; ?>
+                        <?php $i++ ?>
+                    <?php endforeach; ?>
+                </ul>
+                <br/>
+                <?php foreach ($block->getCollection() as $category) : ?>
+                    <p class="gallery-category-item-description"
+                       cate-id="<?= $block->escapeHtml($category->getId()) ?>" <?php if ($category->getId() == $categories->setPageSize(1)->getFirstItem()->getId()) : ?> style="display:block"<?php endif; ?>><?php echo $category->getCategoryDescription() ?></p>
+                <?php endforeach ?>
+                <br/>
+                <ul class="gallery-category-list gallery-category-list-content">
+                    <?php $items = $block->getFirstCategoryItems() ?>
+                    <?php if ($items) : ?>
+                        <?php foreach ($items as $item) : ?>
+                            <li class="gallery-category-list-item" item-id="<?= $block->escapeHtml($item->getId()) ?>">
+                                <div class="gallery-category-item">
+                                    <?php if ($item->getVideo() && $item->getVideo() != '') : ?>
+                                        <a title="<?= $block->escapeHtml($item->getDescription()) ?>"
+                                           href="<?= $block->escapeUrl($item->getVideo()) ?>" class="fancybox fancybox.iframe"
+                                           data-caption="<?= $block->escapeHtml($item->getDescription()) ?>"
+                                           rel="gallery">
+                                            <img
+                                                src="<?= $block->escapeUrl($block->getImageResize($item->getImage(), 'item')) ?>"/>
+                                        </a>
+                                    <?php else : ?>
+                                        <a title="<?= $block->escapeHtml($item->getDescription()) ?>" data-caption="<?= $block->escapeHtml($item->getDescription()) ?>"
+                                           href="<?= $block->escapeUrl($block->getItemImageUrl($item->getImage())) ?>" class="fancybox"
+                                           rel="gallery">
+                                            <img
+                                                src="<?= $block->escapeUrl($block->getImageResize($item->getImage(), 'item')) ?>"/>
+                                        </a>
+                                    <?php endif; ?>
+                                </div>
+                                <h4 class="gallery-category-item-title">
+                                    <?= $block->escapeHtml($item->getTitle()) ?>
+                                </h4>
+                            </li>
+                        <?php endforeach; ?>
+                    <?php else : ?>
+                        <p><?= $block->escapeHtml(__('This Album has no image !')) ?></p>
+                    <?php endif; ?>
+                </ul>
+                <?php $count = $block->countFirstCategoryItems() ?>
+                <a id="load-more" style="<?php if ($count <= $limit) {
+                    echo 'display:none';
+                } ?>">Load More</a>
+                <div id="gallery-loading"><img height="350" width="350"
+                                               src="<?= $block->escapeUrl($block->getViewFileUrl('Bss_Gallery::images/ajax-loader.gif')) ?>"/>
+                </div>
+            </div>
+        <?php endif; ?>
+    <?php else : ?>
+        <p class="no-data"><?php echo __('You have no gallery') ?></p>
+    <?php endif; ?>
+    <script type="text/x-magento-init">
+    {
+        "*": {
+            "Bss_Gallery/js/category_list": {
+                "isAutoLoad" : <?= $block->escapeHtml($isAutoLoad) ?>,
+                "pageSpeed" : <?= $block->escapeHtml($pageSpeed) ?>,
+                "nextEffect": "<?= $block->escapeHtml($transitionEffect) ?>",
+                "titlePosition": "<?= $block->escapeHtml($titlePosition) ?>",
+                "getBaseUrl" : "<?= $block->escapeHtml($block->getBaseUrl()) ?>",
+                "getLimit" : <?= $block->escapeHtml($limit) ?>
+            }
+        }
+    }
+    </script>
+</div>

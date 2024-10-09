@@ -1,0 +1,305 @@
+<?php
+/**
+ * BSS Commerce Co.
+ *
+ * NOTICE OF LICENSE
+ *
+ * This source file is subject to the EULA
+ * that is bundled with this package in the file LICENSE.txt.
+ * It is also available through the world-wide-web at this URL:
+ * http://bsscommerce.com/Bss-Commerce-License.txt
+ *
+ * @category  BSS
+ * @package   Hyva_BssGallery
+ * @author    Extension Team
+ * @copyright Copyright (c) 2022 BSS Commerce Co. ( http://bsscommerce.com )
+ * @license   http://bsscommerce.com/Bss-Commerce-License.txt
+ */
+
+use Bss\Gallery\Block\ListCategoryGallery;
+use Magento\Framework\Escaper;
+use Hyva\Theme\Model\ViewModelRegistry;
+use Hyva\BssGallery\ViewModels\Helper as ModuleViewModel;
+use Hyva\Theme\ViewModel\SvgIcons;
+
+/** @var SvgIcons $hyvaicons */
+/** @var ListCategoryGallery $block */
+/** @var Escaper $escaper */
+/** @var ViewModelRegistry $viewModels */
+
+$moduleViewModel = $viewModels->require(ModuleViewModel::class);
+$helperGallery = $moduleViewModel->getHelper();
+$hyvaicons = $viewModels->require(SvgIcons::class);
+$count = $block->countFirstCategoryItems();
+$categories = $block->getCollection();
+$limit = $block->getLimit();
+$isAutoLoad = $block->isAutoLoad();
+$pageSpeed = $block->getPageSpeed();
+?>
+
+<script>
+    function galleryCategoryInit() {
+        return {
+            isAutoLoad : <?= $block->escapeJs($isAutoLoad) ?>,
+            pageSpeed : <?= $block->escapeJs($pageSpeed) ?>,
+            getLimit : <?= $block->escapeJs($limit) ?>,
+            count:<?= $block->escapeJs($count) ?>,
+            isLoading:false,
+            dataItem:'',
+            showLoadMore: false,
+            init() {
+                if (this.count <= this.limit) {
+                    this.showLoadMore = false;
+                } else {
+                    this.showLoadMore = true;
+                }
+            },
+            activeItem(cateId,cateItemsIds) {
+                this.isLoading = true;
+                fetch(`${BASE_URL}gallery/index/ajax`, {
+                    headers: {
+                        contentType: 'application/json'
+                    },
+                    method: 'post',
+                    body: new URLSearchParams({
+                        form_key: hyva.getFormKey(),
+                        cateId: cateId
+                    }),
+                }).then(response => {
+                    if (response.ok) {
+                        return response.json();
+                    }
+                }).then(data => {
+                    if (data) {
+                        var self = this;
+                        var count = 0;
+                        var limit = parseInt(this.getLimit);
+                        var galleryDescriptions = document.querySelectorAll('.gallery-category-item-description');
+                        var galleryListItems = document.querySelectorAll('.gallery-category-list-item-ajax');
+
+                        galleryListItems.forEach(function (element) {
+                            if (element.getAttribute('cate-id') == cateId) {
+                                element.classList.add("item-active");
+                            } else {
+                                element.classList.remove("item-active");
+                            }
+                        })
+                        setTimeout(function () {
+                            self.isLoading = false;
+                        },1000);
+
+                        if (data != null) {
+                            this.dataItem = data;
+                        }
+
+                        if (cateItemsIds.length <= (count + limit) || cateItemsIds.length == (count + limit)) {
+                            this.showLoadMore = false;
+                        } else {
+                            this.showLoadMore = true;
+                        }
+
+                        galleryDescriptions.forEach(function (element) {
+                            if (element.getAttribute('cate-id') == cateId) {
+                                element.style.display = "block";
+                            } else {
+                                element.style.display = "none";
+                            }
+                        })
+                    }
+                });
+            },
+            showMoreItem() {
+                var galleryListItemActive = document.querySelector('.item-active'),
+                    cateId = galleryListItemActive.getAttribute('cate-id'),
+                    itemIds = [],
+                    dataItem = [],
+                    galleryListItems = document.querySelectorAll('.gallery-category-list-item');
+                galleryListItems.forEach(function (element) {
+                    var id = element.getAttribute('item-id');
+                    itemIds.push(id);
+                    dataItem += element.outerHTML;
+                })
+
+                let payload = new URLSearchParams();
+                itemIds.map(value => payload.append('itemIds[]', value));
+                payload.append('cateId', cateId);
+                payload.append('form_key', hyva.getFormKey());
+
+                fetch(`${BASE_URL}gallery/index/ajax`, {
+                    headers: {
+                        contentType: 'application/json'
+                    },
+                    method: 'post',
+                    body: payload,
+                }).then(response => {
+                    if (response.ok) {
+                        return response.json();
+                    }
+                }).then(data => {
+                    if (data) {
+                        if (data != null) {
+                            dataItem += data;
+                            this.dataItem = dataItem;
+                            this.showLoadMore = false;
+                        }
+                    }
+                });
+            },
+            viewImage() {
+                var href = this.$el.href;
+                var title = this.$el.getAttribute("data-caption");
+                var id = this.$el.id;
+                var isVideo = false;
+                if (href.includes("youtube")) {
+                    isVideo = true;
+                }
+                window.dispatchEvent(
+                    new CustomEvent(
+                        "bss-image-gallery-info",
+                        {
+                            detail: {
+                                open: true,
+                                url: href,
+                                isVideo:isVideo,
+                                title:title,
+                                id:id,
+                                ele:this.$el
+                            }
+                        }
+                    )
+                );
+            }
+        }
+    }
+</script>
+<div id="gallery-wrapper" x-data="galleryCategoryInit()" x-init="$nextTick(() => init())" x-cloak>
+    <div class="flex flex-row justify-center items-center w-full h-full fixed select-none"
+         style="left: 50%;top: 50%;transform: translateX(-50%) translateY(-50%);background: rgba(255,255,255,0.7);"
+         x-show="isLoading"
+         x-transition:enter="ease-out duration-200"
+         x-transition:enter-start="opacity-0"
+         x-transition:enter-end="opacity-100"
+         x-transition:leave="ease-in duration-200"
+         x-transition:leave-start="opacity-100"
+         x-transition:leave-end="opacity-0">
+        <?= $hyvaicons->loaderHtml('text-primary', 57, 57); ?>
+        <div class="ml-10 text-primary text-xl">
+            <?= $escaper->escapeHtml(__('Loading...')) ?>
+        </div>
+    </div>
+    <h1 class="m-0 px-2 pt-2 pb-5 text-center text-3xl">
+        <?= $escaper->escapeHtml($block->getAlbumTitle()) ?>
+    </h1>
+    <?php if ($categories->getSize() > 0) : ?>
+        <?php
+        $layoutType = $block->getLayoutType();
+        ?>
+        <?php if ($layoutType == 'standard') : ?>
+            <ul class="m-0 p-0 w-full list-none max-w-[1600px]">
+                <?php foreach ($block->getCollection() as $category) : ?>
+                    <?php $storeIds = explode(',', $category->getStoreIds() ?? ''); ?>
+                    <?php if (in_array($block->getCurrentStoreId(), $storeIds) || in_array(0, $storeIds)) : ?>
+                        <li class="box-border float-left py-0 lg:my-0 px-2 lg:w-1/5
+                w-1/2 h-[300px] min-h-[220px]">
+                            <div class="p-1 hover:standard-shadow" class="flex flex-col justify-center h-full">
+                                <a href="<?= $escaper->escapeUrl($category->getUrl()) ?>" @click.prevent="viewImage()">
+                                    <img src="<?= $escaper->escapeUrl($block->getImageResize($category->getThumbnail(), 'item')) ?>"
+                                    />
+                                </a>
+                            </div>
+                            <h4 class="text-base leading-5 truncate text-center font-medium m-0 px-2 pt-2 pb-5 text-center">
+                                <a href="<?= $escaper->escapeUrl($category->getUrl()) ?>" class="text-[#006bb4]" @click.prevent="viewImage()">
+                                    <?= $escaper->escapeHtml($category->getTitle()) ?>
+                                    <span
+                                        class="item_count"><?= $escaper->escapeHtml('(' . $block->countItems($category) . ')') ?>
+                                    </span>
+                                </a>
+                            </h4>
+                        </li>
+                    <?php endif; ?>
+                <?php endforeach; ?>
+            </ul>
+        <?php elseif ($layoutType == 'list_ajax') : ?>
+            <ul class="gallery-category-list-ajax-wrapper">
+                <ul class="flex justify-center m-0 p-0 w-full max-w-[1600px] list-none">
+                    <?php $i = 0 ?>
+                    <?php foreach ($block->getCollection() as $category) : ?>
+                        <?php $storeIds = explode(',', $category->getStoreIds() ?? ''); ?>
+                        <?php if (in_array($block->getCurrentStoreId(), $storeIds) || in_array('0', $storeIds)) : ?>
+                            <li class="float-left m-2 bg-[#006bb4] rounded-xl cursor-pointer gallery-category-list-item-ajax
+                            hover:bg-[#13a01f] <?= $i == 0 ? 'item-active' : '' ?>"
+                                @click="activeItem(<?= $category->getId() ?>,'<?= $category->getData('Item_ids') ?>')"
+                                cate-id="<?= $escaper->escapeHtmlAttr($category->getId()) ?>"
+                                item-ids="<?= $escaper->escapeHtmlAttr($category->getData('Item_ids')) ?>">
+                                <h4 class="block m-0 px-2 lg:px-6  py-2 text-white lg:text-base text-sm font-medium">
+                                    <a><?= $escaper->escapeHtml($category->getTitle()) ?></a>
+                                </h4>
+                            </li>
+                        <?php endif; ?>
+                        <?php $i++ ?>
+                    <?php endforeach; ?>
+                </ul>
+                <br/>
+                <?php foreach ($block->getCollection() as $category) : ?>
+                    <p class="mx-0 mb-8 text-center hidden gallery-category-item-description"
+                       cate-id="<?= $escaper->escapeHtmlAttr($category->getId()) ?>"
+                        <?php if ($category->getId() == $categories->setPageSize(1)->getFirstItem()->getId()) : ?>
+                            style="display:block"<?php endif; ?>>
+                        <?= $escaper->escapeHtml($category->getCategoryDescription()) ?>
+                    </p>
+                <?php endforeach ?>
+                <br/>
+            <?php $items = $block->getFirstCategoryItems() ?>
+            <?php if ($items) : ?>
+            <template x-if="dataItem == ''">
+                <ul class="m-0 p-0 w-full list-none max-w-[1600px] gallery-category-list-content">
+                <?php $i = 0; ?>
+                <?php foreach ($items as $item): ?>
+                    <?php $i++; ?>
+                    <li class="box-border float-left py-0 lg:my-0 px-2 lg:w-1/5
+                w-1/2 h-[300px] min-h-[220px] gallery-category-list-item" item-id="<?= $escaper->escapeHtmlAttr($item->getId()) ?>">
+                        <?php if ($item->getVideo() != null) : ?>
+                            <div class="p-1 hover:standard-shadow">
+                                <a title="<?= $escaper->escapeHtmlAttr($item->getDescription()) ?>" @click.prevent="viewImage()"
+                                   href="<?= $escaper->escapeUrl($item->getVideo()) ?>"
+                                   data-caption="<?= $escaper->escapeHtmlAttr($item->getDescription()) ?>"
+                                   id="gallery-<?= $i?>"
+                                   class="flex flex-col justify-center h-full">
+                                    <img class="h-[200px]"
+                                         src="<?= $escaper->escapeUrl($block->getImageResize($item->getImage(), 'item')) ?>"/>
+                                </a>
+                            </div>
+                        <?php else : ?>
+                            <div class="p-1 standard-shadow">
+                                <a title="<?= $escaper->escapeHtmlAttr($item->getDescription()) ?>" @click.prevent="viewImage()"
+                                   href="<?= $escaper->escapeUrl($block->getItemImageUrl($item->getImage())) ?>"
+                                   data-caption="<?= $escaper->escapeHtmlAttr($item->getDescription()) ?>"
+                                   id="gallery-<?= $i?>"
+                                   class="flex flex-col justify-center h-full">
+                                    <img class="h-[200px]"
+                                         src="<?= $escaper->escapeUrl($block->getImageResize($item->getImage(), 'item')) ?>"/>
+                                </a>
+                            </div>
+                        <?php endif ?>
+                        <h4 class="text-lg my-4 truncate">
+                            <?= $escaper->escapeHtml($item->getTitle()) ?>
+                        </h4>
+                    </li>
+                <?php endforeach; ?>
+                </ul>
+            </template>
+            <template x-if="dataItem != ''">
+                <ul class="m-0 p-0 w-full list-none max-w-[1600px] gallery-category-list-content" x-html="dataItem"></ul>
+            </template>
+            <a id="load-more" class="font-medium float-left m-2
+            bg-[#006bb4] rounded-xl cursor-pointer hover:bg-[#13a01f] text-white px-4 py-2"
+               x-show="showLoadMore" @click="showMoreItem()">
+                <?= $escaper->escapeHtml(__('Load More')) ?>
+            </a>
+            <?php endif; ?>
+            </div>
+        <?php endif; ?>
+    <?php else : ?>
+        <p class="no-data"><?php echo __('You have no gallery') ?></p>
+    <?php endif; ?>
+</div>

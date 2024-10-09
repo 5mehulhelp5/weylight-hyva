@@ -1,0 +1,144 @@
+<?xml version="1.0"?>
+<!--
+/**
+ *
+ * BSS Commerce Co.
+ *
+ * NOTICE OF LICENSE
+ *
+ * This source file is subject to the EULA
+ * that is bundled with this package in the file LICENSE.txt.
+ * It is also available through the world-wide-web at this URL:
+ * http://bsscommerce.com/Bss-Commerce-License.txt
+ *
+ *  @category  BSS
+ *  @package   Bss_ConvertImageWebp
+ *  @author    Extension Team
+ *  @copyright Copyright (c) 2022-2023 BSS Commerce Co. ( http://bsscommerce.com )
+ *  @license   http://bsscommerce.com/Bss-Commerce-License.txt
+ */
+-->
+<config xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="urn:magento:module:Magento_Config:etc/system_file.xsd">
+    <system>
+        <tab id="bss" translate="label" sortOrder="300">
+            <label>Bss Commerce</label>
+        </tab>
+        <section id="c_i_w" translate="label" sortOrder="300" showInDefault="1" showInWebsite="1">
+            <label>Convert Images to Webp</label>
+            <tab>bss</tab>
+            <resource>Bss_ConvertImageWebp::config</resource>
+            <group id="general" translate="label" type="text" sortOrder="0" showInDefault="1" showInWebsite="1">
+                <label>General</label>
+                <field id="enabled" translate="label" type="select" sortOrder="0" showInDefault="1" showInWebsite="1">
+                    <label>Enabled</label>
+                    <source_model>Magento\Config\Model\Config\Source\Yesno</source_model>
+                    <comment><![CDATA[Version 1.0.6]]></comment>
+                </field>
+                <field id="quality" translate="label" type="text" sortOrder="10" showInDefault="1">
+                    <label>Quality</label>
+                    <validate>required validate-number integer validate-digits-range digits-range-1-100</validate>
+                    <comment><![CDATA[Between 1 and 100]]></comment>
+                </field>
+                <field id="cdn" translate="label" type="text" sortOrder="15" showInDefault="1">
+                    <label>Image CDN</label>
+                    <comment><![CDATA[Enter CDN url (if available). Example: "https://cdn.nxedge.io/cdn/"]]></comment>
+                </field>
+
+                <field id="enable_webp_page_builder" translate="label" type="select" sortOrder="20" showInDefault="1" showInWebsite="1">
+                    <label>Convert Images inserted via Page Builder</label>
+                    <source_model>Magento\Config\Model\Config\Source\Yesno</source_model>
+                    <comment><![CDATA[Choose Yes to convert images in banners and sliders which are inserted via Magento Page Builder to .webp format.]]></comment>
+                </field>
+
+                <field id="ignore_folders" translate="label" type="textarea" sortOrder="30" showInDefault="1" showInWebsite="1">
+                    <label>Skip Folders</label>
+                    <comment><![CDATA[Separated by commas. Example: pub/media/catalog/product/image.jpg]]></comment>
+                </field>
+
+                <field id="auto_generate_webp_image" translate="label" type="select" sortOrder="40" showInDefault="1" showInWebsite="1">
+                    <label>Auto Generate on First Page Loading</label>
+                    <source_model>Magento\Config\Model\Config\Source\Yesno</source_model>
+                </field>
+
+                <field id="clear_all_images" translate="label" type="button" sortOrder="100" showInDefault="1">
+                    <frontend_model>Bss\ConvertImageWebp\Block\System\Config\Webp\Button\ClearAllImages</frontend_model>
+                </field>
+            </group>
+
+            <group id="product_page" translate="label" type="text" sortOrder="10" showInDefault="1" showInWebsite="1">
+                <label>Product Page</label>
+
+                <field id="enabled" translate="label" type="select" sortOrder="0" showInDefault="1" showInWebsite="1">
+                    <label>Enabled</label>
+                    <source_model>Magento\Config\Model\Config\Source\Yesno</source_model>
+                </field>
+
+                <field id="ignore_ids" translate="label" type="textarea" sortOrder="10" showInDefault="1" showInWebsite="1">
+                    <label>Ignore Products IDs</label>
+                    <comment><![CDATA[Separated by commas.]]></comment>
+                </field>
+
+                <field id="ignore_images" translate="label" type="textarea" sortOrder="20" showInDefault="1" showInWebsite="1">
+                    <label>Ignore Images</label>
+                    <comment><![CDATA[Separated by commas. Example: image_1.jpg]]></comment>
+                </field>
+
+            </group>
+
+            <group id="category_page" translate="label" type="text" sortOrder="20" showInDefault="1" showInWebsite="1">
+                <label>Category Page</label>
+
+                <field id="enabled" translate="label" type="select" sortOrder="0" showInDefault="1" showInWebsite="1">
+                    <label>Enabled</label>
+                    <source_model>Magento\Config\Model\Config\Source\Yesno</source_model>
+                </field>
+
+                <field id="ignore_ids" translate="label" type="textarea" sortOrder="10" showInDefault="1" showInWebsite="1">
+                    <label>Ignore Categories IDs</label>
+                    <comment><![CDATA[Separated by commas.]]></comment>
+                </field>
+
+                <field id="ignore_images" translate="label" type="textarea" sortOrder="20" showInDefault="1" showInWebsite="1">
+                    <label>Ignore Images</label>
+                    <comment><![CDATA[Separated by commas. Example: image_1.jpg]]></comment>
+                </field>
+
+            </group>
+
+            <group id="home_page" translate="label" type="text" sortOrder="30" showInDefault="1" showInWebsite="1" >
+                <label>Home Page</label>
+
+                <field id="enabled" translate="label" type="select" sortOrder="0" showInDefault="1" showInWebsite="1">
+                    <label>Enabled</label>
+                    <source_model>Magento\Config\Model\Config\Source\Yesno</source_model>
+                </field>
+
+                <field id="ignore_images" translate="label" type="textarea" sortOrder="10" showInDefault="1" showInWebsite="1">
+                    <label>Ignore Images</label>
+                    <comment><![CDATA[Separated by commas. Example: image_1.jpg]]></comment>
+                </field>
+
+            </group>
+
+            <group id="cms_page" translate="label" type="text" sortOrder="40" showInDefault="1" showInWebsite="1">
+                <label>CMS Page</label>
+
+                <field id="enabled" translate="label" type="select" sortOrder="1" showInDefault="1" showInWebsite="1">
+                    <label>Enabled</label>
+                    <source_model>Magento\Config\Model\Config\Source\Yesno</source_model>
+                </field>
+
+                <field id="ignore_ids" translate="label" type="textarea" sortOrder="1" showInDefault="10" showInWebsite="1">
+                    <label>Ignore Pages IDs</label>
+                    <comment><![CDATA[Separated by commas.]]></comment>
+                </field>
+
+                <field id="ignore_images" translate="label" type="textarea" sortOrder="1" showInDefault="20" showInWebsite="1">
+                    <label>Ignore Images</label>
+                    <comment><![CDATA[Separated by commas. Example: image_1.jpg]]></comment>
+                </field>
+
+            </group>
+        </section>
+    </system>
+</config>

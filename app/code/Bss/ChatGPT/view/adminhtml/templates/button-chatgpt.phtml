@@ -1,0 +1,125 @@
+<?php
+/**
+ * BSS Commerce Co.
+ *
+ * NOTICE OF LICENSE
+ *
+ * This source file is subject to the EULA
+ * that is bundled with this package in the file LICENSE.txt.
+ * It is also available through the world-wide-web at this URL:
+ * http://bsscommerce.com/Bss-Commerce-License.txt
+ *
+ * @category   BSS
+ * @package    Bss_ChatGPT
+ * @author     Extension Team
+ * @copyright  Copyright (c) 2023-2023 BSS Commerce Co. ( http://bsscommerce.com )
+ * @license    http://bsscommerce.com/Bss-Commerce-License.txt
+ */
+?>
+<?php
+// phpcs:disable Magento2.Templates.ThisInTemplate.FoundThis
+
+/* @var \Bss\ChatGPT\Block\ChatGPT\ChatGPT $block */
+?>
+
+<?php $inProductPage = $block->getFullActionName() === "catalog_product_edit"; ?>
+
+<button class="action-primary chatgpt" id="chatgpt-seo_title" style="display: none">
+    <?= /* @noEscape */ __('ChatGPT Content') ?>
+</button>
+<button class="action-primary chatgpt" id="chatgpt-seo_keyword" style="display: none">
+    <?= /* @noEscape */ __('ChatGPT Content') ?>
+</button>
+<button class="action-primary chatgpt" id="chatgpt-seo_description" style="display: none">
+    <?= /* @noEscape */ __('ChatGPT Content') ?>
+</button>
+<p id="chatgpt-alert"></p>
+
+<div class="modal modal-chat_gpt chatgptmodal" style="display: none;">
+    <div class="modal-body">
+        <div class="modal-content modal-content-chatgpt">
+            <div class="field field-name-metatitle required">
+                <label class="label label-title-chatgpt" for="prompt">
+                    <span><?= /* @noEscape */ __('Enter Custom Prompt') ?></span>
+                </label>
+                <?php if ($inProductPage): ?>
+                    <p class="note">
+                        <?= /* @noEscape */ __("(*) Select the product attributes in the attribute
+                        box below to give ChatGPT some input to generate content.
+                        The selected attributes will be put in curly brackets {{ }} and
+                        separated by a semicolon ; in the prompt box.") ?>
+                    </p>
+                <?php else: ?>
+                    <p class="note">
+                        <?= /* @noEscape */ __("(*) Enter some keywords in the keyword box below
+                        to give ChatGPT some input to generate content.
+                        The keywords will be separated by an Enter in the keyword box.
+                        They will be put in curly brackets {{ }} and
+                        separated by a semicolon ; in the prompt box.") ?>
+                    </p>
+                <?php endif;?>
+                <div class="control chatgpt-control">
+                    <div class="model-left">
+                        <?php if ($inProductPage): ?>
+                            <label class="label-chatgpt" for="chatgpt-attributes">
+                                <?= /* @noEscape */ __('Attributes') ?>
+                            </label>
+
+                            <select id="chatgpt-attributes" class="chatgpt-variables" multiple>
+                            <?php foreach ($block->getAllAttributes() as $code => $value): ?>
+                                <option
+                                    value="<?= /* @noEscape */ $code ?>"
+                                    data-value="<?= /* @noEscape */ $value['value'] ?>"
+                                    data-title="<?= /* @noEscape */ $value['label'] ?>">
+                                    <?= /* @noEscape */ $value['label'] ?>
+                                </option>
+                            <?php endforeach; ?>
+                            </select>
+
+                            <div class="chatgpt-checkbox">
+                                <input id="all-attr" type="checkbox" title="Use all attributes">
+                                <label for="all-attr"><?= /* @noEscape */ __('Use all attributes') ?></label>
+                            </div>
+                        <?php else: ?>
+                            <label class="label-chatgpt" for="chatgpt-variables">
+                                <?= /* @noEscape */ __('Keywords') ?>
+                            </label>
+                            <textarea rows="11" id="chatgpt-variables" class="chatgpt-variables" title="Prompt ChatGPT">
+                            </textarea>
+                        <?php endif; ?>
+                    </div>
+                    <div class="model-right">
+                        <div>
+                            <label class="label-chatgpt" for="role">
+                                <?= /* @noEscape */ __('System role') ?>
+                            </label>
+                            <div class="input-wrapper">
+                                <input type="text" id="system_role" name="role-chatgpt" title="Role ChatGPT">
+                                <span class="reload-icon">&#8635;</span>
+                            </div>
+                        </div>
+                        <br>
+                        <div>
+                            <label class="label-chatgpt" for="prompt">
+                                <?= /* @noEscape */ __('Prompt') ?>
+                            </label>
+                            <textarea rows="11" id="prompt" name="prompt-chatgpt" title="Prompt ChatGPT"></textarea>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script type="text/x-magento-init">
+    {
+        "#chatgpt-seo_title": {
+            "base-chatgpt": {
+                "url": "<?= /* @noEscape */ $block->getUrlApi() ?>",
+                "form_key": "<?= /* @noEscape */ $block->getFormKey() ?>",
+                "message_default": <?= /* @noEscape */ $block->getAllMessDefault() ?>
+            }
+        }
+    }
+</script>

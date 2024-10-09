@@ -1,0 +1,73 @@
+{
+    "extensions": [
+        {
+            "src": "vendor\/bsscommerce\/hyva-compat-base\/src"
+        },
+        {
+            "src": "vendor\/hyva-themes\/magento2-theme-module\/src"
+        },
+        {
+            "src": "vendor\/amasty\/module-stockstatus-hyva-compatibility"
+        },
+        {
+            "src": "vendor\/hyva-themes\/magento2-amasty-stockstatus\/src"
+        },
+        {
+            "src": "vendor\/amasty\/module-xsearch-hyva-compatibility"
+        },
+        {
+            "src": "app\/code\/Hyva\/BssAdvancedHidePrice"
+        },
+        {
+            "src": "app\/code\/Hyva\/BssBreadcrumbs"
+        },
+        {
+            "src": "app\/code\/Hyva\/BssConvertImageWebp"
+        },
+        {
+            "src": "app\/code\/Hyva\/BssGallery"
+        },
+        {
+            "src": "app\/code\/Hyva\/BssHtmlSiteMap"
+        },
+        {
+            "src": "app\/code\/Hyva\/BssProductLabel"
+        },
+        {
+            "src": "app\/code\/Hyva\/BssRichSnippets"
+        },
+        {
+            "src": "app\/code\/Hyva\/BssSeoToolbar"
+        },
+        {
+            "src": "vendor\/amasty\/module-custom-tabs-hyva"
+        },
+        {
+            "src": "vendor\/amasty\/module-elastic-search-hyva-compatibility"
+        },
+        {
+            "src": "app\/code\/Hyva\/MagezonNinjaMenus"
+        },
+        {
+            "src": "app\/code\/Hyva\/MagezonPageBuilder"
+        },
+        {
+            "src": "vendor\/mirasvit\/module-navigation-hyva\/src\/MirasvitAllProducts"
+        },
+        {
+            "src": "vendor\/mirasvit\/module-navigation-hyva\/src\/MirasvitBrand"
+        },
+        {
+            "src": "vendor\/mirasvit\/module-navigation-hyva\/src\/MirasvitQuickNavigation"
+        },
+        {
+            "src": "vendor\/mirasvit\/module-navigation-hyva\/src\/MirasvitScroll"
+        },
+        {
+            "src": "vendor\/mirasvit\/module-navigation-hyva\/src\/MirasvitLayeredNavigation"
+        },
+        {
+            "src": "vendor\/hyva-themes\/magento2-hyva-widgets\/src"
+        }
+    ]
+}

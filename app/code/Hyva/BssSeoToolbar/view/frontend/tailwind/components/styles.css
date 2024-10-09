@@ -1,0 +1,116 @@
+#bss_seo_toolbar {
+    width: 500px;
+    bottom: 15px;
+    right: 15px;
+    -webkit-box-shadow: 0 7px 8px -4px rgba(0,0,0,.2), 0 13px 19px 2px rgba(0,0,0,.14), 0 5px 24px 4px rgba(0,0,0,.12);
+    box-shadow: 0 7px 8px -4px rgba(0,0,0,.2), 0 13px 19px 2px rgba(0,0,0,.14), 0 5px 24px 4px rgba(0,0,0,.12);
+}
+
+#bss_seo_toolbar.toolbar_hide .bss_toolbar_header {
+    height: 20px;
+    border-radius: 8px;
+    display: inline-table;
+    padding: 5px 10px;
+}
+
+#bss_seo_toolbar .bss_toolbar_header {
+    padding: 15px;
+    background: rgb(242 133 42);
+    border-radius: 8px 8px 0 0;
+}
+
+#bss_seo_toolbar .bss_toolbar_header img {
+    margin: 3px 0 0 0;
+}
+
+#bss_seo_toolbar .bss_toolbar_header p {
+    width: calc(100% - 100px);
+    margin: 7px 0 0 0;
+    font-weight: 700;
+}
+
+#bss_seo_toolbar .bss_toolbar_header svg {
+    width: 18px;
+    height: 18px;
+    margin: 10px 0 0 0;
+    fill: white;
+    float: right;
+}
+
+#bss_seo_toolbar .bss_toolbar_header svg path {
+    stroke: #ffffff;
+    stroke-width: 30px;
+}
+
+#bss_seo_toolbar .bss_toolbar_item {
+    width: calc(100% - 30px);
+    padding: 10px 0 10px 0;
+    margin: 0 15px 0 15px;
+    -ms-word-break: break-all;
+    word-break: break-word;
+    word-wrap: break-word;
+    -webkit-hyphens: auto;
+    -moz-hyphens: auto;
+    border-bottom: 1px rgb(240 240 240) solid;
+    hyphens: auto;
+}
+
+#bss_seo_toolbar .bss_toolbar_item svg {
+    width: 16px;
+    height: 16px;
+    margin: 4px 15px 0 0;
+}
+
+#bss_seo_toolbar.toolbar_hide .bss_toolbar_header svg {
+    transform: rotate(180deg);
+    margin: 10px 5px 0 0;
+}
+
+#bss_seo_toolbar .bss_toolbar_item .toolbar_content {
+    width: calc(100% - 35px);
+}
+
+#bss_seo_toolbar .bss_toolbar_item .tooltip-content {
+    width: 400px;
+    background-color: rgb(85 85 85);
+    border-radius: 6px;
+    bottom: calc(100% - 40px);
+    right: calc(100% + 15px);
+    transition: opacity .3s;
+}
+
+#bss_seo_toolbar .bss_toolbar_item .tooltip-content::after {
+    content: "";
+    position: absolute;
+    top: calc(100% - 30px);
+    left: calc(100% + 5px);
+    margin-left: -5px;
+    border-width: 5px;
+    border-style: solid;
+    border-color: transparent transparent transparent #555;
+}
+
+#bss_seo_toolbar .edit_body_toolbar {
+    width: calc(100% - 30px);
+    padding: 10px 0 15px 0;
+    margin: 0 15px 0 15px;
+}
+
+#bss_seo_toolbar.toolbar_hide {
+    width: 260px;
+    opacity: 0.6;
+}
+
+@media only screen and (max-width: 768px) {
+    #bss_seo_toolbar {
+        width: calc(100% - 30px);
+        height: calc(100% - 30px);
+    }
+
+    #bss_seo_toolbar .bss_toolbar_body {
+        height: -webkit-fill-available;
+        overflow: scroll;
+        position: absolute;
+        margin-top: 65px;
+    }
+}

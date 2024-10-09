@@ -1,0 +1,53 @@
+<?xml version="1.0"?>
+<!--
+/**
+ *
+ * BSS Commerce Co.
+ *
+ * NOTICE OF LICENSE
+ *
+ * This source file is subject to the EULA
+ * that is bundled with this package in the file LICENSE.txt.
+ * It is also available through the world-wide-web at this URL:
+ * http://bsscommerce.com/Bss-Commerce-License.txt
+ *
+ *  @category  BSS
+ *  @package   Bss_ChatGPT
+ *  @author    Extension Team
+ *  @copyright Copyright (c) 2023-2023 BSS Commerce Co. ( http://bsscommerce.com )
+ *  @license   http://bsscommerce.com/Bss-Commerce-License.txt
+ */
+-->
+<config xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="urn:magento:module:Magento_Store:etc/config.xsd">
+    <default>
+        <chat_gpt>
+            <config_chatgpt>
+                <enable>1</enable>
+                <api_url>https://api.openai.com/v1/chat/completions</api_url>
+                <model>gpt-3.5-turbo</model>
+                <max_tokens>4096</max_tokens>
+                <temperature>0.6</temperature>
+            </config_chatgpt>
+            <default_message>
+                <group_product>
+                    <system_role>A professional ecommerce advertisement content writer who is proficient in SEO</system_role>
+                    <product>Help me compose a complete English product description based on my product details: {{...}}. The structure must follow these guidelines: The product description is well-structured with header tags and paragraph tags; The output is in HTML format (this needs to be put inside the body tag); Do not include the H1 tag; Focus on benefits rather than features; Avoid sentences over 20 words; Avoid using passive voice; Use numbered and bulleted lists wherever possible; Use bold and italics to emphasize; Make use of emotional words; Write HTML code with proper indentation. Please include only the content I ask for in your response. You must not put the content in double quotes or special characters.</product>
+                </group_product>
+                <group_category>
+                    <system_role>A professional ecommerce advertisement content writer who is proficient in SEO</system_role>
+                    <category>Compose a complete English category description based on my category details: {{...}}. The structure must follow these guidelines: The product description is well-structured with header tags and paragraph tags; The output is in HTML format (this needs to be put inside the body tag); Do not include the H1 tag; Focus on benefits rather than features; Avoid sentences over 20 words; Avoid using passive voice; Use numbered and bulleted lists wherever possible; Use bold and italics to emphasize; Make use of emotional words; Write HTML code with proper indentation. Please include only the content I ask for in your response. You must not put the content in double quotes or special characters.</category>
+                </group_category>
+                <group_cms>
+                    <system_role>A professional ecommerce advertisement content writer who is proficient in SEO</system_role>
+                    <cms>Compose a complete English content page based on my content page details: {{...}}. The structure must follow these guidelines: The product description is well-structured with header tags and paragraph tags; The output is in HTML format (this needs to be put inside the body tag); Do not include the H1 tag; Focus on benefits rather than features; Avoid sentences over 20 words; Avoid using passive voice; Use numbered and bulleted lists wherever possible; Use bold and italics to emphasize; Make use of emotional words; Write HTML code with proper indentation. Please include only the content I ask for in your response. You must not put the content in double quotes or special characters.</cms>
+                </group_cms>
+                <group_seo>
+                    <system_role>A professional SEO expert in ecommerce</system_role>
+                    <seo_title>Write a clickbait meta title for a webpage on this e-commerce store. Here is the page name: {{...}}. The meta title should be unique to the page, and less than 70 characters in length. Please include only the content I ask for in your response. You must not put the content in double quotes or special characters.</seo_title>
+                    <seo_keyword>Generate SEO-rich meta keywords for a webpage on this e-commerce store. Here is the page name: {{...}}. These keywords will help the product page rank higher in search engine results. Please ensure that the keywords are separated by commas. Strictly don't add any lines or words except keywords. Please include only the content I ask for in your response. You must not put the content in double quotes or special characters.</seo_keyword>
+                    <seo_description>Compose a meta description for a webpage on this e-commerce store. Here is the page name: {{...}}. Ideally, a meta description should be between 150-160 characters in length. Please include only the content I ask for in your response. You must not put the content in double quotes or special characters.</seo_description>
+                </group_seo>
+            </default_message>
+        </chat_gpt>
+    </default>
+</config>

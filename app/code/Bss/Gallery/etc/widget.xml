@@ -1,0 +1,82 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+/**
+ * BSS Commerce Co.
+ *
+ * NOTICE OF LICENSE
+ *
+ * This source file is subject to the EULA
+ * that is bundled with this package in the file LICENSE.txt.
+ * It is also available through the world-wide-web at this URL:
+ * http://bsscommerce.com/Bss-Commerce-License.txt
+ *
+ * @category   BSS
+ * @package    Bss_Gallery
+ * @author     Extension Team
+ * @copyright  Copyright (c) 2018-2019 BSS Commerce Co. ( http://bsscommerce.com )
+ * @license    http://bsscommerce.com/Bss-Commerce-License.txt
+ */
+-->
+<widgets xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:noNamespaceSchemaLocation="urn:magento:module:Magento_Widget:etc/widget.xsd">
+    <widget id="bss_gallery_widget" class="Bss\Gallery\Block\Widget\Gallery">
+        <label>Bss Gallery Widget</label>
+        <description>Gallery Album</description>
+        <parameters>
+            <parameter name="bss_gallery_description" xsi:type="text" visible="true" sort_order="10">
+                <label>Widget Label</label>
+            </parameter>
+            <parameter name="bss_gallery_category" xsi:type="select"
+                       source_model="Bss\Gallery\Model\Config\Source\WidgetCategory" visible="true" sort_order="20">
+                <label>Widget Album</label>
+            </parameter>
+            <parameter name="bss_gallery_layout" xsi:type="select" visible="true" sort_order="30">
+                <label>Widget Layout</label>
+                <options>
+                    <option name="slider" value="slider" selected="true">
+                        <label>Slider</label>
+                    </option>
+                    <option name="standard" value="standard">
+                        <label>Standard</label>
+                    </option>
+                </options>
+            </parameter>
+            <parameter name="bss_gallery_slider_autoplay" xsi:type="select" visible="true" sort_order="40">
+                <label>Auto Play</label>
+                <depends>
+                    <parameter name="bss_gallery_layout" value="slider"/>
+                </depends>
+                <options>
+                    <option name="true" value="1" selected="true">
+                        <label>True</label>
+                    </option>
+                    <option name="false" value="0">
+                        <label>False</label>
+                    </option>
+                </options>
+            </parameter>
+            <parameter name="bss_gallery_slider_autoplay_timeout" xsi:type="text" visible="true" sort_order="50">
+                <label>Auto Play Time</label>
+                <description>Include time to next each image when auto play is activated, count in milliseconds.
+                </description>
+                <depends>
+                    <parameter name="bss_gallery_layout" value="slider"/>
+                </depends>
+            </parameter>
+            <parameter name="bss_gallery_enable_repeated_images" xsi:type="select" visible="true" sort_order="60">
+                <label>Enable Repeated Images</label>
+                <depends>
+                    <parameter name="bss_gallery_layout" value="slider" />
+                </depends>
+                <options>
+                    <option name="true" value="1" selected="true">
+                        <label>Yes</label>
+                    </option>
+                    <option name="false" value="0">
+                        <label>No</label>
+                    </option>
+                </options>
+            </parameter>
+        </parameters>
+    </widget>
+</widgets>

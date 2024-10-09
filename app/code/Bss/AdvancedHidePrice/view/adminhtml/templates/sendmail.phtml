@@ -1,0 +1,71 @@
+<?php
+/**
+ * BSS Commerce Co.
+ *
+ * NOTICE OF LICENSE
+ *
+ * This source file is subject to the EULA
+ * that is bundled with this package in the file LICENSE.txt.
+ * It is also available through the world-wide-web at this URL:
+ * http://bsscommerce.com/Bss-Commerce-License.txt
+ *
+ * @category   BSS
+ * @package    Bss_AdvancedHidePrice
+ * @author     Extension Team
+ * @copyright  Copyright (c) 2017-2018 BSS Commerce Co. ( http://bsscommerce.com )
+ * @license    http://bsscommerce.com/Bss-Commerce-License.txt
+ */
+/**
+ * @var $block \Bss\AdvancedHidePrice\Block\Adminhtml\Request\Edit\Tab\SendMail
+ */
+// @codingStandardsIgnoreFile
+?>
+
+<?php
+$request = $block->getFormRequest();
+$emailSent = $request->getEmailSent();
+?>
+<?php if ($block->getProduct()) : ?>
+<form id="request_send_mail" action="<?php echo $block->getFormAction() ?>" method="post" data-hasrequired="<?php /* @escapeNotVerified */
+echo __('* Required Fields') ?>" data-mage-init='{"validation":{}}'>
+    <input type="hidden" name="customer_email" value="<?php echo $block->getCustomerEmail() ?>" />
+    <input type="hidden" name="product_name" value="<?php echo $block->getProduct()->getName() ?>" />
+    <input type="hidden" name="id" value="<?php echo $request->getId() ?>" />
+    <input name="form_key" type="hidden" value="<?php echo $block->getFormKey() ?>" />
+    <?php if ($block->getCustomOption()):?>
+    <input name="custom_option" type="hidden" value='<?php echo $block->getCustomOption() ?>' />
+    <?php endif; ?>
+    <fieldset class="fieldset callforprice_request">
+        <div class="field">
+            <label class="label"><?php echo __('Product') ?></label>
+            <div class="control"><?php echo $block->getProductInfo(); ?></div>
+        </div>
+        <div class="field required">
+            <label class="label"><?php echo __('Price For Request') ?></label>
+            <div class="control validate-number-range"><input name="product_price" placeholder="Number Only" class="validate-number validate-not-negative-number" data-validate="{required:true}"/></div>
+        </div>
+        <div class="field">
+            <label class="label"><?php echo __('Comment') ?></label>
+            <div class="control"><textarea name="comment" placeholder="Comment here..."></textarea></div>
+        </div>
+        <div class="field">
+            <?php if ($emailSent) : ?>
+                <label class="label"><?php echo __('This Request was sent email') ?></label>
+            <?php else : ?>
+                <label class="label"><?php echo __('No Email Was Sent For This Request') ?></label>
+            <?php endif ?>
+        </div>
+        <div class="field">
+            <div class="control"><button id="send_mail" type="button" class="primary">Send Email For Customer</button></div>
+        </div>
+
+    </fieldset>
+</form>
+<script type="text/x-magento-init">
+    {
+        "*": {
+            "Bss_AdvancedHidePrice/js/send_email_admin": {}
+        }
+    }
+</script>
+<?php endif; ?>

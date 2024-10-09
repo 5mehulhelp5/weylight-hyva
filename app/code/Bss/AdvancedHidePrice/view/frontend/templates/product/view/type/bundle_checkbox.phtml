@@ -1,0 +1,129 @@
+<?php
+/**
+ * BSS Commerce Co.
+ *
+ * NOTICE OF LICENSE
+ *
+ * This source file is subject to the EULA
+ * that is bundled with this package in the file LICENSE.txt.
+ * It is also available through the world-wide-web at this URL:
+ * http://bsscommerce.com/Bss-Commerce-License.txt
+ *
+ * @category   BSS
+ * @package    Bss_AdvancedHidePrice
+ * @author     Extension Team
+ * @copyright  Copyright (c) 2017-2018 BSS Commerce Co. ( http://bsscommerce.com )
+ * @license    http://bsscommerce.com/Bss-Commerce-License.txt
+ */
+use Magento\Bundle\Block\Catalog\Product\View\Type\Bundle\Option\Checkbox;
+
+// @codingStandardsIgnoreFile
+
+?>
+
+<?php /* @var $block Checkbox */ ?>
+<?php $_option = $block->getOption() ?>
+<?php $_selections = $_option->getSelections() ?>
+<?php $helper = $this->helper("Bss\AdvancedHidePrice\Helper\Data") ?>
+<div class="field option <?= ($_option->getRequired()) ? ' required' : '' ?>">
+    <label class="label">
+        <span><?= $block->escapeHtml($_option->getTitle()) ?></span>
+    </label>
+    <div class="control">
+        <div class="nested options-list">
+            <?php if ($block->showSingle()): ?>
+                <?= /* @escapeNotVerified */ $block->getSelectionQtyTitlePrice($_selections[0]) ?>
+                <?php $disable = ''; ?>
+                <?php if ($block->getProduct()->getActiveCallHidePrice()): ?>
+                    <?php $disable = $helper->activeCallHidePrice($block->getProduct()) ? "disabled" : '';  ?>
+                    <?php if ($block->getProduct()->getActiveCallHidePrice() == "callforprice"): ?>
+                        <div id="callforprice" class="callforprice-container callforprice_<?= $block->escapeHtml($_selections[0]->getId()); ?>">
+                            <input type="hidden" name="product" value="<?= $block->escapeHtml($_selections[0]->getId()); ?>">
+                            <input type="hidden" name="product_name" value="<?= $block->escapeHtml(__($_selections[0]->getName())); ?>">
+                            <a class="callforprice_clickme action primary"><?= $block->escapeHtml(__($helper->getCallforpriceText($block->getProduct()))); ?></a>
+                        </div>
+                    <?php endif; ?>
+                    <?php if ($block->getProduct()->getActiveCallHidePrice() == "hideprice"): ?>
+                        <div id="callforprice_text" class="callforprice-container callforprice_text">
+                            <?= $block->escapeHtml(__($helper->getCallforpriceText($block->getProduct()))); ?>
+                        </div>
+                    <?php endif; ?>
+                <?php elseif ($_selections[0]->getActiveCallHidePrice()) : ?>
+                    <?php $disable = $helper->activeCallHidePrice($_selections[0]) ? "disabled" : '';  ?>
+                    <?php if ($_selections[0]->getActiveCallHidePrice() == "callforprice"): ?>
+                        <div id="callforprice" class="callforprice-container callforprice_<?= $block->escapeHtml($_selections[0]->getId()); ?>">
+                            <input type="hidden" name="product" value="<?= $block->escapeHtml($_selections[0]->getId()); ?>">
+                            <input type="hidden" name="product_name" value="<?= $block->escapeHtml(__($_selections[0]->getName())); ?>">
+                            <a class="callforprice_clickme action primary"><?= $block->escapeHtml(__($helper->getCallforpriceText($_selections[0]))); ?></a>
+                        </div>
+                    <?php endif; ?>
+                    <?php if ($_selections[0]->getActiveCallHidePrice() == "hideprice"): ?>
+                        <div id="callforprice_text" class="callforprice-container callforprice_text">
+                            <?= $block->escapeHtml(__($helper->getCallforpriceText($_selections[0]))); ?>
+                        </div>
+                    <?php endif; ?>
+                <?php endif; ?>
+                <input type="hidden"
+                       class="bundle-option-<?= $block->escapeHtml($_option->getId()) ?>  product bundle option"
+                    <?= $disable; ?>
+                       name="bundle_option[<?= $block->escapeHtml($_option->getId()) ?>]"
+                       value="<?= $block->escapeHtml($_selections[0]->getSelectionId()) ?>"/>
+            <?php else:?>
+                <?php foreach ($_selections as $_selection): ?>
+                    <div class="field choice">
+                        <?php if ($block->getProduct()->getActiveCallHidePrice()): ?>
+                            <label class="label"
+                                   for="bundle-option-<?= $block->escapeHtml($_option->getId()) ?>-<?= $block->escapeHtml($_selection->getSelectionId()) ?>">
+                                <span><?= /* @escapeNotVerified */ $block->getSelectionQtyTitlePrice($_selection) ?></span>
+                            </label>
+                            <?php if ($block->getProduct()->getActiveCallHidePrice() == "callforprice"): ?>
+                                <div id="callforprice" class="callforprice-container callforprice_<?= $_selection->getId(); ?>">
+                                    <input type="hidden" name="product" value="<?= $block->escapeHtml($_selection->getId()); ?>">
+                                    <input type="hidden" name="product_name" value="<?= $block->escapeHtml(__($_selection->getName())); ?>">
+                                    <a class="callforprice_clickme action primary"><?= $block->escapeHtml(__($helper->getCallforpriceText($block->getProduct()))); ?></a>
+                                </div>
+                            <?php endif; ?>
+                            <?php if ($block->getProduct()->getActiveCallHidePrice() == "hideprice"): ?>
+                                <div id="callforprice_text" class="callforprice-container callforprice_text">
+                                    <?= $block->escapeHtml(__($helper->getCallforpriceText($block->getProduct()))); ?>
+                                </div>
+                            <?php endif; ?>
+                        <?php else : ?>
+                            <?php if (!$helper->activeCallHidePrice($_selection)): ?>
+                                <input class="bundle-option-<?= $block->escapeHtml($_option->getId()) ?> checkbox product bundle option change-container-classname"
+                                       id="bundle-option-<?= $block->escapeHtml($_option->getId()) ?>-<?= $block->escapeHtml($_selection->getSelectionId()) ?>"
+                                       type="checkbox"
+                                    <?php if ($_option->getRequired()) {echo 'data-validate="{\'validate-one-required-by-name\':\'input[name^=&quot;bundle_option[' . $block->escapeHtml($_option->getId()) . ']&quot;]:checked\'}"';
+                                    }?>
+                                       name="bundle_option[<?= $block->escapeHtml($_option->getId()) ?>][<?= $block->escapeHtml($_selection->getId()) ?>]"
+                                       data-selector="bundle_option[<?= $block->escapeHtml($_option->getId()) ?>][<?= $block->escapeHtml($_selection->getId()) ?>]"
+                                    <?php if ($block->isSelected($_selection)) {
+                                        echo ' checked="checked"';
+                                    } ?>
+                                    <?php if (!$_selection->isSaleable()) {
+                                        echo ' disabled="disabled"';
+                                    } ?>
+                                       value="<?= $block->escapeHtml($_selection->getSelectionId()) ?>"/>
+                            <?php endif; ?>
+                            <label class="label"
+                                   for="bundle-option-<?= $block->escapeHtml($_option->getId()) ?>-<?= $block->escapeHtml($_selection->getSelectionId()) ?>">
+                                <span><?= /* @escapeNotVerified */ $block->getSelectionQtyTitlePrice($_selection) ?></span>
+                            </label>
+                            <?php if ($_selection->getActiveCallHidePrice() == "callforprice"): ?>
+                                <div id="callforprice" class="callforprice-container callforprice_<?= $block->escapeHtml($_selection->getId()); ?>">
+                                    <input type="hidden" name="product" value="<?= $block->escapeHtml($_selection->getId()); ?>">
+                                    <input type="hidden" name="product_name" value="<?= $block->escapeHtml(__($_selection->getName())); ?>">
+                                    <a class="callforprice_clickme action primary"><?= $block->escapeHtml(__($helper->getCallforpriceText($_selection))); ?></a>
+                                </div>
+                            <?php endif; ?>
+                            <?php if ($_selection->getActiveCallHidePrice() == "hideprice"): ?>
+                                <div id="callforprice_text" class="callforprice-container callforprice_text"><?= $block->escapeHtml(__($helper->getCallforpriceText($_selection))); ?></div>
+                            <?php endif; ?>
+                        <?php endif; ?>
+                    </div>
+                <?php endforeach; ?>
+                <div id="bundle-option-<?= $block->escapeHtml($_option->getId()) ?>-container"></div>
+            <?php endif; ?>
+        </div>
+    </div>
+</div>

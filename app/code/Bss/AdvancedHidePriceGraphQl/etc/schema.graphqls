@@ -1,0 +1,94 @@
+# BSS Commerce Co.
+#
+# NOTICE OF LICENSE
+#
+# This source file is subject to the EULA
+# that is bundled with this package in the file LICENSE.txt.
+# It is also available through the world-wide-web at this URL:
+# http://bsscommerce.com/Bss-Commerce-License.txt
+#
+# @category   BSS
+# @package    Bss_AdvancedHidePriceGraphQl
+# @author     Extension Team
+# @copyright  Copyright (c) 2022 BSS Commerce Co. ( http://bsscommerce.com )
+# @license    http://bsscommerce.com/Bss-Commerce-License.txt
+
+type Query
+{
+    getConfigAdvancedHidePrice: getConfigAdvancedHidePrice
+    @resolver(class: "Bss\\AdvancedHidePriceGraphQl\\Model\\Resolver\\GetConfigAdvancedHidePrice")
+    @doc(description:"Get config in Admin/Configuration/Bss/AdvancedHidePrice")
+}
+type Mutation
+{
+    callForPrice (
+        sku_product : String @doc(description:"Sku product to know price")
+        name : String @doc(description:"Name user")
+        mail: String @doc(description:"Email user")
+        extra_field : String @doc(description:"Field custom in call for price form")
+    ): callForPrice @resolver(class: "Bss\\AdvancedHidePriceGraphQl\\Model\\Resolver\\CallForPrice")
+    @doc(description:"Sent form to know price product")
+
+    callForPriceSendEmail (
+        id : Int @doc(description:"Id customer inquiry")
+        price : Float @doc(description:"Price of product")
+    ) : sendEmail @resolver(class : "Bss\\AdvancedHidePriceGraphQl\\Model\\Resolver\\SendEmail")
+    @doc(description:"Sent email price to user ")
+}
+
+type sendEmail @doc(description:"Sent email price to user "){
+    status : String @doc(description:"Send price email success or failed")
+}
+
+type callForPrice @doc(description:"Call For Price output"){
+    status : String @doc(description:"Call for price success or failed")
+    store_id : String @doc(description:"Store id ")
+    customer_name : String @doc(description:"Customer name ")
+    customer_email : String @doc(description:"Customer email")
+    extra_field : String @doc(description:"Custom field in call for price form")
+    created_at : String @doc(description:"Created at ")
+    product_id : String @doc(description:"Product id")
+    product_name : String @doc(description:"Product name")
+}
+
+type getConfigAdvancedHidePrice {
+    enable : String @doc(description:"Enable/disable module"),
+    selector : String @doc(description:"'Add to Cart' Button Selector"),
+    email_sender : String @doc(description:"Email Answer Customer Inquiry"),
+    admin_response_email_template : String @doc(description:"Email respon Template"),
+    admin_notify_email : String @doc(description:"Email Notify Admin"),
+    admin_notify_email_template : String @doc(description:"Email notify Template"),
+    priority : String @doc(description:"Priority"),
+    form_fields : [formFields] @doc(description:"Call For Price Form Design")
+    is_show_customer_fields : String @doc(description:"Show Customer Name And Email Fields"),
+    recaptcha : String @doc(description:"AntiSpam Protection"),
+    site_key : String @doc(description:"Site Key"),
+    secret_key : String @doc(description:"Secret Key"),
+    call_for_price_text : String @doc(description:"call for price text"),
+    call_for_price_categories : String @doc(description:"Apply For Categories / Call for price"),
+    call_for_price_customers : String @doc(description:"Apply For Customer Groups / Call for price"),
+    call_for_price_not_apply : String @doc(description:"Not Applied For Product IDs	 / Call for price"),
+    hide_price_text : String @doc(description:"Hide price text"),
+    hide_price_categories : String @doc(description:"Apply For Categories / Hide price"),
+    hide_price_customers : String @doc(description:"Apply For Customer Groups / Hide price"),
+    hide_price_not_apply : String @doc(description:"Not Applied For Product IDs	 / Hide price"),
+}
+type formFields @doc(description:"Call For Price Form Design"){
+    field_label : String @doc(description:"Name lable"),
+    field_type : String @doc(description:"Type of lable"),
+    field_order : String @doc(description:"Lable order"),
+    field_required : String @doc(description:"Require or not require lable"),
+    field_enable : String @doc(description:"Enable or disable lable")
+}
+
+interface ProductInterface @doc(description: "Details about an item in the cart."){
+    advancedhideprice : AdcancedHidePrice @resolver(class: "Bss\\AdvancedHidePriceGraphQl\\Model\\Resolver\\ProductAdvancedHidePrice") @doc(description:"Get information advancedHidePrice product query .")
+}
+
+type AdcancedHidePrice @doc(description: "Details about advanced hide price"){
+    advancedhideprice_text :String @doc(description:"Call for price text"),
+    advancedhideprice_type :String @doc(description:"Call for price type"),
+}
+
+
+

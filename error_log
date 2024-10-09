@@ -1,0 +1,62 @@
+[30-Sep-2024 13:30:26 Europe/London] PHP Fatal error:  Uncaught Error: Call to undefined function Symfony\Component\Process\proc_get_status() in phar:///opt/cpanel/composer/bin/composer/vendor/symfony/process/Process.php:1345
+Stack trace:
+#0 phar:///opt/cpanel/composer/bin/composer/vendor/symfony/process/Process.php(868): Symfony\Component\Process\Process->updateStatus()
+#1 phar:///opt/cpanel/composer/bin/composer/vendor/symfony/process/Process.php(920): Symfony\Component\Process\Process->isRunning()
+#2 phar:///opt/cpanel/composer/bin/composer/vendor/symfony/process/Process.php(218): Symfony\Component\Process\Process->stop()
+#3 [internal function]: Symfony\Component\Process\Process->__destruct()
+#4 {main}
+  thrown in phar:///opt/cpanel/composer/bin/composer/vendor/symfony/process/Process.php on line 1345
+[30-Sep-2024 13:30:51 Europe/London] PHP Fatal error:  Uncaught Error: Call to undefined function Symfony\Component\Process\proc_get_status() in phar:///opt/cpanel/composer/bin/composer/vendor/symfony/process/Process.php:1345
+Stack trace:
+#0 phar:///opt/cpanel/composer/bin/composer/vendor/symfony/process/Process.php(868): Symfony\Component\Process\Process->updateStatus()
+#1 phar:///opt/cpanel/composer/bin/composer/vendor/symfony/process/Process.php(920): Symfony\Component\Process\Process->isRunning()
+#2 phar:///opt/cpanel/composer/bin/composer/vendor/symfony/process/Process.php(218): Symfony\Component\Process\Process->stop()
+#3 [internal function]: Symfony\Component\Process\Process->__destruct()
+#4 {main}
+  thrown in phar:///opt/cpanel/composer/bin/composer/vendor/symfony/process/Process.php on line 1345
+[30-Sep-2024 13:33:39 Europe/London] PHP Fatal error:  Uncaught Error: Call to undefined function Symfony\Component\Console\proc_close() in phar:///opt/cpanel/composer/bin/composer/vendor/symfony/console/Terminal.php:169
+Stack trace:
+#0 phar:///opt/cpanel/composer/bin/composer/vendor/symfony/console/Terminal.php(145): Symfony\Component\Console\Terminal::readFromProcess()
+#1 phar:///opt/cpanel/composer/bin/composer/vendor/symfony/console/Terminal.php(111): Symfony\Component\Console\Terminal::getSttyColumns()
+#2 phar:///opt/cpanel/composer/bin/composer/vendor/symfony/console/Terminal.php(94): Symfony\Component\Console\Terminal::initDimensionsUsingStty()
+#3 phar:///opt/cpanel/composer/bin/composer/vendor/symfony/console/Terminal.php(52): Symfony\Component\Console\Terminal::initDimensions()
+#4 phar:///opt/cpanel/composer/bin/composer/vendor/symfony/console/Application.php(140): Symfony\Component\Console\Terminal->getHeight()
+#5 phar:///opt/cpanel/composer/bin/composer/src/Composer/Console/Application.php(145): Symfony\Component\Console\Application->run()
+#6 phar:///opt/cpanel/composer/bin/composer/bin/composer(93): Composer\Console\Application->run()
+#7 /opt/cpanel/composer/bin/composer(29): require('phar:///opt/cpa...')
+#8 {main}
+  thrown in phar:///opt/cpanel/composer/bin/composer/vendor/symfony/console/Terminal.php on line 169
+[30-Sep-2024 13:33:52 Europe/London] PHP Fatal error:  Uncaught Error: Call to undefined function Symfony\Component\Console\proc_close() in phar:///opt/cpanel/composer/bin/composer/vendor/symfony/console/Terminal.php:169
+Stack trace:
+#0 phar:///opt/cpanel/composer/bin/composer/vendor/symfony/console/Terminal.php(145): Symfony\Component\Console\Terminal::readFromProcess()
+#1 phar:///opt/cpanel/composer/bin/composer/vendor/symfony/console/Terminal.php(111): Symfony\Component\Console\Terminal::getSttyColumns()
+#2 phar:///opt/cpanel/composer/bin/composer/vendor/symfony/console/Terminal.php(94): Symfony\Component\Console\Terminal::initDimensionsUsingStty()
+#3 phar:///opt/cpanel/composer/bin/composer/vendor/symfony/console/Terminal.php(52): Symfony\Component\Console\Terminal::initDimensions()
+#4 phar:///opt/cpanel/composer/bin/composer/vendor/symfony/console/Application.php(140): Symfony\Component\Console\Terminal->getHeight()
+#5 phar:///opt/cpanel/composer/bin/composer/src/Composer/Console/Application.php(145): Symfony\Component\Console\Application->run()
+#6 phar:///opt/cpanel/composer/bin/composer/bin/composer(93): Composer\Console\Application->run()
+#7 /opt/cpanel/composer/bin/composer(29): require('phar:///opt/cpa...')
+#8 {main}
+  thrown in phar:///opt/cpanel/composer/bin/composer/vendor/symfony/console/Terminal.php on line 169
+[30-Sep-2024 13:36:18 Europe/London] PHP Fatal error:  Uncaught Error: Call to undefined function Symfony\Component\Console\proc_close() in phar:///opt/cpanel/composer/bin/composer/vendor/symfony/console/Terminal.php:169
+Stack trace:
+#0 phar:///opt/cpanel/composer/bin/composer/vendor/symfony/console/Terminal.php(145): Symfony\Component\Console\Terminal::readFromProcess()
+#1 phar:///opt/cpanel/composer/bin/composer/vendor/symfony/console/Terminal.php(111): Symfony\Component\Console\Terminal::getSttyColumns()
+#2 phar:///opt/cpanel/composer/bin/composer/vendor/symfony/console/Terminal.php(94): Symfony\Component\Console\Terminal::initDimensionsUsingStty()
+#3 phar:///opt/cpanel/composer/bin/composer/vendor/symfony/console/Terminal.php(52): Symfony\Component\Console\Terminal::initDimensions()
+#4 phar:///opt/cpanel/composer/bin/composer/vendor/symfony/console/Application.php(140): Symfony\Component\Console\Terminal->getHeight()
+#5 phar:///opt/cpanel/composer/bin/composer/src/Composer/Console/Application.php(145): Symfony\Component\Console\Application->run()
+#6 phar:///opt/cpanel/composer/bin/composer/bin/composer(93): Composer\Console\Application->run()
+#7 /opt/cpanel/composer/bin/composer(29): require('phar:///opt/cpa...')
+#8 {main}
+  thrown in phar:///opt/cpanel/composer/bin/composer/vendor/symfony/console/Terminal.php on line 169
+[30-Sep-2024 13:37:58 Europe/London] PHP Fatal error:  Uncaught Error: Call to undefined function Symfony\Component\Process\proc_get_status() in phar:///opt/cpanel/composer/bin/composer/vendor/symfony/process/Process.php:1345
+Stack trace:
+#0 phar:///opt/cpanel/composer/bin/composer/vendor/symfony/process/Process.php(868): Symfony\Component\Process\Process->updateStatus()
+#1 phar:///opt/cpanel/composer/bin/composer/vendor/symfony/process/Process.php(920): Symfony\Component\Process\Process->isRunning()
+#2 phar:///opt/cpanel/composer/bin/composer/vendor/symfony/process/Process.php(218): Symfony\Component\Process\Process->stop()
+#3 [internal function]: Symfony\Component\Process\Process->__destruct()
+#4 {main}
+  thrown in phar:///opt/cpanel/composer/bin/composer/vendor/symfony/process/Process.php on line 1345
+[02-Oct-2024 22:13:50 UTC] PHP Fatal error:  Allowed memory size of 536870912 bytes exhausted (tried to allocate 20480 bytes) in /home/weylight/public_html/setup/src/Magento/Setup/Module/Di/Compiler/Config/Chain/PreferencesResolving.php on line 55
+[02-Oct-2024 22:18:18 UTC] PHP Fatal error:  Allowed memory size of 536870912 bytes exhausted (tried to allocate 20480 bytes) in /home/weylight/public_html/setup/src/Magento/Setup/Module/Di/Compiler/Config/Chain/PreferencesResolving.php on line 55

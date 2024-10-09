@@ -1,0 +1,40 @@
+<?xml version="1.0"?>
+<!--
+/**
+ * BSS Commerce Co.
+ *
+ * NOTICE OF LICENSE
+ *
+ * This source file is subject to the EULA
+ * that is bundled with this package in the file LICENSE.txt.
+ * It is also available through the world-wide-web at this URL:
+ * http://bsscommerce.com/Bss-Commerce-License.txt
+ *
+ * @category   BSS
+ * @package    Bss_AdvancedHidePrice
+ * @author     Extension Team
+ * @copyright  Copyright (c) 2017-2022 BSS Commerce Co. ( http://bsscommerce.com )
+ * @license    http://bsscommerce.com/Bss-Commerce-License.txt
+ */
+-->
+<schema xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="urn:magento:framework:Setup/Declaration/Schema/etc/schema.xsd">
+  <table name="bss_callforprice_request" resource="default" engine="innodb" comment="Bss CallForPrice Request Table">
+    <column xsi:type="int" name="id" padding="11" unsigned="false" nullable="false" identity="true" comment="ID"/>
+    <column xsi:type="text" name="customer_name" nullable="true" comment="Customer Name"/>
+    <column xsi:type="text" name="customer_email" nullable="true" comment="Customer Email"/>
+    <column xsi:type="text" name="product_ids" nullable="true" comment="Product IDs"/>
+    <column xsi:type="text" name="product_name" nullable="true" comment="Product Name"/>
+    <column xsi:type="text" name="required_options" nullable="true" comment="Custom Options"/>
+    <column xsi:type="text" name="content" nullable="false" comment="Data Content"/>
+    <column xsi:type="smallint" name="email_sent" padding="6" unsigned="false" nullable="false" identity="false" default="0" comment="Email Sent"/>
+    <column xsi:type="timestamp" name="created_at" on_update="true" nullable="true" default="CURRENT_TIMESTAMP" comment="Created At"/>
+    <column xsi:type="timestamp" name="updated_at" on_update="true" nullable="true" default="CURRENT_TIMESTAMP" comment="Updated At"/>
+    <column xsi:type="int" name="store_id" padding="10" unsigned="false" nullable="true" identity="false" comment="Store Id"/>
+    <constraint xsi:type="primary" referenceId="PRIMARY">
+      <column name="id"/>
+    </constraint>
+    <index referenceId="BSS_CALLFORPRICE_REQUEST_ID" indexType="btree">
+      <column name="id"/>
+    </index>
+  </table>
+</schema>

@@ -1,0 +1,29 @@
+Follow <a href="https://platform.openai.com/account/api-keys" target="_blank">ChatGPT API</a> guide.,Follow <a href="https://platform.openai.com/account/api-keys" target="_blank">ChatGPT API</a> guide.
+Follow <a href="https://platform.openai.com/docs/models/gpt-3-5" target="_blank">ChatGPT Tokens</a> guide and <a href="https://platform.openai.com/tokenizer" target="_blank">example</a>.,Follow <a href="https://platform.openai.com/docs/models/gpt-3-5" target="_blank">ChatGPT Tokens</a> guide and <a href="https://platform.openai.com/tokenizer" target="_blank">example</a>.
+Follow <a href="https://platform.openai.com/docs/models" target="_blank">ChatGPT Model</a> guide.,Follow <a href="https://platform.openai.com/docs/models" target="_blank">ChatGPT Model</a> guide.
+Set a temperature between 0 and 2. Higher values like 0.8 will make the output more random, while lower values like 0.2 will make it more focused and deterministic. See: <a href="https://platform.openai.com/docs/guides/text-generation/how-should-i-set-the-temperature-parameter" target="_blank">ChatGPT Temperature</a> in FAQs.,Set a temperature between 0 and 2. Higher values like 0.8 will make the output more random, while lower values like 0.2 will make it more focused and deterministic. See: <a href="https://platform.openai.com/docs/guides/text-generation/how-should-i-set-the-temperature-parameter" target="_blank">ChatGPT Temperature</a> in FAQs.
+Let's define the role of ChatGPT.,Let's define the role of ChatGPT.
+After changing this configuration, you should test it with the <b>Call ChatGPT</b> button.,After changing this configuration, you should test it with the <b>Call ChatGPT</b> button.
+Please enter a valid integer and greater than 0 in Max Tokens field.,Please enter a valid integer and greater than 0 in Max Tokens field.
+Please enter a valid number greater than or equal to 0 in Temperature field.,Please enter a valid number greater than or equal to 0 in Temperature field.
+ChatGPT configuration is ready.,ChatGPT configuration is ready.
+You should use "Call ChatGPT" button to check the configurations again after editing them.,You should use "Call ChatGPT" button to check the configurations again after editing them.
+Config Max Tokens (API ChatGPT) is too low.,Config Max Tokens (API ChatGPT) is too low.
+(*) Select the product attributes in the attribute box below to give ChatGPT some input to generate content. The selected attributes will be put in curly brackets {{ }} and separated by a semicolon ; in the prompt box.,(*) Select the product attributes in the attribute box below to give ChatGPT some input to generate content. The selected attributes will be put in curly brackets {{ }} and separated by a semicolon ; in the prompt box.
+(*) Enter some keywords in the keyword box below to give ChatGPT some input to generate content. The keywords will be separated by an Enter in the keyword box. They will be put in curly brackets {{ }} and separated by a semicolon ; in the prompt box.,(*) Enter some keywords in the keyword box below to give ChatGPT some input to generate content. The keywords will be separated by an Enter in the keyword box. They will be put in curly brackets {{ }} and separated by a semicolon ; in the prompt box.
+Call ChatGPT,Call ChatGPT
+Error call API ChatGPT!,Error call API ChatGPT!
+ChatGPT has an unexpected problem!,ChatGPT has an unexpected problem!
+ChatGPT has created the content!,ChatGPT has created the content!
+Error call API ChatGPT!,Error call API ChatGPT!
+Get Default Prompt,Get Default Prompt
+Send to ChatGPT,Send to ChatGPT
+ChatGPT Content,ChatGPT Content
+Request prompt null!,Request prompt null!
+Module ChatGPT is disabled!,Module ChatGPT is disabled!
+Enter Custom Prompt,Enter Custom Prompt
+Attributes,Attributes
+Use all attributes,Use all attributes
+System role,System role
+Prompt,Prompt
+Keywords,Keywords

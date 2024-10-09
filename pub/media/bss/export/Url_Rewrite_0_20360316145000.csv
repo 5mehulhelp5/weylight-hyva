@@ -1,0 +1,7 @@
+entity_type,product_id,category_id,cms_page_id,store_id,current_request_path,new_request_path,target_path,redirect_type,description
+product,5582,,,1,endotrade8950144,,catalog/product/view/id/5582,301,
+product,5582,406,,1,interior-lighting/endotrade8950144,,catalog/product/view/id/5582/category/406,301,
+product,5582,458,,1,garden-lighting/endotrade8950144,,catalog/product/view/id/5582/category/458,301,
+product,5582,467,,1,chandeliers-and-crystal-lighting/endotrade8950144,,catalog/product/view/id/5582/category/467,301,
+category,,588,,1,smart-home/sub,,catalog/category/view/id/588,0,
+category,,587,,1,smart-home/speakers,,catalog/category/view/id/587,0,

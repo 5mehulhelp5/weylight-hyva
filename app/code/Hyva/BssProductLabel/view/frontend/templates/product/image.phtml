@@ -1,0 +1,40 @@
+<?php
+/**
+ *
+ * BSS Commerce Co.
+ *
+ * NOTICE OF LICENSE
+ *
+ * This source file is subject to the EULA
+ * that is bundled with this package in the file LICENSE.txt.
+ * It is also available through the world-wide-web at this URL:
+ * http://bsscommerce.com/Bss-Commerce-License.txt
+ *
+ *  @category  BSS
+ *  @package   Hyva_BssProductLabel
+ *  @author    Extension Team
+ *  @copyright Copyright (c) 2022 BSS Commerce Co. ( http://bsscommerce.com )
+ *  @license   http://bsscommerce.com/Bss-Commerce-License.txt
+ */
+
+declare(strict_types=1);
+
+use Magento\Catalog\Block\Product\Image;
+use Magento\Framework\Escaper;
+
+/** @var $block Image */
+/** @var $escaper Escaper */
+?>
+<div class="product-image-container-<?= $escaper->escapeUrl($block->getProductId()) ?>"
+     style="width:<?= $escaper->escapeHtmlAttr($block->getWidth()) ?>px">
+    <img class="photo image <?= $escaper->escapeHtmlAttr($block->getClass()) ?>"
+    <?php foreach ($block->getCustomAttributes() as $name => $value): ?>
+        <?= $escaper->escapeHtmlAttr($name) ?>="<?= $escaper->escapeHtmlAttr($value) ?>"
+    <?php endforeach; ?>
+    src="<?= $escaper->escapeUrl($block->getImageUrl()) ?>"
+    loading="lazy"
+    width="<?= $escaper->escapeHtmlAttr($block->getWidth()) ?>"
+    height="<?= $escaper->escapeHtmlAttr($block->getHeight()) ?>"
+    alt="<?= $escaper->escapeHtmlAttr($block->getLabel()) ?>"
+    />
+</div>

@@ -1,0 +1,135 @@
+<?xml version="1.0"?>
+<!--
+/**
+ *
+ * BSS Commerce Co.
+ *
+ * NOTICE OF LICENSE
+ *
+ * This source file is subject to the EULA
+ * that is bundled with this package in the file LICENSE.txt.
+ * It is also available through the world-wide-web at this URL:
+ * http://bsscommerce.com/Bss-Commerce-License.txt
+ *
+ *  @category  BSS
+ *  @package   Bss_ChatGPT
+ *  @author    Extension Team
+ *  @copyright Copyright (c) 2023-2023 BSS Commerce Co. ( http://bsscommerce.com )
+ *  @license   http://bsscommerce.com/Bss-Commerce-License.txt
+ */
+-->
+<config xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="urn:magento:module:Magento_Config:etc/system_file.xsd">
+    <system>
+        <tab id="bss" translate="label" sortOrder="300">
+            <label><![CDATA[Bss Commerce]]></label>
+        </tab>
+        <section id="chat_gpt" translate="label" type="text" sortOrder="1" showInDefault="1" showInWebsite="1" showInStore="1">
+            <label>ChatGPT</label>
+            <tab>bss</tab>
+            <resource>Bss_ChatGPT::config</resource>
+            <group id="config_chatgpt" translate="label" type="text" sortOrder="10" showInDefault="1" showInWebsite="1" showInStore="1">
+                <label>ChatGPT Configuration</label>
+                <field id="enable" translate="label" type="select" sortOrder="10" showInDefault="1" showInWebsite="0" showInStore="0">
+                    <label>Enable</label>
+                    <source_model>Magento\Config\Model\Config\Source\Yesno</source_model>
+                    <comment><![CDATA[Version 1.0.3]]></comment>
+                </field>
+                <field id="api_key" translate="label" type="obscure" sortOrder="20" showInDefault="1" showInWebsite="0" showInStore="0">
+                    <label>API Key</label>
+                    <validate>required-entry</validate>
+                    <backend_model>Bss\ChatGPT\Model\Config\Backend\Encrypted</backend_model>
+                    <comment><![CDATA[Follow <a href="https://platform.openai.com/account/api-keys" target="_blank">ChatGPT API</a> guide.]]></comment>
+                    <tooltip><![CDATA[After changing this configuration, you should test it with the <b>Call ChatGPT</b> button.]]></tooltip>
+                </field>
+                <field id="api_url" type="hidden" sortOrder="30" showInDefault="1" showInWebsite="0" showInStore="0">
+                    <frontend_model>Bss\ChatGPT\Block\System\Config\DisableScope</frontend_model>
+                    <!--<validate>required-entry</validate>-->
+                    <!--<label>Api Url</label>-->
+                    <!--<comment><![CDATA[Follow <a href="https://platform.openai.com/docs/api-reference/completions/create" target="_blank">ChatGPT API</a> guide.]]></comment>-->
+                    <!--<tooltip><![CDATA[The default value will be updated again after you change the <b>Model Type</b> configuration]]></tooltip>-->
+                </field>
+                <field id="model" translate="label" type="select" sortOrder="40" showInDefault="1" showInWebsite="0" showInStore="0">
+                    <label>Model Type</label>
+                    <source_model>Bss\ChatGPT\Model\Config\Source\ChooseModelType</source_model>
+                    <comment><![CDATA[Follow <a href="https://platform.openai.com/docs/models" target="_blank">ChatGPT Model</a> guide.]]></comment>
+                </field>
+                <field id="max_tokens" translate="label" type="text" sortOrder="50" showInDefault="1" showInWebsite="1" showInStore="1">
+                    <label>Max Tokens</label>
+                    <validate>required-entry validate-number validate-digits validate-greater-than-zero</validate>
+                    <comment><![CDATA[Follow <a href="https://platform.openai.com/docs/models/gpt-3-5" target="_blank">ChatGPT Tokens</a> guide and <a href="https://platform.openai.com/tokenizer" target="_blank">example</a>.]]></comment>
+                </field>
+                <field id="temperature" translate="label" type="text" sortOrder="60" showInDefault="1" showInWebsite="0" showInStore="0" canRestore="1">
+                    <label>Temperature</label>
+                    <validate>required-entry validate-number validate-zero-or-greater</validate>
+                    <comment><![CDATA[Set a temperature between 0 and 2. Higher values like 0.8 will make the output more random, while lower values like 0.2 will make it more focused and deterministic. See: <a href="https://platform.openai.com/docs/guides/text-generation/how-should-i-set-the-temperature-parameter" target="_blank">ChatGPT Temperature</a> in FAQs.]]></comment>
+                </field>
+
+                <field id="is_active" type="hidden" sortOrder="70" showInDefault="1" showInWebsite="1" showInStore="1">
+                    <frontend_model>Bss\ChatGPT\Block\System\Config\DisableScope</frontend_model>
+                </field>
+                <field id="test_key" type="button" sortOrder="80" showInDefault="1" showInWebsite="1" showInStore="1">
+                    <frontend_model>Bss\ChatGPT\Block\System\Config\ChatGPT</frontend_model>
+                </field>
+            </group>
+            <group id="default_message" translate="label" type="text" sortOrder="20" showInDefault="1" showInWebsite="1" showInStore="1">
+                <label>Default Prompts</label>
+                <group id="group_product" translate="label" type="text" sortOrder="10" showInDefault="1" showInWebsite="1" showInStore="1">
+                    <label>Product Prompts</label>
+                    <field id="system_role" translate="label" type="text" sortOrder="10" showInDefault="1" showInWebsite="1" showInStore="1" canRestore="1">
+                        <label>ChatGPT System Role</label>
+                        <validate>required-entry</validate>
+                        <comment><![CDATA[Let's define the role of ChatGPT.]]></comment>
+                    </field>
+                    <field id="product" translate="label" type="textarea" sortOrder="20" showInDefault="1" showInWebsite="1" showInStore="1" canRestore="1">
+                        <label>Product Pages</label>
+                        <validate>required-entry</validate>
+                    </field>
+                </group>
+                <group id="group_category" translate="label" type="text" sortOrder="20" showInDefault="1" showInWebsite="1" showInStore="1">
+                    <label>Category Prompts</label>
+                    <field id="system_role" translate="label" type="text" sortOrder="10" showInDefault="1" showInWebsite="1" showInStore="1" canRestore="1">
+                        <label>ChatGPT System Role</label>
+                        <validate>required-entry</validate>
+                        <comment><![CDATA[Let's define the role of ChatGPT.]]></comment>
+                    </field>
+                    <field id="category" translate="label" type="textarea" sortOrder="20" showInDefault="1" showInWebsite="1" showInStore="1" canRestore="1">
+                        <label>Category Pages</label>
+                        <validate>required-entry</validate>
+                    </field>
+                </group>
+                <group id="group_cms" translate="label" type="text" sortOrder="30" showInDefault="1" showInWebsite="0" showInStore="0" canRestore="1">
+                    <label>CMS Prompts</label>
+                    <field id="system_role" translate="label" type="text" sortOrder="10" showInDefault="1" showInWebsite="0" showInStore="0" canRestore="1">
+                        <label>ChatGPT System Role</label>
+                        <validate>required-entry</validate>
+                        <comment><![CDATA[Let's define the role of ChatGPT.]]></comment>
+                    </field>
+                    <field id="cms" translate="label" type="textarea" sortOrder="20" showInDefault="1" showInWebsite="0" showInStore="0" canRestore="1">
+                        <label>CMS Pages</label>
+                        <validate>required-entry</validate>
+                    </field>
+                </group>
+                <group id="group_seo" translate="label" type="text" sortOrder="40" showInDefault="1" showInWebsite="1" showInStore="1">
+                    <label>SEO Prompts</label>
+                    <field id="system_role" translate="label" type="text" sortOrder="10" showInDefault="1" showInWebsite="1" showInStore="1" canRestore="1">
+                        <label>ChatGPT System Role</label>
+                        <validate>required-entry</validate>
+                        <comment><![CDATA[Let's define the role of ChatGPT.]]></comment>
+                    </field>
+                    <field id="seo_title" translate="label" type="textarea" sortOrder="20" showInDefault="1" showInWebsite="1" showInStore="1" canRestore="1">
+                        <label>SEO Meta Title</label>
+                        <validate>required-entry</validate>
+                    </field>
+                    <field id="seo_keyword" translate="label" type="textarea" sortOrder="30" showInDefault="1" showInWebsite="1" showInStore="1" canRestore="1">
+                        <label>SEO Meta Keywords</label>
+                        <validate>required-entry</validate>
+                    </field>
+                    <field id="seo_description" translate="label" type="textarea" sortOrder="40" showInDefault="1" showInWebsite="1" showInStore="1" canRestore="1">
+                        <label>SEO Meta Description</label>
+                        <validate>required-entry</validate>
+                    </field>
+                </group>
+            </group>
+        </section>
+    </system>
+</config>

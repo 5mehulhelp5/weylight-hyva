@@ -1,0 +1,268 @@
+<?php
+/**
+ * BSS Commerce Co.
+ *
+ * NOTICE OF LICENSE
+ *
+ * This source file is subject to the EULA
+ * that is bundled with this package in the file LICENSE.txt.
+ * It is also available through the world-wide-web at this URL:
+ * http://bsscommerce.com/Bss-Commerce-License.txt
+ *
+ * @category  BSS
+ * @package   Hyva_BssGallery
+ * @author    Extension Team
+ * @copyright Copyright (c) 2022 BSS Commerce Co. ( http://bsscommerce.com )
+ * @license   http://bsscommerce.com/Bss-Commerce-License.txt
+ */
+
+use Bss\Gallery\Block\CategoryView;
+use Magento\Framework\Escaper;
+use Hyva\Theme\Model\ViewModelRegistry;
+use Hyva\BssGallery\ViewModels\Helper as ModuleViewModel;
+
+/** @var CategoryView $block */
+/** @var Escaper $escaper */
+/** @var ViewModelRegistry $viewModels */
+
+$category = $block->getCategory();
+$items = $block->getCollection();
+$isAutoLoad = $block->isAutoLoad();
+$pageSpeed = $block->getPageSpeed();
+$moduleViewModel = $viewModels->require(ModuleViewModel::class);
+$helperGallery = $moduleViewModel->getHelper();
+
+?>
+<?php if ($category != null) : ?>
+    <?php
+    $items = $block->getCollection();
+    if ($items->getSize() > 0) : ?>
+        <div id="gallery-wrapper">
+        <h1 class="m-0 px-2 pt-2 pb-5 text-center text-3xl">
+            <?= $escaper->escapeHtml($category->getTitle()) ?>
+        </h1>
+        <p class="text-center py-2">
+            <?= $escaper->escapeHtml($category->getCategoryDescription()) ?>
+        </p>
+    <?php if ($category->getItemLayout() == '1') : //standard ?>
+        <div class="toolbar top">
+            <?= $block->getPagerHtml(); ?>
+        </div>
+        <script>
+            function galleryStandard() {
+                return {
+                    perPage: "<?= $helperGallery->getItemPerPage(); ?>",
+                    itemSize : "<?= $items->getSize() ?>",
+                    init() {
+                        const splide = new Splide( '.splide', {
+                            perPage : this.perPage,
+                            pagination: false,
+                            arrows: false,
+                            autoHeight: true,
+                            perMove:1,
+                            breakpoints: {
+                                640: {
+                                    perPage: 1,
+                                    arrows: false,
+                                },
+                                768: {
+                                    perPage: 3,
+                                    arrows: false,
+                                },
+                                1024: {
+                                    perPage: 4,
+                                    arrows: false,
+                                }
+                            }
+                        } );
+
+                        splide.mount();
+                    },
+                    viewImageStandard() {
+                        var href = this.$el.href;
+                        var title = this.$el.getAttribute("data-title");
+                        var id = this.$el.id;
+                        var isVideo = false;
+                        if (href.includes("youtube")) {
+                            isVideo = true;
+                        }
+                        window.dispatchEvent(
+                            new CustomEvent(
+                                "bss-image-gallery-info",
+                                {
+                                    detail: {
+                                        open: true,
+                                        url: href,
+                                        isVideo:isVideo,
+                                        title:title,
+                                        id:id,
+                                        ele:this.$el
+                                    }
+                                }
+                            )
+                        );
+                    }
+                }
+            }
+        </script>
+        <section class="splide is-initialized" x-data="galleryStandard()" x-init="init()">
+            <div class="splide__track">
+                <ul class="splide__list m-0 p-0 w-full list-none max-w-[1600px]">
+                    <?php $j = 0; ?>
+                    <?php foreach ($items as $item): ?>
+                        <?php $j++; ?>
+                        <li class="splide__slide box-border float-left py-0 lg:my-0 px-2 lg:w-1/5
+                        w-1/2 h-[300px] min-h-[220px]">
+                            <?php if ($item->getVideo() != null) : ?>
+                                <div class="p-1 hover:standard-shadow">
+                                    <a title="<?= $escaper->escapeHtmlAttr($item->getDescription()) ?>" @click.prevent="viewImageStandard()"
+                                       href="<?= $escaper->escapeUrl($item->getVideo()) ?>"
+                                       data-caption="<?= $escaper->escapeHtmlAttr($item->getDescription()) ?>"
+                                       data-title="<?= $escaper->escapeHtml($item->getTitle()) ?>"
+                                       id="gallery-<?= $j?>"
+                                       class="flex flex-col justify-center h-full">
+                                        <img class="h-[200px]"
+                                             src="<?= $escaper->escapeUrl($block->getImageResize($item->getImage(), 'item')) ?>"/>
+                                    </a>
+                                </div>
+                            <?php else : ?>
+                                <div class="p-1 standard-shadow">
+                                    <a title="<?= $escaper->escapeHtmlAttr($item->getDescription()) ?>" @click.prevent="viewImageStandard()"
+                                       href="<?= $escaper->escapeUrl($block->getImageUrl($item->getImage())) ?>"
+                                       data-caption="<?= $escaper->escapeHtmlAttr($item->getDescription()) ?>"
+                                       data-title="<?= $escaper->escapeHtml($item->getTitle()) ?>"
+                                       id="gallery-<?= $j?>"
+                                       class="flex flex-col justify-center h-full">
+                                        <img class="h-[200px]"
+                                             src="<?= $escaper->escapeUrl($block->getImageResize($item->getImage(), 'item')) ?>"/>
+                                    </a>
+                                </div>
+                            <?php endif ?>
+                            <h4 class="text-lg my-4 truncate">
+                                <?= $escaper->escapeHtml($item->getTitle()) ?>
+                            </h4>
+                        </li>
+                    <?php endforeach; ?>
+                </ul>
+            </div>
+        </section>
+        <div class="toolbar-bottom">
+            <div class="toolbar bottom">
+                <?= $escaper->escapeHtml($block->getPagerHtml()); ?>
+            </div>
+        </div>
+    <?php elseif ($category->getItemLayout() == '2') : //slider ?>
+        <script>
+            function gallerySlider() {
+                return {
+                    isAutoLoad : <?= $isAutoLoad ?>,
+                    pageSpeed : <?= $pageSpeed ?>,
+                    perPage: "<?= $helperGallery->getItemPerPage(); ?>",
+                    itemSize : "<?= $items->getSize() ?>",
+                    init() {
+                        var checkAutoPlay = false;
+
+                        if (this.isAutoLoad == 1) {
+                            checkAutoPlay = true;
+                        }
+
+                        const splide = new Splide( '.splide', {
+                            type    : 'loop',
+                            perPage : this.perPage,
+                            autoplay: checkAutoPlay,
+                            pagination: false,
+                            arrows: true,
+                            autoHeight: true,
+                            perMove:1,
+                            breakpoints: {
+                                640: {
+                                    perPage: 1,
+                                    arrows: true,
+                                },
+                                768: {
+                                    perPage: 3,
+                                    arrows: true,
+                                },
+                                1024: {
+                                    perPage: 4,
+                                    arrows: true,
+                                }
+                            }
+                        } );
+
+                        splide.mount();
+                    },
+                    viewImageSlider() {
+                        var href = this.$el.href;
+                        var title = this.$el.getAttribute("data-title");
+                        var id = this.$el.id;
+                        var isVideo = false;
+                        if (href.includes("youtube")) {
+                            isVideo = true;
+                        }
+                        window.dispatchEvent(
+                            new CustomEvent(
+                                "bss-image-gallery-info",
+                                {
+                                    detail: {
+                                        open: true,
+                                        url: href,
+                                        isVideo:isVideo,
+                                        title:title,
+                                        id:id,
+                                        ele:this.$el
+                                    }
+                                }
+                            )
+                        );
+                    }
+                }
+            }
+        </script>
+        <section class="splide is-initialized" x-data="gallerySlider()" x-init="init()">
+            <div class="splide__track">
+                <ul class="splide__list m-0 p-0 w-full list-none max-w-[1600px]">
+                    <?php $j = 0; ?>
+                    <?php foreach ($items as $item): ?>
+                        <?php $j++; ?>
+                        <li class="splide__slide box-border float-left py-0 lg:my-0 px-2 lg:w-1/5 h-[300px] min-h-[220px]"
+                            x-bind:data-splide-interval="pageSpeed">
+                            <?php if ($item->getVideo() != null) : ?>
+                                <div class="splide__slide p-1">
+                                    <a title="<?= $escaper->escapeHtmlAttr($item->getDescription()) ?>" @click.prevent="viewImageSlider()"
+                                       href="<?= $escaper->escapeUrl($item->getVideo()) ?>"
+                                       data-caption="<?= $escaper->escapeHtmlAttr($item->getDescription()) ?>"
+                                       data-title="<?= $escaper->escapeHtml($item->getTitle()) ?>"
+                                       id="gallery-<?= $j?>"
+                                       class="flex flex-col justify-center h-full">
+                                        <img class="h-[250px]"
+                                             src="<?= $escaper->escapeUrl($block->getImageResize($item->getImage(), 'item')) ?>"/>
+                                    </a>
+                                </div>
+                            <?php else : ?>
+                                <div class="splide__slide p-1">
+                                    <a title="<?= $escaper->escapeHtmlAttr($item->getDescription()) ?>" @click.prevent="viewImageSlider()"
+                                       href="<?= $escaper->escapeUrl($block->getImageUrl($item->getImage())) ?>"
+                                       data-caption="<?= $escaper->escapeHtmlAttr($item->getDescription()) ?>"
+                                       data-title="<?= $escaper->escapeHtml($item->getTitle()) ?>"
+                                       id="gallery-<?= $j?>"
+                                       class="flex flex-col justify-center h-full">
+                                        <img class="h-[250px]"
+                                             src="<?= $escaper->escapeUrl($block->getImageResize($item->getImage(), 'item')) ?>"/>
+                                    </a>
+                                </div>
+                            <?php endif ?>
+                            <h4 class="text-lg my-4 truncate text-center">
+                                <?= $escaper->escapeHtml($item->getTitle()) ?>
+                            </h4>
+                        </li>
+                    <?php endforeach; ?>
+                </ul>
+            </div>
+        </section>
+    <?php endif; ?>
+    <?php else : ?>
+        <p><?= $block->escapeHtml(__('This Album has no image !')) ?></p>
+    <?php endif; ?>
+    </div>
+<?php endif; ?>

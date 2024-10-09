@@ -1,0 +1,126 @@
+<?php
+/**
+ * Hyvä Themes - https://hyva.io
+ * Copyright © Hyvä Themes 2020-present. All rights reserved.
+ * This product is licensed per Magento install
+ * See https://hyva.io/license
+ */
+
+use Magezon\NinjaMenus\Block\Menu;
+/**
+ * @var Menu $block
+ */
+
+$coreHelper = $this->helper(\Magezon\Core\Helper\Data::class);
+$builderHelper = $this->helper(\Magezon\Builder\Helper\Data::class);
+$menu = $this->getCurrentMenu();
+$id = $menu->getRandomId();
+$html = $this->getProfileHtml();
+$type = $menu->getType();
+$mobileType = $menu->getMobileType();
+$mobileBreakpoint = (int) $menu->getMobileBreakpoint() ? (int) $menu->getMobileBreakpoint() : 768;
+$sticky = $menu->getSticky();
+$hoverDelayTimeout = $menu->getHoverDelayTimeout();
+$hamburger = $menu->getHamburger();
+$haumburgerTitle = $menu->getHamburgerTitle();
+$customCss = $menu->getCustomCss();
+$mainColors['color'] = $builderHelper->getStyleColor($menu->getData('main_color'));
+$mainColors['background-color'] = $builderHelper->getStyleColor($menu->getData('main_background_color'));
+$mainColors['font-size'] = $builderHelper->getStyleProperty($menu->getData('main_font_size'));
+$mainColors['font-weight'] = $menu->getData('main_font_weight');
+$mainStyles = $builderHelper->parseStyles($mainColors);
+$mainHoverColors['color'] = $builderHelper->getStyleColor($menu->getData('main_hover_color'));
+$mainHoverColors['background-color'] = $builderHelper->getStyleColor($menu->getData('main_hover_background_color'));
+$mainHoverStyles = $builderHelper->parseStyles($mainHoverColors);
+$secondColors['color'] = $builderHelper->getStyleColor($menu->getData('secondary_color'));
+$secondColors['background-color'] = $builderHelper->getStyleColor($menu->getData('secondary_background_color'));
+$secondStyles = $builderHelper->parseStyles($secondColors);
+$secondHoverColors['color'] = $builderHelper->getStyleColor($menu->getData('secondary_hover_color'));
+$secondHoverColors['background-color'] = $builderHelper->getStyleColor($menu->getData('secondary_hover_background_color'));
+$secondHoverStyles = $builderHelper->parseStyles($secondHoverColors);
+?>
+<?php if ($menu->getId()) { ?>
+    <?php if ($hamburger) { ?>
+        <div class="ninjamenus-hamburger-trigger mb-1">
+            <div class="menu-trigger-inner">
+			<span class="trigger-icon">
+				<span class="line"></span>
+				<span class="line"></span>
+				<span class="line"></span>
+			</span>
+                <?php if ($haumburgerTitle) { ?>
+                    <span class="label"><?= $haumburgerTitle ?></span>
+                <?php } ?>
+            </div>
+        </div>
+    <?php } ?>
+    <div id="<?= $id ?>" class="ninjamenus <?= ($hamburger) ? 'ninjamenus-hamburger-menu' : '' ?> ninjamenus-<?= $type ?> ninjamenus-mobile-<?= $mobileType ?> ninjamenus-desktop <?= $menu->getCssClasses() ?> <?= $this->getCustomClasses() ?>" data-type="<?= $type ?>" data-mobile-type="<?= $mobileType ?>">
+        <?php if ($type == 'drilldown' || $mobileType == 'drilldown') { ?>
+        <div class="drilldown-root <?= $id ?>-drilldown-container">
+            <div class="drilldown-root <?= $id ?>-drilldown-root">
+                <?php } ?>
+                <?= $html ?>
+                <?php if ($type == 'drilldown' || $mobileType == 'drilldown') { ?>
+            </div>
+        </div>
+    <?php } ?>
+        <?php if ($customCss) { ?><style><?= $customCss ?></style><?php } ?>
+    </div>
+    <?php if ($mainStyles || $mainHoverStyles || $secondStyles || $secondHoverStyles) { ?>
+        <style class="mgz-style">
+            <?php if ($mainStyles) { ?>
+            #<?= $id ?>.ninjamenus .level0 > a, #<?= $id ?>.ninjamenus.ninjamenus-drilldown .level0 > a {<?= $mainStyles ?>}
+            <?php } ?>
+            <?php if ($mainHoverStyles) { ?>
+            #<?= $id ?>.ninjamenus .level0:hover > a, #<?= $id ?>.ninjamenus.ninjamenus-drilldown .level0:hover > a {<?= $mainHoverStyles ?>}
+            <?php } ?>
+            <?php if ($secondStyles) { ?>
+            #<?= $id ?>.ninjamenus .level0 .item-submenu .nav-item > a, #<?= $id ?>.ninjamenus-drilldown .nav-item > a{<?= $secondStyles ?>}
+            <?php } ?>
+            <?php if ($secondHoverStyles) { ?>
+            #<?= $id ?>.ninjamenus .level0 .item-submenu .nav-item > a:hover,#<?= $id ?>.ninjamenus-drilldown .nav-item.active > a:hover {<?= $secondHoverStyles ?>}
+            <?php } ?>
+        </style>
+    <?php } ?>
+<?php } ?>
+<?php if ($menu->getIdentifier() == 'top-menu' && $menu->getOverlay()) { ?>
+    <div class="ninjamenus-top-overlay" style="position: fixed !important; top: 50px; <?= $menu->getOverlayOpacity() ? 'opacity: ' . (float)$menu->getOverlayOpacity() . ';' : '' ?>"></div>
+    <script>
+        loadScript('<?= $block->getViewFileUrl('Hyva_MagezonBuilder::js/jquery.min.js') ?>', 'jquery')
+            .then(() => {
+                $('.ninjamenus-top-overlay').appendTo('.page-wrapper');
+                $('.ninjamenus-top').hover(function() {
+                    $('.nav-sections').css('z-index', 999);
+                    $('.ninjamenus-top-overlay').fadeIn(400);
+                }, function() {
+                    if (!$('.nav-sections').hasClass('scroll-to-fixed-fixed')) {
+                        $('.nav-sections').css('z-index', '');
+                    }
+                    $('.ninjamenus-top-overlay').fadeOut(400);
+                });
+            })
+            .then(() => {
+                return loadScript('<?= $block->getViewFileUrl('Magezon_NinjaMenus::js/jquery.drilldown.min.js') ?>', 'drilldown');
+            })
+            .then(() => {
+                return loadScript('<?= $block->getViewFileUrl('Magezon_NinjaMenus::js/jquery.hoverIntent.min.js') ?>', 'hoverIntent');
+            })
+            .then(() => {
+                return loadScript('<?= $block->getViewFileUrl('Magezon_Core::js/jquery-scrolltofixed-min.js') ?>', 'scrolltofixed');
+            })
+            .then(() => {
+                return loadScript('<?= $block->getViewFileUrl('Hyva_MagezonNinjaMenus::js/menu.js') ?>', 'menu');
+            })
+            .then(() => {
+                return loadScript('<?= $block->getViewFileUrl('Hyva_MagezonNinjaMenus::js/jquery.drilldown.min.js') ?>', 'drilldown');
+            })
+            .then(() => {
+                const menuElement = $(".ninjamenus");
+                const options = {
+                    "mobileBreakpoint": 1024,
+                    "stick": <?= $sticky ?>,
+                };
+                let ninjaMenus = new NinjaMenus(menuElement, options);
+            })
+    </script>
+<?php } ?>

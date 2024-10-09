@@ -1,0 +1,79 @@
+<?php
+/**
+ * Hyvä Themes - https://hyva.io
+ * Copyright © Hyvä Themes 2020-present. All rights reserved.
+ * This product is licensed per Magento install
+ * See https://hyva.io/license
+ */
+
+declare(strict_types=1);
+
+use Hyva\Theme\Model\ViewModelRegistry;
+use Hyva\Theme\ViewModel\HeroiconsOutline;
+use Hyva\Theme\ViewModel\Store;
+use Hyva\Theme\ViewModel\StoreSwitcher;
+use Magento\Framework\Escaper;
+use Magento\Framework\View\Element\Template;
+use Magento\Store\ViewModel\SwitcherUrlProvider;
+
+// phpcs:disable Generic.Files.LineLength.TooLong
+
+/** @var Template $block */
+/** @var Escaper $escaper */
+/** @var ViewModelRegistry $viewModels */
+
+/** @var HeroiconsOutline $heroiconsOutline */
+$heroiconsOutline = $viewModels->require(HeroiconsOutline::class);
+
+/** @var SwitcherUrlProvider $switcherUrlProvider */
+$switcherUrlProvider = $viewModels->require(SwitcherUrlProvider::class);
+
+/** @var Store $storeViewModel */
+$storeViewModel = $viewModels->require(Store::class);
+
+/** @var StoreSwitcher $storeSwitcherViewModel */
+$storeSwitcherViewModel = $viewModels->require(StoreSwitcher::class);
+
+$currentStore = $storeSwitcherViewModel->getStore();
+?>
+<?php if (count($storeSwitcherViewModel->getStores()) > 1): ?>
+    <div x-data="{ open: false }"
+         class="relative"
+    >
+        <div class="sr-only">
+            <?= $escaper->escapeHtml(__('Language')) ?>
+        </div>
+
+        <button @click.prevent="open = !open"
+                @click.outside="open = false"
+                @keydown.window.escape="open=false"
+                type="button"
+                class="text-slate-500 text-xs ml-1 border-0 flex gap-1 items-center"
+                aria-haspopup="true"
+                aria-expanded="true"
+        >
+            <?= $heroiconsOutline->globeHtml('text-slate-800', 24, 24, ['aria-hidden' => 'true']) ?>
+            <?= $escaper->escapeHtml($currentStore->getName()) ?>
+            <?= $heroiconsOutline->chevronDownHtml("h-3 w-3 text-slate-500", 25, 25) ?>
+        </button>
+
+        <nav x-cloak=""
+             x-show="open"
+             class="absolute left-0 top-full z-20 w-56 py-2 mt-1 overflow-auto origin-top-left rounded-sm shadow-lg 
+sm:w-48 lg:mt-3 bg-container-lighter">
+            <div class="my-1" role="menu" aria-orientation="vertical" aria-labelledby="options-menu">
+            <?php foreach ($storeSwitcherViewModel->getStores() as $lang): ?>
+                <?php if ($lang->getId() != $storeViewModel->getStoreId()): ?>
+                    <a href="<?= $escaper->escapeUrl($switcherUrlProvider->getTargetStoreRedirectUrl($lang)) ?>"
+                       class="block px-4 py-2 lg:px-5 lg:py-2 hover:bg-gray-100"
+                    >
+                        <?= $escaper->escapeHtml($lang->getName()) ?>
+                    </a>
+                <?php endif; ?>
+            <?php endforeach; ?>
+            </div>
+        </nav>
+
+    </div>
+<?php endif; ?>
+

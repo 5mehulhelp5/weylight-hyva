@@ -1,0 +1,75 @@
+A total of %1 record(s) have been enabled.,A total of %1 record(s) have been enabled.
+A total of %1 record(s) have been deleted.,A total of %1 record(s) have been deleted.
+The album has been deleted.,The album has been deleted.
+We can\'t find a album to delete.,We can\'t find a album to delete.
+A total of %1 record(s) have been disabled.,A total of %1 record(s) have been disabled.
+You saved this Album.,You saved this Album.
+"Something went wrong, please try again !","Something went wrong, please try again !"
+Gallery Album,Gallery Album
+The item has been deleted.,The item has been deleted.
+We can\'t find a item to delete.,We can\'t find a item to delete.
+Manage Gallery Album,Manage Gallery Album
+A total of %1 record(s) have been disabled.,A total of %1 record(s) have been disabled.
+Inside,Inside
+Outside,Outside
+Over,Over
+File has been successfully uploaded in var/import/image-category,File has been successfully uploaded in var/import/image-category
+You saved this Item.,You saved this Item.
+Inserted Row(s): ,Inserted Row(s):
+Invalid Row(s): %1: <br/> Empty Title in Row(s): %2,Invalid Row(s): %1: <br/> Empty Title in Row(s): %2
+Something went wrong while saving the item.,Something went wrong while saving the item.
+Make sure your file isn\'t more than %1M.,Make sure your file isn\'t more than %1M.
+We can\'t provide the upload settings right now.,We can\'t provide the upload settings right now.
+There is no sample file for this entity.,There is no sample file for this entity.
+Gallery Item,Gallery Item
+Manage Gallery Item,Manage Gallery Item
+A total of %1 record(s) have been disabled.,A total of %1 record(s) have been disabled.
+Import Album and Item,Import Album and Item
+This item no longer exists.,This item no longer exists.
+New Gallery Item,New Gallery Item
+Please select item(s).,Please select item(s).
+Item Information,Item Information
+General Information,General Information
+Item Title,Item Title
+Gallery Album View,Gallery Album View
+Image,Image
+Home,Home
+Video,Video
+Sort Order,Sort Order
+Status,Status
+Enabled,Enabled
+Disabled,Disabled
+Select Albums,Select Albums
+description,description
+Save Gallery Item,Save Gallery Item
+Save and Continue Edit,Save and Continue Edit
+Delete Item,Delete Item
+Edit Item '%1,Edit Item '%1
+New Item,New Item
+You saved this Album.,You saved this Album.
+General,General
+Enabled Gallery,Enabled Gallery
+Image Per Page,Image Per Page
+Album Layout,Album Layout
+Popup Auto Play,Popup Auto Play
+Popup Auto Play Speed,Popup Auto Play Speed
+Page Speed If Auto Next is Yes,Page Speed If Auto Next is Yes
+Popup Title Position,Popup Title Position
+Popup Transition Effect,Popup Transition Effect
+Disable Fancybox of Extension,Disable Fancybox of Extension
+"The request for this album is not exist","The request for this album is not exist"
+"Assign to Store Views","Assign to Store Views"
+"Enable Repeated Images","Enable Repeated Images"
+"Fade","Fade"
+"Slide","Slide"
+"Slide","Slide"
+"Circular","Circular"
+"Tube","Tube"
+"Zoom-in-out","Zoom-in-out"
+"Rotate","Rotate"
+"Inserted Row(s): %1", "Inserted Row(s): %1"
+"Empty item title in row(s): %1", "Empty item title in row(s): %1"
+"Empty item description in row(s): %1", "Empty item description in row(s): %1"
+"Empty image path or Invalid file type image item in row(s): %1", "Empty image path or Invalid file type image item in row(s): %1"
+"Invalid sort order value in row(s): %1", "Invalid sort order value in row(s): %1"
+"Please provide valid file name.", "Please provide valid file name."

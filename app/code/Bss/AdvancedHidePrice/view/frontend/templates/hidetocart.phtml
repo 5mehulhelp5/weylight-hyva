@@ -1,0 +1,42 @@
+<?php
+/**
+ * BSS Commerce Co.
+ *
+ * NOTICE OF LICENSE
+ *
+ * This source file is subject to the EULA
+ * that is bundled with this package in the file LICENSE.txt.
+ * It is also available through the world-wide-web at this URL:
+ * http://bsscommerce.com/Bss-Commerce-License.txt
+ *
+ * @category   BSS
+ * @package    Bss_AdvancedHidePrice
+ * @author     Extension Team
+ * @copyright  Copyright (c) 2017-2018 BSS Commerce Co. ( http://bsscommerce.com )
+ * @license    http://bsscommerce.com/Bss-Commerce-License.txt
+ */
+/**
+ * @var $block \Bss\AdvancedHidePrice\Block\Popup
+ */
+// @codingStandardsIgnoreFile
+    ?>
+    <?php
+    $selector = $block->getHelper()->getSelector() ? $block->getHelper()->getSelector() : ".action.tocart";
+    ?>
+<style type="text/css">
+    .product-item-details <?php echo $selector ?> {
+        display: none;
+    }
+    <?php echo $selector ?> {
+        display: none;
+    }
+    #product-addtocart-button {
+        display: block;
+    }
+    .callforprice-container .callforprice_clickme {
+        padding: 5px 10px;
+    }
+</style>
+<?php if ($block->compareVersion()): ?>
+    <input type="hidden"  id="check-version-bss-callprice">
+<?php endif; ?>

@@ -1,0 +1,80 @@
+<?php
+declare(strict_types=1);
+/**
+ * BSS Commerce Co.
+ *
+ * NOTICE OF LICENSE
+ *
+ * This source file is subject to the EULA
+ * that is bundled with this package in the file LICENSE.txt.
+ * It is also available through the world-wide-web at this URL:
+ * http://bsscommerce.com/Bss-Commerce-License.txt
+ *
+ * @category   BSS
+ * @package    Hyva_BssHtmlSiteMap
+ * @author     Extension Team
+ * @copyright  Copyright (c) 2022-present BSS Commerce Co. ( http://bsscommerce.com )
+ * @license    http://bsscommerce.com/Bss-Commerce-License.txt
+ */
+
+use Hyva\Theme\Model\ViewModelRegistry;
+use Hyva\Theme\ViewModel\Customer;
+use Hyva\Theme\ViewModel\StoreConfig;
+use Magento\Framework\Escaper;
+use Magento\Framework\View\Element\Template;
+use Hyva\BssHtmlSiteMap\ViewModel\Helper;
+
+/** @var Template $block */
+/** @var Escaper $escaper */
+/** @var ViewModelRegistry $viewModels */
+
+/** @var Customer $customer */
+$customer = $viewModels->require(Customer::class);
+/** @var StoreConfig $storeConfig */
+$storeConfig = $viewModels->require(StoreConfig::class);
+/** @var Helper $helper */
+$helper = $viewModels->require(Helper::class)->getHtmlSiteMapHelper();
+?>
+<ul class="mt-4">
+    <li>
+        <a href="#" class="text-base leading-6">
+            About
+        </a>
+    </li>
+    <li class="mt-4">
+        <a href="<?= $escaper->escapeUrl($block->getUrl('customer/account')) ?>"
+           class="text-base leading-6">
+            <?= $escaper->escapeHtml(__('My Account')) ?>
+        </a>
+    </li>
+    <?php if (!$customer->customerLoggedIn()): ?>
+        <li class="mt-4">
+            <a href="<?= $escaper->escapeUrl($block->getUrl('sales/guest/form')) ?>"
+               class="text-base leading-6">
+                <?= $escaper->escapeHtml(__('Orders and Returns')) ?>
+            </a>
+        </li>
+    <?php endif; ?>
+    <?php if ($storeConfig->getStoreConfig('catalog/seo/search_terms')): ?>
+        <li class="mt-4">
+            <a href="<?= $escaper->escapeUrl($block->getUrl('search/term/popular')) ?>"
+               class="text-base leading-6">
+                <?= $escaper->escapeHtml(__('Search Terms')) ?>
+            </a>
+        </li>
+    <?php endif; ?>
+    <li class="mt-4">
+        <a href="<?= $escaper->escapeUrl($block->getUrl('contact')) ?>"
+           class="text-base leading-6">
+            <?= $escaper->escapeHtml(__('Contact')) ?>
+        </a>
+    </li>
+    <?php if ($helper->isEnable() && $helper->getShowLinkAt() !== 'top'): ?>
+        <li class="mt-4">
+            <a href="<?= $escaper->escapeUrl($helper->getBaseUrl() . $helper->getModuleRoute()) ?>"
+               class="text-base leading-6">
+                <?= $escaper->escapeHtml($helper->getTitleSiteMap()) ?>
+            </a>
+        </li>
+    <?php endif; ?>
+</ul>

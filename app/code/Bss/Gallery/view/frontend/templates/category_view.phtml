@@ -1,0 +1,132 @@
+<?php
+/**
+ * BSS Commerce Co.
+ *
+ * NOTICE OF LICENSE
+ *
+ * This source file is subject to the EULA
+ * that is bundled with this package in the file LICENSE.txt.
+ * It is also available through the world-wide-web at this URL:
+ * http://bsscommerce.com/Bss-Commerce-License.txt
+ *
+ * @category   BSS
+ * @package    Bss_Gallery
+ * @author     Extension Team
+ * @copyright  Copyright (c) 2018-2019 BSS Commerce Co. ( http://bsscommerce.com )
+ * @license    http://bsscommerce.com/Bss-Commerce-License.txt
+ */
+
+// @codingStandardsIgnoreFile
+
+/**
+ * Block
+ *
+ * @var $block \Bss\Gallery\Block\CategoryView
+ */
+$category = $block->getCategory();
+?>
+<?php if ($category != null) : ?>
+    <?php
+    $items = $block->getCollection();
+    $isAutoLoad = $pageSpeed = $titlePosition = $transitionEffect = '';
+if ($items->getSize() > 0) : ?>
+    <?php $isAutoLoad = $block->isAutoLoad(); ?>
+    <?php $pageSpeed = $block->getPageSpeed(); ?>
+    <?php $titlePosition = $block->getTitlePosition(); ?>
+    <?php $transitionEffect = $block->getTransitionEffect(); ?>
+    <div id="gallery-wrapper">
+        <h1 class="gallery-category-item-title"><?= $block->escapeHtml($category->getTitle()) ?></h1>
+        <p class="gallery-category-item-description"><?= $block->escapeHtml($category->getCategoryDescription()) ?></p>
+        <?php if ($category->getItemLayout() == '1') : //standard ?>
+            <div class="toolbar top">
+                <?= $block->getPagerHtml(); ?>
+            </div>
+            <ul class="gallery-category-list gallery-item-list">
+                <?php foreach ($items as $item) : ?>
+                    <li class="gallery-category-list-item">
+                        <div class="gallery-category-item">
+                            <?php if ($item->getVideo() != null) : ?>
+                                <a title="<?= $block->escapeHtml($item->getDescription()) ?>" href="<?= $block->escapeHtml($item->getVideo()) ?>"
+                                   data-caption="<?= $block->escapeHtml($item->getDescription()) ?>"
+                                   class="fancybox fancybox.iframe" rel="gallery">
+                                    <img
+                                        src="<?= $block->escapeUrl($block->getImageResize($item->getImage(), 'item')) ?>"/>
+                                </a>
+                            <?php else : ?>
+                                <a title="<?= $block->escapeHtml($item->getDescription()) ?>"
+                                   href="<?= $block->escapeUrl($block->getImageUrl($item->getImage())) ?>" class="fancybox"
+                                   data-caption="<?= $block->escapeHtml($item->getDescription()) ?>"
+                                   rel="gallery">
+                                    <img
+                                        src="<?= $block->escapeUrl($block->getImageResize($item->getImage(), 'item')) ?>"/>
+                                </a>
+                            <?php endif; ?>
+                        </div>
+                        <h4 class="gallery-category-item-title">
+                            <?= $block->escapeHtml($item->getTitle()) ?>
+                        </h4>
+                    </li>
+                <?php endforeach; ?>
+            </ul>
+            <div class="toolbar-bottom">
+                <div class="toolbar bottom">
+                    <?= $block->escapeHtml($block->getPagerHtml()); ?>
+                </div>
+            </div>
+        <?php elseif ($category->getItemLayout() == '2') : //slider ?>
+            <ul class="gallery_slider_category_view owl-carousel">
+                <?php foreach ($items as $item) : ?>
+                    <li class="item">
+                        <div class="gallery-category-item">
+                            <?php if ($item->getVideo() != null) : ?>
+                                <a title="<?= $block->escapeHtml($item->getDescription()) ?>" href="<?= $block->escapeUrl($item->getVideo()) ?>"
+                                   data-caption="<?= $block->escapeHtml($item->getDescription()) ?>"
+                                   class="fancybox fancybox.iframe" rel="gallery">
+                                    <img
+                                        src="<?= $block->escapeUrl($block->getImageResize($item->getImage(), 'item')) ?>"/>
+                                </a>
+                            <?php else : ?>
+                                <a title="<?= $block->escapeHtml($item->getDescription()) ?>"
+                                   href="<?= $block->escapeUrl($block->getImageUrl($item->getImage())) ?>" class="fancybox"
+                                   data-caption="<?= $block->escapeHtml($item->getDescription()) ?>"
+                                   rel="gallery">
+                                    <img
+                                        src="<?= $block->escapeUrl($block->getImageResize($item->getImage(), 'item')) ?>"/>
+                                </a>
+                            <?php endif; ?>
+                        </div>
+                        <h4 class="gallery-category-item-title">
+                            <?= $block->escapeHtml($item->getTitle()) ?>
+                        </h4>
+                    </li>
+                <?php endforeach; ?>
+            </ul>
+            <script type="text/x-magento-init">
+            {
+                "*": {
+                    "Bss_Gallery/js/category_view_click":{
+                    "Category" : <?= $block->escapeHtml($category->getSliderAutoPlay()); ?>,
+                    "pageSpeed" : "<?= $block->escapeHtml($pageSpeed); ?>"
+                    }
+                }
+            }
+
+            </script>
+        <?php endif; ?>
+        <?php else : ?>
+            <p><?= $block->escapeHtml(__('This Album has no image !')) ?></p>
+        <?php endif; ?>
+    </div>
+    <script type="text/x-magento-init">
+        {
+            "*": {
+                "Bss_Gallery/js/category_view": {
+                    "isAutoLoad" : <?= $block->escapeHtml($isAutoLoad); ?>,
+                    "pageSpeed" : "<?= $block->escapeHtml($pageSpeed); ?>",
+                    "nextEffect": "<?= $block->escapeHtml($transitionEffect); ?>",
+                    "titlePosition": "<?= $block->escapeHtml($titlePosition); ?>"
+                }
+            }
+        }
+    </script>
+<?php endif; ?>
