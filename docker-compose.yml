@@ -1,0 +1,39 @@
+services:
+
+  web:
+
+    image: 'magento/magento-cloud-docker-php:7.4-fpm'
+
+    ports:
+
+      - '80:80'
+
+    environment:
+
+      - VIRTUAL_HOST=weylight.test
+
+    volumes:
+
+      - .:/var/www/html
+
+  db:
+
+    image: mysql:5.7
+
+    environment:
+
+      - MYSQL_ROOT_PASSWORD=root
+
+      - MYSQL_DATABASE=weylight
+
+      - MYSQL_USER=root_weylight
+
+      - MYSQL_PASSWORD=root
+
+    volumes:
+
+      - db_data:/var/lib/mysql
+
+volumes:
+
+  db_data:

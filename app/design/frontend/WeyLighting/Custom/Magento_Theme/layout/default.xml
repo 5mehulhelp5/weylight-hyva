@@ -5,7 +5,7 @@ xsi:noNamespaceSchemaLocation="urn:magento:framework:View/Layout/etc/page_config
     <body>
         <move element="topmenu_mobile" destination="header-content" after="-"/>
         <move element="topmenu_desktop" destination="header-content" after="-"/>
-        <referenceBlock element="hero" remove="true" />
+        <referenceBlock name="hero" remove="true" />
     </body>
 </page>
 

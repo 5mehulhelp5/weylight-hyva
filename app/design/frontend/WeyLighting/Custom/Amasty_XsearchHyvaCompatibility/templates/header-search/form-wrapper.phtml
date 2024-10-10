@@ -86,11 +86,11 @@ $hyvaUIHeaderVariant = $popupViewModel->getHyvaUIHeaderVariant();
                        value="<?= $escaper->escapeHtml($popupViewModel->getQueryText()) ?>"
                        autocomplete="off"
                        placeholder="<?= $escaper->escapeHtmlAttr(__('Search entire store here...')) ?>"
-                       class="p-2 text-lg leading-normal transition appearance-none text-grey-800 relative z-20
-                    focus:outline-none focus:border-transparent lg:text-xl flex-am-search-sidebar"
+                       class="p-2 text-sm border-gray-300 leading-normal transition appearance-none text-grey-800 relative z-20
+                    focus:outline-none focus:border-transparent lg:text-md flex-am-search-sidebar"
                        :class="{
-                       'rounded-tl': isHyvaUiHeader(),
-                       'rounded-tr': !'<?= $escaper->escapeHtml($popupViewModel->showSearchButton()) ?>' && isHyvaUiHeader()
+                       'rounded-tl rounded-bl': isHyvaUiHeader(),
+                       'rounded-tr rounded-br': !'<?= $escaper->escapeHtml($popupViewModel->showSearchButton()) ?>' && isHyvaUiHeader()
                        }"
                        :style="`width: ${checkHyvaUiHeaderVariant('c') && !isDefaultSearchInput && !isFullWidthSearch ? searchPopupWidth + 'px' : '100%'}`"
                        @focus="doSearch()"
@@ -102,7 +102,7 @@ $hyvaUIHeaderVariant = $popupViewModel->getHyvaUIHeaderVariant();
                        @keydown.arrow-down.prevent="focusElement($el.querySelector('[tabindex]'))"/>
                 <?php if ($popupViewModel->showSearchButton()): ?>
                     <button type="submit" title="<?= $escaper->escapeHtml(__('Search')) ?>"
-                            class="am-custom-search-button  h-full action search w-auto btn btn-primary justify-center text-sm mb-3 md:mb-0 mr-auto rounded-none"
+                            class="am-custom-search-button h-full action search w-auto btn bg-primaryBg hover:bg-gray-800 cursor-pointer justify-center text-sm mb-3 md:mb-0 mr-auto rounded-none"
                             x-bind:disabled="isLoading || latestQuery.length < minSearchLength"
                             :class="{
                                 'opacity-50': isLoading || latestQuery.length < minSearchLength,

@@ -25,7 +25,12 @@ module.exports = hyvaModules.mergeTailwindConfig({
         sans: ["Segoe UI", "Helvetica Neue", "Arial", "sans-serif"]
       },
       colors: {
-        primary: '#555656',
+        primary: {
+            lighter: colors.blue['100'],
+            "DEFAULT": colors.blue['200'],
+            darker: colors.blue['300']
+        },
+        primaryBg: '#555656',
         secondary: {
           lighter: colors.blue['100'],
           "DEFAULT": colors.blue['200'],
