@@ -32,7 +32,7 @@ $sliderViewModel = $viewModels->require(Slider::class);
 
 $items = [
     [
-        'image_url'    => 
+        'image_url'    =>
 'https://unsplash.com/photos/a1_DQQhtLVc/download?force=true&auto=format&fit=crop&w=1280&q=80',
         'image_width'  => 1280,
         'image_height' => 853,
@@ -41,7 +41,7 @@ $items = [
         'url'          => $block->getUrl('home'),
     ],
     [
-        'image_url'    => 
+        'image_url'    =>
 'https://unsplash.com/photos/HyvE5SiKMUs/download?force=true&auto=format&fit=crop&w=1280&q=80',
         'image_width'  => 1280,
         'image_height' => 853,
@@ -50,7 +50,7 @@ $items = [
         'url'          => $block->getUrl('home'),
     ],
     [
-        'image_url'    => 
+        'image_url'    =>
 'https://unsplash.com/photos/zlPmPfXfr4A/download?force=true&auto=format&fit=crop&w=1280&q=80',
         'image_width'  => 1280,
         'image_height'  => 853,
@@ -59,7 +59,7 @@ $items = [
         'url'          => $block->getUrl('home'),
     ],
     [
-        'image_url'    => 
+        'image_url'    =>
 'https://unsplash.com/photos/X6jtULYJQz8/download?force=true&auto=format&fit=crop&w=1280&q=80',
         'image_width'  => 1280,
         'image_height'  => 853,
@@ -70,7 +70,7 @@ $items = [
 ];
 
 ?>
-<div class="my-20">
+<div>
     <?=
     $sliderViewModel
         ->getSliderForItems(
@@ -192,77 +192,3 @@ $itemIndex = 1;
         };
     }
 </script>
-
-<div class="my-20">
-    <div class="mb-4 sm:flex sm:justify-between sm:items-baseline">
-        <div class="text-3xl leading-9 font-bold text-gray-800">
-            Our favourite brands
-        </div>
-        <a
-            href="<?= $escaper->escapeUrl($block->getUrl('home')) ?>"
-            class="text-blue-700 text-lg leading-7 font-semibold"
-        >
-            Browse all brands →
-        </a>
-    </div>
-
-    <div class="border-gray-300 border-t border-b py-5 flex mx-auto items-center">
-        <div x-data="carousel()"
-             x-id="['carousel-end', 'carousel-desc']"
-             role="group"
-             class="relative overflow-hidden min-w-full"
-             aria-roledescription="<?= $escaper->escapeHtml(__('Carousel')) ?>"
-             aria-label="<?= $escaper->escapeHtml(__('Our favourite brands')) ?>"
-             :aria-describedby="$id('carousel-desc')"
-        >
-            <span
-                    class="sr-only"
-                    :id="$id('carousel-desc')"
-                    tabindex="-1"
-            >
-                <?= $escaper->escapeHtml(__('Navigating through the elements of the carousel is possible using the 
-tab key. You can skip the carousel using the skip link.')) ?>
-            </span>
-            <a
-                    :href="`#${$id('carousel-end')}`"
-                    class="action skip sr-only focus:not-sr-only focus:absolute focus:z-30 focus:bg-white"
-            >
-                <?= $escaper->escapeHtml(__('Press to skip the carousel')) ?>
-            </a>
-            <div x-ref="container" class="snap gap-3 flex overflow-x-scroll">
-                <?php foreach ($items as $item): ?>
-                    <div class="slide flex-auto grow-0 shrink-0 w-[calc(50%-6px)] flex
-                                justify-center items-center md:w-[calc(25%-9px)]"
-                         aria-roledescription="<?= $escaper->escapeHtml(__('Carousel item')) ?>"
-                         :aria-hidden="!visibleElements.includes($el)"
-                         aria-label="<?= $escaper->escapeHtmlAttr(__('Item %1 of %2', $itemIndex++, count($items))) 
-?>"
-                         @focusin="stop()"
-                    >
-                        <?php if ($item['url'] ?? false): ?>
-                            <a href="<?= $escaper->escapeUrl($item['url'])?>">
-                        <?php endif; ?>
-
-                        <?php if ($item['svg'] ?? false): ?>
-                            <?= $item['svg'] ?>
-                        <?php elseif ($item['image_url'] ?? false): ?>
-                            <img src="<?= $escaper->escapeHtmlAttr($item['image_url']) ?>"
-                                 alt="<?= $escaper->escapeHtmlAttr($item['alt'] ?? '') ?>"
-                                 width="<?= $escaper->escapeHtmlAttr($item['image_width'] ?? '') ?>"
-                                 height="<?= $escaper->escapeHtmlAttr($item['image_height'] ?? '') ?>"
-                                 loading="lazy"
-                            />
-                        <?php endif; ?>
-
-                        <?php if ($item['url'] ?? false): ?>
-                            </a>
-                        <?php endif; ?>
-
-                    </div>
-                <?php endforeach; ?>
-            </div>
-            <span :id="$id('carousel-end')" tabindex="-1"></span>
-        </div>
-    </div>
-</div>
-

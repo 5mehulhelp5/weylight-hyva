@@ -1,0 +1,207 @@
+<?php
+/**
+ * @author Amasty Team
+ * @copyright Copyright (c) Amasty (https://www.amasty.com)
+ * @package Product Tabs Hyva by Amasty
+ */
+
+declare(strict_types=1);
+
+use Amasty\CustomTabsHyva\ViewModel\TabsList;
+use Hyva\Theme\Model\ViewModelRegistry;
+use Hyva\Theme\ViewModel\HeroiconsOutline;
+use Magento\Catalog\Block\Product\View\Details;
+use Magento\Framework\Escaper;
+
+/** @var Details $block */
+/** @var Escaper $escaper */
+/** @var ViewModelRegistry $viewModels */
+
+/** @var TabsList $tabListViewModel */
+$tabListViewModel = $viewModels->require(TabsList::class);
+
+/** @var HeroiconsOutline $heroicons */
+$heroicons = $viewModels->require(HeroiconsOutline::class);
+
+$sortedTabs = $block->getGroupSortedChildNames('detailed_info', '');
+$sortedTabsTitles = [];
+// phpcs:disable Generic.Files.LineLength.TooLong
+?>
+<?php if ($sortedTabs): ?>
+    <div class="am-custom-tabs-wrapper flex flex-col gap-x-8 border border-t-0"
+         x-data="amCustomTabs"
+         x-init="initAmCustomTabs()"
+         @resize.window.debounce="checkIsMobileResolution()"
+         @visibilitychange.window.debounce="checkIsMobileResolution()"
+         x-bind="eventListeners"
+         x-spread="eventListeners">
+        <template x-if="tabs.length && !isAccordion && !isMobile">
+            <nav class="am-tabs-nav w-full flex flex-row justify-evenly">
+                <template x-for="tab in tabs" :key="tab.alias">
+                    <a :href="'#' + tab.alias"
+                       role="tab"
+                       class="amtab-btn w-1/3 flex justify-center items-center py-2 mb-4 md:flex-row border font-medium text-gray-400 border-gray-300
+                              hover:text-black active:opacity-75 transition-colors"
+                       @click.prevent.stop="setActiveTabs(tab.name)"
+                       :class="{'amtab-active !text-black !border-b-0': tab.isActive}"
+                    >
+                        <span x-html="tab.title"></span>
+                    </a>
+                </template>
+            </nav>
+        </template>
+        <div class="am-tabs" :class="{'': !isAccordion && !isMobile, 'w-full': isAccordion || isMobile}" role="tablist">
+            <?php foreach ($sortedTabs as $sectionName):
+                $sectionBlock = $block->getLayout()->getBlock($sectionName);
+                $sectionHtml = (string)$sectionBlock->toHtml();
+                $title = $sectionBlock->getTitle();
+                $layoutName = $sectionBlock->getNameInLayout();
+                $alias = $block->getLayout()->getElementAlias($sectionName);
+
+                if (empty(trim($sectionHtml))) {
+                    continue;
+                }
+
+                $sortedTabsTitles[] = $tabListViewModel->prepareTitleData($sectionName, $title, $alias); ?>
+                <div class="am-tabs-item"
+                     role="tabpanel"
+                >
+                    <template x-if="isAccordion || isMobile">
+                        <div class="amtab-accordion-tab" role="tab">
+                            <a href="#<?= $escaper->escapeHtmlAttr($alias); ?>"
+                               class="amtab-btn-acc flex justify-between md:px-4 py-4 items-center cursor-pointer w-full
+                                      border-b-2 border-gray-300 hover:text-secondary-darker"
+                               @click.prevent.stop="setActiveTabs('<?= $escaper->escapeHtmlAttr($layoutName) ?>')"
+                            >
+                                <span class="title text-md md:text-lg font-semibold">
+                                    <?= $escaper->escapeHtml($title) ?>
+                                </span>
+                                <span class="py-1 px-1 transition-transform transform duration-300 ease-in-out"
+                                      :class="{'rotate-180': isActiveTab('<?= $escaper->escapeHtmlAttr($layoutName) ?>')}"
+                                >
+                                    <?= $heroicons->chevronDownHtml(
+                                        'icon-arrow',
+                                        24,
+                                        24,
+                                        [
+                                            "aria-hidden" => "true",
+                                            "focusable" => "false"
+                                        ]
+                                    ); ?>
+                                </span>
+                            </a>
+                        </div>
+                    </template>
+                    <div class="tab-content"
+                         :class="{'p-4 tab-view': !isAccordion && !isMobile, 'md:px-4 py-4 accordion-view': isAccordion}"
+                         id="<?= $escaper->escapeHtmlAttr($layoutName) ?>"
+                         x-cloak
+                         x-show="isActiveTab('<?= $escaper->escapeHtmlAttr($layoutName) ?>')"
+                    >
+                        <?= /** @noEscape */
+                        $sectionHtml ?>
+                    </div>
+                </div>
+            <?php endforeach; ?>
+        </div>
+    </div>
+    <script>
+        function amCustomTabs() {
+            const hash = window.location.hash;
+            const selectors = {
+                tabItem: '.am-tabs-item'
+            }
+            return {
+                isMobile: false,
+                tabs: <?= /** @noEscape  */ json_encode($sortedTabsTitles)?>,
+                isAccordion: <?= $tabListViewModel->isAccordionView() ? 'true' : 'false' ?>,
+                isOpenAllTabs: <?= $tabListViewModel->getIsOpenAllTabs() ? 'true' : 'false' ?>,
+                initAmCustomTabs() {
+                    this.checkIsMobileResolution();
+                    this.$nextTick(() => {
+                        this.checkOpenTabs();
+                    })
+                },
+                setActiveTabs(currentName) {
+                    const anchor = document.getElementById(currentName).closest(selectors.tabItem);
+                    const behavior = this.isAccordion ? 'instant' : 'smooth';
+                    for (let tab of this.tabs) {
+                        if (this.isOpenAllTabs) {
+                            this._toggleCollapsible(currentName, tab);
+                        } else {
+                            tab.isActive = currentName === tab.name;
+                        }
+                    }
+                    if (!this.isOpenAllTabs) {
+                        this._scrollToElement(anchor, behavior);
+                    }
+                },
+                isActiveTab(currentName) {
+                    for (let tab of this.tabs) {
+                        if (currentName === tab.name) {
+                            return tab.isActive;
+                        }
+                    }
+                },
+                checkIsMobileResolution() {
+                    this.isMobile = window.matchMedia('(max-width: 767px)').matches;
+                },
+                checkOpenTabs() {
+                    if (hash) {
+                        this._activatePreselectedTab();
+                    } else {
+                        if (!this.isOpenAllTabs) {
+                            this.tabs[0].isActive = true;
+                        } else {
+                            this._setActiveAllTabs();
+                        }
+                    }
+                },
+                _activatePreselectedTab() {
+                    let tabAnchor;
+                    for (let tab of this.tabs) {
+                        if (hash === '#' + tab.alias) {
+                            tabAnchor = document.getElementById(tab.name).closest(selectors.tabItem);
+                            tab.isActive = true;
+                            this._dispatchTabCollapsedEvent(tabAnchor, 'smooth');
+                        }
+                    }
+                    if (this.isOpenAllTabs) {
+                        this._setActiveAllTabs();
+                        this._dispatchTabCollapsedEvent(tabAnchor, 'smooth');
+                    }
+                },
+                _dispatchTabCollapsedEvent(data) {
+                    window.dispatchEvent(new CustomEvent('amtabs-collapsed', {
+                        detail: {
+                            element: data,
+                        }
+                    }));
+                },
+                _setActiveAllTabs() {
+                    for (let tab of this.tabs) {
+                        tab.isActive = true;
+                    }
+                },
+                _toggleCollapsible(currentName, tab) {
+                    if (currentName === tab.name) {
+                        tab.isActive = !tab.isActive;
+                    }
+                },
+                _scrollToElement(el, behavior) {
+                    setTimeout(() => {
+                        window.scrollTo(({
+                            top: el.offsetTop,
+                            behavior: behavior ? behavior : "auto"
+                        }))
+                    },50);
+                },
+                eventListeners: {
+                    ['@amtabs-collapsed.window'](event) {
+                        this._scrollToElement(event.detail.element, 'smooth');
+                    }
+                }
+            }
+        }
+    </script>
+<?php endif; ?>

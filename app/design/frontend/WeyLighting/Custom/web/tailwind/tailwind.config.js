@@ -26,10 +26,11 @@ module.exports = hyvaModules.mergeTailwindConfig({
       },
       colors: {
         primary: {
-          lighter: colors.blue['300'],
-          "DEFAULT": colors.blue['800'],
-          darker: colors.blue['900']
+            lighter: colors.blue['100'],
+            "DEFAULT": colors.blue['200'],
+            darker: colors.blue['300']
         },
+        primaryBg: '#555656',
         secondary: {
           lighter: colors.blue['100'],
           "DEFAULT": colors.blue['200'],

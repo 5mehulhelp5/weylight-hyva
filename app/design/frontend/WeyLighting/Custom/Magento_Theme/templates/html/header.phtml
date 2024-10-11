@@ -62,7 +62,7 @@ $showMiniCart = $storeConfig->getStoreConfig(SidebarCart::XML_PATH_CHECKOUT_SIDE
                 } else {
                     <?php
                     /*
-                     * The toggle-cart event was previously dispatched without parameter to open the drawer (not 
+                     * The toggle-cart event was previously dispatched without parameter to open the drawer (not
 toggle).
                      * Keeping this in here for backwards compatibility.
                      */
@@ -116,7 +116,7 @@ toggle).
      */
     ?>
 
-    <div class="bg-blue-900 text-white text-sm leading-5 font-semibold text-center p-2">
+    <div class="bg-primaryBg text-white text-sm leading-5 font-semibold text-center p-2">
         <div class="container">
             <a href="#" class="hover:underline">
                 <?= $escaper->escapeHtml(__('Get ready for a dazzling summer with our new arrivals →')) ?>
@@ -136,32 +136,34 @@ toggle).
             <div x-ref="searchContainerDesktop" class="hidden lg:block lg:flex-1 lg:mx-4">
             </div>
 
-            <div class="flex gap-4 items-center">
+            <div>
+                <div>Give us a call on: 01932 820318</div>
+                <div class="flex gap-4 items-center">
 
-                <div class="hidden lg:block">
-                    <?= $block->getChildHtml('store-language-switcher'); ?>
-                </div>
+                    <div class="hidden lg:block">
+                        <?= $block->getChildHtml('store-language-switcher'); ?>
+                    </div>
 
-                <!--Compare Icon-->
-                <a id="compare-link"
-                   class="relative invisible inline-block no-underline outline-none hover:text-black 
+                    <!--Compare Icon-->
+                    <a id="compare-link"
+                       class="relative invisible inline-block no-underline outline-none hover:text-black
 focus:ring-blue-700 focus:ring-1"
-                   :class="{ 'invisible': !(itemCount > 0) }"
-                   href="<?= $escaper->escapeUrl($block->getUrl('catalog/product_compare/index')) ?>"
-                   title="<?= $escaper->escapeHtml(__('Compare Products')) ?>"
-                   x-data="initCompareHeader()"
-                   @private-content-loaded.window="receiveCompareData($event.detail.data)"
-                >
-                    <?= $heroicons->scaleHtml('text-slate-800 hover:text-black') ?>
+                       :class="{ 'invisible': !(itemCount > 0) }"
+                       href="<?= $escaper->escapeUrl($block->getUrl('catalog/product_compare/index')) ?>"
+                       title="<?= $escaper->escapeHtml(__('Compare Products')) ?>"
+                       x-data="initCompareHeader()"
+                       @private-content-loaded.window="receiveCompareData($event.detail.data)"
+                    >
+                        <?= $heroicons->scaleHtml('text-slate-800 hover:text-black') ?>
 
-                    <span class="sr-only label">
+                        <span class="sr-only label">
                         <?= $escaper->escapeHtml(__('Compare Products')) ?>
                     </span>
 
-                    <span class="absolute top-0 right-0 px-3 py-1 -mt-5 -mr-4 text-xs font-semibold
+                        <span class="absolute top-0 right-0 px-3 py-1 -mt-5 -mr-4 text-xs font-semibold
                         leading-none text-center text-gray-700 uppercase transform
                         translate-y-1/2 rounded-full bg-green-200"
-                    >
+                        >
                         <span x-text="itemCount"></span>
                         <span x-show="itemCount === 1" class="sr-only">
                             <?= $escaper->escapeHtml(__('item')) ?>
@@ -170,33 +172,33 @@ focus:ring-blue-700 focus:ring-1"
                             <?= $escaper->escapeHtml(__('items')) ?>
                         </span>
                     </span>
-                </a>
+                    </a>
 
-                <!--Customer Icon & Dropdown-->
-                <?= $block->getChildHtml('customer') ?>
+                    <!--Customer Icon & Dropdown-->
+                    <?= $block->getChildHtml('customer') ?>
 
-                <!--Cart Icon-->
-                <?php if ($showMiniCart): ?>
-                    <button
-                <?php else: ?>
-                    <a
-                <?php endif ?>
-                    id="menu-cart-icon"
-                    class="relative outline-none focus:ring-blue-700 focus:ring-1"
-                    x-ref="cartButton"
-                    :aria-disabled="isCartEmpty()"
-                    title="<?= $escaper->escapeHtmlAttr(__('Cart')) ?>"
+                    <!--Cart Icon-->
                     <?php if ($showMiniCart): ?>
-                        @click.prevent.stop="() => {
+                        <button
+                    <?php else: ?>
+                    <a
+                        <?php endif ?>
+                        id="menu-cart-icon"
+                        class="relative outline-none focus:ring-blue-700 focus:ring-1"
+                        x-ref="cartButton"
+                        :aria-disabled="isCartEmpty()"
+                        title="<?= $escaper->escapeHtmlAttr(__('Cart')) ?>"
+                        <?php if ($showMiniCart): ?>
+                            @click.prevent.stop="() => {
                             $dispatch('toggle-cart', { isOpen: true })
                         }"
-                        @toggle-cart.window="toggleCart($event)"
-                        :aria-expanded="isCartOpen"
-                        aria-haspopup="dialog"
-                    <?php else: ?>
-                        href="<?= $escaper->escapeUrl($block->getUrl('checkout/cart/index')) ?>"
-                    <?php endif ?>
-                >
+                            @toggle-cart.window="toggleCart($event)"
+                            :aria-expanded="isCartOpen"
+                            aria-haspopup="dialog"
+                        <?php else: ?>
+                            href="<?= $escaper->escapeUrl($block->getUrl('checkout/cart/index')) ?>"
+                        <?php endif ?>
+                    >
                     <span
                         class="sr-only label"
                         x-text="`
@@ -212,29 +214,31 @@ focus:ring-blue-700 focus:ring-1"
                     >
                     </span>
 
-                    <?= $heroicons->shoppingCartHtml('text-slate-800 hover:text-black') ?>
+                        <?= $heroicons->shoppingCartHtml('text-slate-800 hover:text-black') ?>
 
-                    <span
-                        x-text="cart.summary_count"
-                        x-show="!isCartEmpty()"
-                        x-cloak
-                        class="
+                        <span
+                            x-text="cart.summary_count"
+                            x-show="!isCartEmpty()"
+                            x-cloak
+                            class="
                             absolute top-0 right-0 px-3 py-1 -mt-5 -mr-4 text-xs font-semibold
                             leading-none text-center text-gray-700 uppercase transform
                             translate-y-1/2 rounded-full bg-green-200
                         "
-                        aria-hidden="true"
-                    ></span>
-                <?php if ($showMiniCart): ?>
-                    </button>
-                <?php else: ?>
+                            aria-hidden="true"
+                        ></span>
+                        <?php if ($showMiniCart): ?>
+                            </button>
+                        <?php else: ?>
                     </a>
                 <?php endif ?>
+                </div>
             </div>
+
         </div>
     </div>
 
-    <div class="bg-[#E2E8F0]">
+    <div class="bg-primaryBg">
         <div class="container">
             <?= $block->getChildHtml('topmenu.desktop') ?>
         </div>
@@ -247,23 +251,23 @@ focus:ring-blue-700 focus:ring-1"
         </div>
     </div>
 
-    <div class="bg-[#F1F5F9] px-4 py-2 text-center text-[#64748B] text-sm">
-        <ul class="container flex justify-center gap-11 lg:justify-between">
-            <li class="hidden lg:flex items-center gap-3">
-                <?= $heroicons->checkHtml('text-green-500') ?>
-                <span><?= $escaper->escapeHtml(__('Shipped within a day')) ?></span>
-            </li>
-            <li class="hidden lg:flex items-center gap-3">
-                <?= $heroicons->checkHtml('text-green-500') ?>
-                <span><?= $escaper->escapeHtml(__('Free shipping and returns')) ?></span>
-            </li>
-            <li class="hidden lg:flex items-center gap-3">
-                <?= $heroicons->checkHtml('text-green-500') ?>
-                <span><?= $escaper->escapeHtml(__('Free returns')) ?></span>
+    <div class="px-4 py-2 text-center text-gray-900 text-sm shadow-md hidden lg:block">
+        <ul class="container flex justify-evenly gap-11 lg:justify-evenly">
+            <li class="flex items-center gap-3">
+                <?= $heroicons->checkHtml('text-primaryBg') ?>
+                <span><?= $escaper->escapeHtml(__('Survey Showroom')) ?></span>
             </li>
             <li class="flex items-center gap-3">
-                <?= $heroicons->checkHtml('text-green-500') ?>
-                <span><?= $escaper->escapeHtml(__('Refer a friend and get a discount')) ?></span>
+                <?= $heroicons->checkHtml('text-primaryBg') ?>
+                <span><?= $escaper->escapeHtml(__('Trade Accounts')) ?></span>
+            </li>
+            <li class="flex items-center gap-3">
+                <?= $heroicons->checkHtml('text-primaryBg') ?>
+                <span><?= $escaper->escapeHtml(__('Free Delivery > £200')) ?></span>
+            </li>
+            <li class="flex items-center gap-3">
+                <?= $heroicons->checkHtml('text-primaryBg') ?>
+                <span><?= $escaper->escapeHtml(__('Projects Galery')) ?></span>
             </li>
         </ul>
     </div>

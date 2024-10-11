@@ -31,9 +31,113 @@ $paymentIcons = $viewModels->require(PaymentIconsLight::class);
 $heroIcons = $viewModels->require(HeroiconsOutline::class);
 $newsletterBlock = $block->getLayout()->createBlock(Subscribe::class);
 $recaptcha = $newsletterBlock->getData('viewModelRecaptcha');
+
+$items = [
+    [
+        'url'          => $block->getUrl('home'), // optional
+        'svg'          => $icons->renderHtml('lorum-logo-1', '', 170, 38)
+    ],
+    [
+        'url'          => $block->getUrl('home'),
+        'svg'          => $icons->renderHtml('lorum-logo-2', '', 170, 38)
+    ],
+    [
+        'url'          => $block->getUrl('home'),
+        'svg'          => $icons->renderHtml('lorum-logo-3', '', 170, 52)
+    ],
+    [
+        'url'          => $block->getUrl('home'),
+        'svg'          => $icons->renderHtml('lorum-logo-4', '', 170, 88)
+    ],
+    [
+        'url'          => $block->getUrl('home'),
+        'svg'          => $icons->renderHtml('lorum-logo-1', '', 170, 38)
+    ],
+    [
+        'url'          => $block->getUrl('home'),
+        'svg'          => $icons->renderHtml('lorum-logo-2', '', 170, 38)
+    ],
+];
+$itemIndex = 1;
 ?>
+
+
+<div class="my-20 px-10">
+    <div class="mb-4 sm:flex sm:justify-between sm:items-baseline">
+        <div class="text-3xl leading-9 font-bold text-gray-800">
+            Our favourite brands
+        </div>
+        <a
+            href="<?= $escaper->escapeUrl($block->getUrl('home')) ?>"
+            class="text-primaryBg hover:text-gray-800 text-lg leading-7 font-semibold"
+        >
+            Browse all brands →
+        </a>
+    </div>
+
+    <div class="border-gray-300 border-t border-b py-5 flex mx-auto items-center">
+        <div x-data="carousel()"
+             x-id="['carousel-end', 'carousel-desc']"
+             role="group"
+             class="relative overflow-hidden min-w-full"
+             aria-roledescription="<?= $escaper->escapeHtml(__('Carousel')) ?>"
+             aria-label="<?= $escaper->escapeHtml(__('Our favourite brands')) ?>"
+             :aria-describedby="$id('carousel-desc')"
+        >
+            <span
+                class="sr-only"
+                :id="$id('carousel-desc')"
+                tabindex="-1"
+            >
+                <?= $escaper->escapeHtml(__('Navigating through the elements of the carousel is possible using the
+tab key. You can skip the carousel using the skip link.')) ?>
+            </span>
+            <a
+                :href="`#${$id('carousel-end')}`"
+                class="action skip sr-only focus:not-sr-only focus:absolute focus:z-30 focus:bg-white"
+            >
+                <?= $escaper->escapeHtml(__('Press to skip the carousel')) ?>
+            </a>
+            <div x-ref="container" class="snap gap-3 flex overflow-x-scroll">
+                <?php foreach ($items as $item): ?>
+                    <div class="slide flex-auto grow-0 shrink-0 w-[calc(50%-6px)] flex
+                                justify-center items-center md:w-[calc(25%-9px)]"
+                         aria-roledescription="<?= $escaper->escapeHtml(__('Carousel item')) ?>"
+                         :aria-hidden="!visibleElements.includes($el)"
+                         aria-label="<?= $escaper->escapeHtmlAttr(__('Item %1 of %2', $itemIndex++, count($items)))
+                         ?>"
+                         @focusin="stop()"
+                    >
+                        <?php if ($item['url'] ?? false): ?>
+                        <a href="<?= $escaper->escapeUrl($item['url'])?>">
+                            <?php endif; ?>
+
+                            <?php if ($item['svg'] ?? false): ?>
+                                <?= $item['svg'] ?>
+                            <?php elseif ($item['image_url'] ?? false): ?>
+                                <img src="<?= $escaper->escapeHtmlAttr($item['image_url']) ?>"
+                                     alt="<?= $escaper->escapeHtmlAttr($item['alt'] ?? '') ?>"
+                                     width="<?= $escaper->escapeHtmlAttr($item['image_width'] ?? '') ?>"
+                                     height="<?= $escaper->escapeHtmlAttr($item['image_height'] ?? '') ?>"
+                                     loading="lazy"
+                                />
+                            <?php endif; ?>
+
+                            <?php if ($item['url'] ?? false): ?>
+                        </a>
+                    <?php endif; ?>
+
+                    </div>
+                <?php endforeach; ?>
+            </div>
+            <span :id="$id('carousel-end')" tabindex="-1"></span>
+        </div>
+    </div>
+</div>
+
+
 <div class="text-gray-600 text-base leading-6 bg-gray-50 relative">
-    <div class="bg-blue-900 text-gray-50 sm:flex p-7">
+    <div class="bg-primaryBg text-gray-50 sm:flex p-7">
         <div class="flex justify-end sm:block">
             <?= $icons->renderHtml('text-balloons', '', 84, 84, ['aria-hidden' => 'true']) ?>
         </div>
@@ -44,7 +148,7 @@ $recaptcha = $newsletterBlock->getData('viewModelRecaptcha');
             <div>
                 <?= $escaper->escapeHtml(
                     __(
-                        'View our <a class="underline" href="%1">frequently asked questions</a>, <a class="underline" 
+                        'View our <a class="underline" href="%1">frequently asked questions</a>, <a class="underline"
 href="%2">track your order</a> or <a class="underline" href="%3">get in touch</a> with any question you might have.',
                         $block->getUrl('#'),
                         $block->getUrl('sales/order/history'),
@@ -67,7 +171,7 @@ href="%2">track your order</a> or <a class="underline" href="%3">get in touch</a
                 class="hover:opacity-80"
                 aria-label="<?= $escaper->escapeHtmlAttr(__('Facebook')) ?>"
             >
-                <?= $icons->renderHtml('social-facebook', 'w-12 h-auto lg:w-10', 32, 32, ['aria-hidden' => 'true']) 
+                <?= $icons->renderHtml('social-facebook', 'w-12 h-auto lg:w-10', 32, 32, ['aria-hidden' => 'true'])
 ?>
             </a>
             <a
@@ -75,7 +179,7 @@ href="%2">track your order</a> or <a class="underline" href="%3">get in touch</a
                 class="hover:opacity-80"
                 aria-label="<?= $escaper->escapeHtmlAttr(__('Instagram')) ?>"
             >
-                <?= $icons->renderHtml('social-instagram', 'w-12 h-auto lg:w-10', 32, 32, ['aria-hidden' => 'true']) 
+                <?= $icons->renderHtml('social-instagram', 'w-12 h-auto lg:w-10', 32, 32, ['aria-hidden' => 'true'])
 ?>
             </a>
             <a
@@ -83,7 +187,7 @@ href="%2">track your order</a> or <a class="underline" href="%3">get in touch</a
                 class="hover:opacity-80"
                 aria-label="<?= $escaper->escapeHtmlAttr(__('Pinterest')) ?>"
             >
-                <?= $icons->renderHtml('social-pinterest', 'w-12 h-auto lg:w-10', 32, 32, ['aria-hidden' => 'true']) 
+                <?= $icons->renderHtml('social-pinterest', 'w-12 h-auto lg:w-10', 32, 32, ['aria-hidden' => 'true'])
 ?>
             </a>
             <a
@@ -96,7 +200,7 @@ href="%2">track your order</a> or <a class="underline" href="%3">get in touch</a
         </div>
     </div>
 
-    <div class="container mx-auto px-7 lg:mt-8">
+    <div class="container mx-auto px-7 lg:mt-8 lg:mb-8 flex justify-center items-center">
         <div class="text-center">
             <div class="uppercase font-bold mb-3 text-gray-700">
                 <?= $escaper->escapeHtml(__('Be the first to know')) ?>
@@ -106,7 +210,7 @@ href="%2">track your order</a> or <a class="underline" href="%3">get in touch</a
             </div>
         </div>
 
-        <form class="my-8 md:flex md:max-w-2xl md:mx-auto"
+        <form class="my-8 md:flex md:max-w-2xl md:mx-auto w-full"
               action="<?= $escaper->escapeUrl($newsletterBlock->getFormActionUrl()) ?>"
               method="post"
               x-data="initNewsletterForm()"
@@ -131,9 +235,7 @@ href="%2">track your order</a> or <a class="underline" href="%3">get in touch</a
             <?= $newsletterBlock->getBlockHtml('formkey') ?>
             <input type="submit"
                    value="<?= $escaper->escapeHtmlAttr(__('Subscribe')) ?>"
-                   class="bg-blue-700 p-3 cursor-pointer w-full border border-blue-700 rounded-md shadow-sm 
-text-white
-                          hover:bg-opacity-90 md:flex-1"
+                   class="bg-primaryBg p-3 cursor-pointer w-full border border-blue-700 rounded-md shadow-sm text-white hover:bg-opacity-90 md:flex-1"
             />
             <?= $recaptcha ? $recaptcha->getInputHtml(ReCaptcha::RECAPTCHA_FORM_ID_NEWSLETTER) : '' ?>
             <div>
@@ -150,12 +252,12 @@ text-white
             </div>
 
         </form>
-        <div class="w-full">
+        <div>
             <?= $recaptcha ? $recaptcha->getLegalNoticeHtml(ReCaptcha::RECAPTCHA_FORM_ID_NEWSLETTER) : '' ?>
         </div>
     </div>
 
-    <div class="bg-gray-100 py-8 border-b border-gray-300">
+    <div class="bg-primaryBg text-gray-200 py-8 border-b border-gray-300">
         <div class="container mx-auto px-7 divide-gray-200 divide-y space-y-4
                     lg:flex lg:divide-none lg:justify-between lg:space-y-0">
             <?php
@@ -178,62 +280,30 @@ text-white
                     <a @click="open = ! open"
                        class="flex justify-between align-middle cursor-pointer group lg:cursor-default"
                     >
-                        <h4 class="uppercase font-bold text-gray-700 group-hover:underline 
+                        <h4 class="uppercase font-bold text-gray-200 group-hover:underline
 lg:group-hover:no-underline">
-                            <?= $escaper->escapeHtml(__('Shop')) ?>
+                            <?= $escaper->escapeHtml(__('Weybridge Lights')) ?>
                         </h4>
                         <span class="transition-transform" :class="{ 'rotate-180': open }">
-                            <?= $heroIcons->chevronDownHtml('text-gray-500 stroke-current lg:hidden', 24, 24 , 
+                            <?= $heroIcons->chevronDownHtml('text-gray-500 stroke-current lg:hidden', 24, 24 ,
 ['aria-hidden' => 'true']) ?>
                         </span>
                     </a>
                     <ul class="flex-col gap-4 mt-4 mb-6 lg:flex" :class="{ 'flex': open, 'hidden': ! open }">
                         <li>
-                            <a
-                                href="<?= $escaper->escapeUrl($block->getUrl('home')) ?>"
-                                class="hover:underline"
-                            >
-                                <?= $escaper->escapeHtml(__('What\'s new')) ?>
-                            </a>
+                            4 - 5 The Old Cow Shed, Cobham Park <br> Estate, Cobham <br> Park Road, Cobham, <br> Surrey,
+                            <br> KT11 3NE
+                        </li>
+                        <br><br><br>
+                        <li>
+                            <?= $escaper->escapeHtml(__('Tel. 01932 820318')) ?>
                         </li>
                         <li>
                             <a
                                 href="<?= $escaper->escapeUrl($block->getUrl('home')) ?>"
                                 class="hover:underline"
                             >
-                                <?= $escaper->escapeHtml(__('Women')) ?>
-                            </a>
-                        </li>
-                        <li>
-                            <a
-                                href="<?= $escaper->escapeUrl($block->getUrl('home')) ?>"
-                                class="hover:underline"
-                            >
-                                <?= $escaper->escapeHtml(__('Men')) ?>
-                            </a>
-                        </li>
-                        <li>
-                            <a
-                                href="<?= $escaper->escapeUrl($block->getUrl('home')) ?>"
-                                class="hover:underline"
-                            >
-                                <?= $escaper->escapeHtml(__('Gear')) ?>
-                            </a>
-                        </li>
-                        <li>
-                            <a
-                                href="<?= $escaper->escapeUrl($block->getUrl('home')) ?>"
-                                class="hover:underline"
-                            >
-                                <?= $escaper->escapeHtml(__('Training')) ?>
-                            </a>
-                        </li>
-                        <li>
-                            <a
-                                href="<?= $escaper->escapeUrl($block->getUrl('home')) ?>"
-                                class="hover:underline"
-                            >
-                                <?= $escaper->escapeHtml(__('Sale')) ?>
+                                <?= $escaper->escapeHtml(__('Sales@weybridgelights.co.uk')) ?>
                             </a>
                         </li>
                     </ul>
@@ -246,12 +316,12 @@ lg:group-hover:no-underline">
                     <a @click="open = ! open"
                        class="flex justify-between align-middle cursor-pointer group lg:cursor-default"
                     >
-                        <h4 class="uppercase font-bold text-gray-700 group-hover:underline 
+                        <h4 class="uppercase font-bold text-gray-200 group-hover:underline
 lg:group-hover:no-underline">
-                            <?= $escaper->escapeHtml(__('Customer service')) ?>
+                            <?= $escaper->escapeHtml(__('Customer Care')) ?>
                         </h4>
                         <span class="transition-transform" :class="{ 'rotate-180': open }">
-                            <?= $heroIcons->chevronDownHtml('text-gray-500 stroke-current lg:hidden', 24, 24, 
+                            <?= $heroIcons->chevronDownHtml('text-gray-500 stroke-current lg:hidden', 24, 24,
 ['aria-hidden' => 'true']) ?>
                         </span>
                     </a>
@@ -261,7 +331,15 @@ lg:group-hover:no-underline">
                                 href="<?= $escaper->escapeUrl($block->getUrl('home')) ?>"
                                 class="hover:underline"
                             >
-                                <?= $escaper->escapeHtml(__('Shipment of your order')) ?>
+                                <?= $escaper->escapeHtml(__('Home')) ?>
+                            </a>
+                        </li>
+                        <li>
+                            <a
+                                href="<?= $escaper->escapeUrl($block->getUrl('contact')) ?>"
+                                class="hover:underline"
+                            >
+                                <?= $escaper->escapeHtml(__('Contact')) ?>
                             </a>
                         </li>
                         <li>
@@ -269,7 +347,7 @@ lg:group-hover:no-underline">
                                 href="<?= $escaper->escapeUrl($block->getUrl('home')) ?>"
                                 class="hover:underline"
                             >
-                                <?= $escaper->escapeHtml(__('Payment options')) ?>
+                                <?= $escaper->escapeHtml(__('Site Map')) ?>
                             </a>
                         </li>
                         <li>
@@ -277,7 +355,7 @@ lg:group-hover:no-underline">
                                 href="<?= $escaper->escapeUrl($block->getUrl('home')) ?>"
                                 class="hover:underline"
                             >
-                                <?= $escaper->escapeHtml(__('Returns and replacements')) ?>
+                                <?= $escaper->escapeHtml(__('Delivery Information')) ?>
                             </a>
                         </li>
                         <li>
@@ -285,7 +363,7 @@ lg:group-hover:no-underline">
                                 href="<?= $escaper->escapeUrl($block->getUrl('home')) ?>"
                                 class="hover:underline"
                             >
-                                <?= $escaper->escapeHtml(__('Warranty and repairs')) ?>
+                                <?= $escaper->escapeHtml(__('Terms & Conditions')) ?>
                             </a>
                         </li>
                         <li>
@@ -293,7 +371,23 @@ lg:group-hover:no-underline">
                                 href="<?= $escaper->escapeUrl($block->getUrl('home')) ?>"
                                 class="hover:underline"
                             >
-                                <?= $escaper->escapeHtml(__('Get in touch')) ?>
+                                <?= $escaper->escapeHtml(__('Privacy Policy')) ?>
+                            </a>
+                        </li>
+                        <li>
+                            <a
+                                href="<?= $escaper->escapeUrl($block->getUrl('home')) ?>"
+                                class="hover:underline"
+                            >
+                                <?= $escaper->escapeHtml(__('Our Showroom')) ?>
+                            </a>
+                        </li>
+                        <li>
+                            <a
+                                href="<?= $escaper->escapeUrl($block->getUrl('home')) ?>"
+                                class="hover:underline"
+                            >
+                                <?= $escaper->escapeHtml(__('GDPR Tools')) ?>
                             </a>
                         </li>
                     </ul>
@@ -306,22 +400,22 @@ lg:group-hover:no-underline">
                     <a @click="open = ! open"
                        class="flex justify-between align-middle cursor-pointer group lg:cursor-default"
                     >
-                        <h4 class="uppercase font-bold text-gray-700 group-hover:underline 
+                        <h4 class="uppercase font-bold text-gray-200 group-hover:underline
 lg:group-hover:no-underline">
-                            <?= $escaper->escapeHtml(__('Our company')) ?>
+                            <?= $escaper->escapeHtml(__('Services')) ?>
                         </h4>
                         <span class="transition-transform" :class="{ 'rotate-180': open }">
-                            <?= $heroIcons->chevronDownHtml('text-gray-500 stroke-current lg:hidden', 24, 24, 
+                            <?= $heroIcons->chevronDownHtml('text-gray-500 stroke-current lg:hidden', 24, 24,
 ['aria-hidden' => 'true']) ?>
                         </span>
                     </a>
                     <ul class="flex-col gap-4 mt-4 mb-6 lg:flex" :class="{ 'flex': open, 'hidden': ! open }">
                         <li>
                             <a
-                                href="<?= $escaper->escapeUrl($block->getUrl('about-us')) ?>"
+                                href="<?= $escaper->escapeUrl($block->getUrl('home')) ?>"
                                 class="hover:underline"
                             >
-                                <?= $escaper->escapeHtml(__('About us')) ?>
+                                <?= $escaper->escapeHtml(__('Trade Accounts')) ?>
                             </a>
                         </li>
                         <li>
@@ -329,7 +423,7 @@ lg:group-hover:no-underline">
                                 href="<?= $escaper->escapeUrl($block->getUrl('home')) ?>"
                                 class="hover:underline"
                             >
-                                <?= $escaper->escapeHtml(__('Blog')) ?>
+                                <?= $escaper->escapeHtml(__('Lighting Controls & Design')) ?>
                             </a>
                         </li>
                         <li>
@@ -337,7 +431,7 @@ lg:group-hover:no-underline">
                                 href="<?= $escaper->escapeUrl($block->getUrl('home')) ?>"
                                 class="hover:underline"
                             >
-                                <?= $escaper->escapeHtml(__('Our stores')) ?>
+                                <?= $escaper->escapeHtml(__('Luxury Home Golf Simulator')) ?>
                             </a>
                         </li>
                         <li>
@@ -345,7 +439,23 @@ lg:group-hover:no-underline">
                                 href="<?= $escaper->escapeUrl($block->getUrl('home')) ?>"
                                 class="hover:underline"
                             >
-                                <?= $escaper->escapeHtml(__('Sustainability')) ?>
+                                <?= $escaper->escapeHtml(__('Lighting Design')) ?>
+                            </a>
+                        </li>
+                        <li>
+                            <a
+                                href="<?= $escaper->escapeUrl($block->getUrl('home')) ?>"
+                                class="hover:underline"
+                            >
+                                <?= $escaper->escapeHtml(__('Bespoke Lighting')) ?>
+                            </a>
+                        </li>
+                        <li>
+                            <a
+                                href="<?= $escaper->escapeUrl($block->getUrl('home')) ?>"
+                                class="hover:underline"
+                            >
+                                <?= $escaper->escapeHtml(__('Sourcing')) ?>
                             </a>
                         </li>
                     </ul>
@@ -358,29 +468,56 @@ lg:group-hover:no-underline">
                     <a @click="open = ! open"
                        class="flex justify-between align-middle cursor-pointer group lg:cursor-default"
                     >
-                        <h4 class="uppercase font-bold text-gray-700 group-hover:underline 
+                        <h4 class="uppercase font-bold text-gray-200 group-hover:underline
 lg:group-hover:no-underline">
-                            <?= $escaper->escapeHtml(__('My account')) ?>
+                            <?= $escaper->escapeHtml(__('Popular Categories')) ?>
                         </h4>
                         <span class="transition-transform" :class="{ 'rotate-180': open }">
-                            <?= $heroIcons->chevronDownHtml('text-gray-500 stroke-current lg:hidden', 24, 24, 
+                            <?= $heroIcons->chevronDownHtml('text-gray-500 stroke-current lg:hidden', 24, 24,
 ['aria-hidden' => 'true']) ?>
                         </span>
                     </a>
                     <ul class="flex-col gap-4 mt-4 mb-6 lg:flex" :class="{ 'flex': open, 'hidden': ! open }">
                         <li>
                             <a
-                                href="<?= $escaper->escapeUrl($block->getUrl('customer/account')) ?>"
+                                href="<?= $escaper->escapeUrl($block->getUrl('home')) ?>"
                                 class="hover:underline">
-                                <?= $escaper->escapeHtml(__('My account')) ?>
+                                <?= $escaper->escapeHtml(__('Schonbex Lighting')) ?>
                             </a>
                         </li>
                         <li>
                             <a
-                                href="<?= $escaper->escapeUrl($block->getUrl('sales/order/history')) ?>"
-                                class="hover:underline"
-                            >
-                                <?= $escaper->escapeHtml(__('My orders')) ?>
+                                href="<?= $escaper->escapeUrl($block->getUrl('home')) ?>"
+                                class="hover:underline">
+                                <?= $escaper->escapeHtml(__('Lodes')) ?>
+                            </a>
+                        </li>
+                        <li>
+                            <a
+                                href="<?= $escaper->escapeUrl($block->getUrl('home')) ?>"
+                                class="hover:underline">
+                                <?= $escaper->escapeHtml(__('Stairwell Lights')) ?>
+                            </a>
+                        </li>
+                        <li>
+                            <a
+                                href="<?= $escaper->escapeUrl($block->getUrl('home')) ?>"
+                                class="hover:underline">
+                                <?= $escaper->escapeHtml(__('Weybridge Lights Projects')) ?>
+                            </a>
+                        </li>
+                        <li>
+                            <a
+                                href="<?= $escaper->escapeUrl($block->getUrl('home')) ?>"
+                                class="hover:underline">
+                                <?= $escaper->escapeHtml(__('Crystal Lighting')) ?>
+                            </a>
+                        </li>
+                        <li>
+                            <a
+                                href="<?= $escaper->escapeUrl($block->getUrl('home')) ?>"
+                                class="hover:underline">
+                                <?= $escaper->escapeHtml(__('Masiero Lighting')) ?>
                             </a>
                         </li>
                     </ul>
@@ -389,67 +526,22 @@ lg:group-hover:no-underline">
         </div>
     </div>
 
-    <div class="py-8 container mx-auto px-7">
-
-        <ul class="flex justify-center gap-11 mb-8">
-            <li class="hidden lg:flex items-center gap-3">
-                <?= $heroIcons->checkHtml('stroke-current text-green-500', 24, 24, ['aria-hidden' => 'true']) ?>
-                <span><?= $escaper->escapeHtml(__('Shipped within a day')) ?></span>
-            </li>
-            <li class="flex items-center gap-3">
-                <?= $heroIcons->checkHtml('stroke-current text-green-500', 24, 24, ['aria-hidden' => 'true']) ?>
-                <span><?= $escaper->escapeHtml(__('Free shipping and returns')) ?></span>
-            </li>
-            <li class="hidden lg:flex items-center gap-3">
-                <?= $heroIcons->checkHtml('stroke-current text-green-500', 24, 24, ['aria-hidden' => 'true']) ?>
-                <span><?= $escaper->escapeHtml(__('Free returns')) ?></span>
-            </li>
-            <li class="hidden lg:flex items-center gap-3">
-                <?= $heroIcons->checkHtml('stroke-current text-green-500', 24, 24, ['aria-hidden' => 'true']) ?>
-                <span><?= $escaper->escapeHtml(__('Refer a friend and get a discount')) ?></span>
-            </li>
-        </ul>
-
-        <div class="text-center flex gap-4 flex-wrap justify-center">
-            <?= $paymentIcons->idealHtml('', 48, 32, ['aria-hidden' => 'true']) ?>
-            <?= $paymentIcons->visaHtml('', 48, 32, ['aria-hidden' => 'true']) ?>
-            <?= $paymentIcons->mastercardHtml('', 48, 32, ['aria-hidden' => 'true']) ?>
-            <?= $paymentIcons->paypalHtml('', 48, 32, ['aria-hidden' => 'true']) ?>
-            <?= $paymentIcons->klarnaHtml('', 48, 32, ['aria-hidden' => 'true']) ?>
-            <?= $paymentIcons->applePayHtml('', 48, 32, ['aria-hidden' => 'true']) ?>
-            <?= $paymentIcons->googlePayHtml('', 48, 32, ['aria-hidden' => 'true']) ?>
-            <?= $paymentIcons->bitcoinHtml('', 48, 32, ['aria-hidden' => 'true']) ?>
-        </div>
-    </div>
-
     <div class="border-t border-gray-300 bg-gray-100">
         <div class="py-4 text-sm sm:flex sm:justify-between container mx-auto px-7">
-            <div class="text-gray-500">
-                <?= $escaper->escapeHtml(__('© 2022 Hyvä')) ?> -
-                <?php /* Enable the following line to show the copyright information configured in the admin
-                <?= $escaper->escapeHtml($block->getCopyright()) ?>
-                */ ?>
-                <a class="hover:underline"
-                   href="<?= $escaper->escapeHtmlAttr('https://twitter.com/hyva_io') ?>"
-                   target="_blank"
-                   rel="noopener noreferrer"
-                >
-                    <?= $escaper->escapeHtml(__('@hyva_io')) ?>
-                </a>
+            <div class="text-gray-500 flex justify-center items-center">
+                <?= $escaper->escapeHtml(__('Copyright © 2024, Weybridge Lights, All Rights Reserved')) ?>
             </div>
             <div class="text-gray-400 mt-2 sm:mt-0">
-                <a
-                    href="<?= $escaper->escapeUrl($block->getUrl('privacy-policy-cookie-restriction-mode')) ?>"
-                    class="hover:underline"
-                >
-                    <?= $escaper->escapeHtml(__('Terms & Conditions')) ?>
-                </a> |
-                <a
-                    href="<?= $escaper->escapeUrl($block->getUrl('privacy-policy-cookie-restriction-mode')) ?>"
-                    class="hover:underline"
-                >
-                    <?= $escaper->escapeHtml(__('Privacy Policy')) ?>
-                </a>
+                <div class="text-center flex gap-4 flex-wrap justify-center">
+                    <?= $paymentIcons->idealHtml('', 48, 32, ['aria-hidden' => 'true']) ?>
+                    <?= $paymentIcons->visaHtml('', 48, 32, ['aria-hidden' => 'true']) ?>
+                    <?= $paymentIcons->mastercardHtml('', 48, 32, ['aria-hidden' => 'true']) ?>
+                    <?= $paymentIcons->paypalHtml('', 48, 32, ['aria-hidden' => 'true']) ?>
+                    <?= $paymentIcons->klarnaHtml('', 48, 32, ['aria-hidden' => 'true']) ?>
+                    <?= $paymentIcons->applePayHtml('', 48, 32, ['aria-hidden' => 'true']) ?>
+                    <?= $paymentIcons->googlePayHtml('', 48, 32, ['aria-hidden' => 'true']) ?>
+                    <?= $paymentIcons->bitcoinHtml('', 48, 32, ['aria-hidden' => 'true']) ?>
+                </div>
             </div>
         </div>
     </div>

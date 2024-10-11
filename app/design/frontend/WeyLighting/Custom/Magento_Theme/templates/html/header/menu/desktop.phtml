@@ -41,30 +41,29 @@ $block->setData('cache_tags', $viewModelNavigation->getIdentities());
          class="justify-between items-center mx-auto w-full max-w-7xl"
     >
         <nav aria-label="<?= $escaper->escapeHtmlAttr(__('Main menu')) ?>">
-            <ul class="flex flex-wrap">
+            <ul class="flex flex-wrap justify-center">
                 <?php foreach ($menuItems as $index => $itemLevel1): ?>
                     <?php $singleItems = []; ?>
-                    <li class="level-0 flex items-center p-1 mx-1 border-b-2 border-transparent transition 
-transition-colors duration-500 group xl:p-2 xl:mx-2 hover:border-primary focus-within:border-primary"
-                         @mouseover.stop="hoverTopPosition = $event.currentTarget.offsetTop + 
+                    <li class="level-0 flex items-center p-1 border-b-2 border-transparent transition transition-colors duration-500 group xl:p-2 hover:border-gray-200 focus-within:border-gray-200"
+                         @mouseover.stop="hoverTopPosition = $event.currentTarget.offsetTop +
 $event.currentTarget.getBoundingClientRect().height"
                     >
                         <a href="<?= $escaper->escapeUrl($itemLevel1['url']) ?>"
-                           @focus="hoverTopPosition = $event.currentTarget.parentNode.offsetTop + 
+                           @focus="hoverTopPosition = $event.currentTarget.parentNode.offsetTop +
 $event.currentTarget.parentNode.getBoundingClientRect().height"
                            title="<?= $escaper->escapeHtmlAttr($itemLevel1['name']) ?>"
-                           class="level-0 block p-2 text-base text-gray-700 whitespace-nowrap">
+                           class="level-0 block p-2 text-base text-gray-200 whitespace-nowrap">
                             <span><?= $escaper->escapeHtml($itemLevel1['name']) ?></span>
                             <?php if (!empty($itemLevel1['childData'])): ?>
                                 <span class="inline items-center">
-                                    <?= $heroiconsSolid->chevronDownHtml('w-5 h-5 inline', 25, 25, ['aria-hidden' => 
+                                    <?= $heroiconsSolid->chevronDownHtml('w-5 h-5 inline', 25, 25, ['aria-hidden' =>
 'true']) ?>
                                 </span>
                             <?php endif; ?>
                         </a>
                         <?php if (!empty($itemLevel1['childData'])): ?>
-                            <div class="absolute left-0 top-full z-10 -mt-3 w-full bg-white opacity-0 
-transition-opacity ease-out pointer-events-none group-hover:opacity-100 focus-within:opacity-100 
+                            <div class="absolute left-0 top-full z-10 -mt-3 w-full bg-white opacity-0
+transition-opacity ease-out pointer-events-none group-hover:opacity-100 focus-within:opacity-100
 group-hover:pointer-events-auto"
                                  :style="`margin-top: 0; top: ${hoverTopPosition}px;`"
                             >
@@ -95,7 +94,7 @@ group-hover:pointer-events-auto"
                                                 <li class="level-1 min-w-48">
                                                     <a href="<?= $escaper->escapeUrl($itemLevel2['url']) ?>"
                                                        title="<?= $escaper->escapeHtmlAttr($itemLevel2['name']) ?>"
-                                                       class="level-1 p-1 block text-base font-semibold leading-loose 
+                                                       class="level-1 p-1 block text-base font-semibold leading-loose
 hover:underline">
                                                         <?= $escaper->escapeHtml($itemLevel2['name']) ?>
                                                     </a>
@@ -103,11 +102,11 @@ hover:underline">
                                                     <ul class="z-10 w-full">
                                                         <?php foreach ($itemLevel2['childData'] as $itemLevel3): ?>
                                                             <li class="level-2">
-                                                                <a href="<?= $escaper->escapeUrl($itemLevel3['url']) 
+                                                                <a href="<?= $escaper->escapeUrl($itemLevel3['url'])
 ?>"
-                                                                   title="<?= 
+                                                                   title="<?=
 $escaper->escapeHtmlAttr($itemLevel3['name']) ?>"
-                                                                   class="level-2 p-1 block text-lg md:text-sm 
+                                                                   class="level-2 p-1 block text-lg md:text-sm
 hover:underline"><?= $escaper->escapeHtml($itemLevel3['name']) ?></a>
                                                             </li>
                                                         <?php endforeach; ?>
@@ -120,7 +119,7 @@ hover:underline"><?= $escaper->escapeHtml($itemLevel3['name']) ?></a>
                                                     <?php foreach ($singleItems as $item): ?>
                                                         <a href="<?= $escaper->escapeUrl($item['url']) ?>"
                                                            title="<?= $escaper->escapeHtmlAttr($item['name']) ?>"
-                                                           class="level-1 p-1 block text-base font-semibold 
+                                                           class="level-1 p-1 block text-base font-semibold
 leading-loose hover:underline">
                                                             <?= $escaper->escapeHtml($item['name']) ?>
                                                         </a>
