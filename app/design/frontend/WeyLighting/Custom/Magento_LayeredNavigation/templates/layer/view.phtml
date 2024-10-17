@@ -85,7 +85,7 @@ $heroicons = $viewModels->require(HeroiconsOutline::class);
                             id: $id('filter-option')
                         }"
                         x-defer="intersect"
-                        class="filter-option card my-4"
+                        class="filter-option card my-4 py-0 px-2"
                     >
                         <h3 :id="`${id}-title`">
                             <button
@@ -96,11 +96,11 @@ $heroicons = $viewModels->require(HeroiconsOutline::class);
                                 :aria-controls="`${id}-content`"
                                 :aria-expanded="open"
                             >
-                                <span class="title text-md md:text-lg font-semibold">
+                                <span class="title text-md md:text-lg">
                                     <?= $escaper->escapeHtml(__($filter->getName())) ?>
                                     <span class="sr-only"> <?= $escaper->escapeHtml(__('filter')) ?></span>
                                 </span>
-                                <span class="py-1 px-1 rounded border border-container">
+                                <span class="py-1 px-1 rounded border-container">
                                     <?= $heroicons->chevronDownHtml(
                                         'transition-transform transform duration-300 ease-in-out',
                                         24,
