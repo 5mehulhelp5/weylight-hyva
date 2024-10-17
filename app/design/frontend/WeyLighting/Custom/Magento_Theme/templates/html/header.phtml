@@ -137,8 +137,8 @@ toggle).
             </div>
 
             <div>
-                <div>Give us a call on: 01932 820318</div>
-                <div class="flex gap-4 items-center">
+                <div class="hidden lg:block">Give us a call on: 01932 820318</div>
+                <div class="flex gap-4 items-center justify-center lg:justify-end">
 
                     <div class="hidden lg:block">
                         <?= $block->getChildHtml('store-language-switcher'); ?>
@@ -245,8 +245,8 @@ focus:ring-blue-700 focus:ring-1"
     </div>
 
     <!--Search mobile-->
-    <div x-ref="searchContainerMobile" class="lg:hidden bg-slate-200">
-        <div x-ref="searchForm" class="container py-4">
+    <div x-ref="searchContainerMobile" class="hidden">
+        <div x-ref="searchForm" class="container p-0 relative z-[9]">
             <?= $block->getChildHtml('header-search'); ?>
         </div>
     </div>

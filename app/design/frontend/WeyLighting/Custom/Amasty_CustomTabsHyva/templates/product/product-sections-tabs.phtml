@@ -28,7 +28,7 @@ $sortedTabsTitles = [];
 // phpcs:disable Generic.Files.LineLength.TooLong
 ?>
 <?php if ($sortedTabs): ?>
-    <div class="am-custom-tabs-wrapper flex flex-col gap-x-8 border border-t-0"
+    <div class="am-custom-tabs-wrapper flex flex-col gap-x-8 border-0 lg:border"
          x-data="amCustomTabs"
          x-init="initAmCustomTabs()"
          @resize.window.debounce="checkIsMobileResolution()"
