@@ -182,21 +182,6 @@ href="%2">track your order</a> or <a class="underline" href="%3">get in touch</a
                 <?= $icons->renderHtml('social-instagram', 'w-12 h-auto lg:w-10', 32, 32, ['aria-hidden' => 'true'])
 ?>
             </a>
-            <a
-                href="#"
-                class="hover:opacity-80"
-                aria-label="<?= $escaper->escapeHtmlAttr(__('Pinterest')) ?>"
-            >
-                <?= $icons->renderHtml('social-pinterest', 'w-12 h-auto lg:w-10', 32, 32, ['aria-hidden' => 'true', 'fill' => '#555656'])
-?>
-            </a>
-            <a
-                href="#"
-                class="hover:opacity-80"
-                aria-label="<?= $escaper->escapeHtmlAttr(__('Twitter')) ?>"
-            >
-                <?= $icons->renderHtml('social-twitter', 'w-12 h-auto lg:w-10', 32, 32, ['aria-hidden' => 'true', 'fill' => '#555656']) ?>
-            </a>
         </div>
     </div>
 
@@ -291,8 +276,7 @@ lg:group-hover:no-underline">
                     </a>
                     <ul class="flex-col gap-4 mt-4 mb-6 lg:flex" :class="{ 'flex': open, 'hidden': ! open }">
                         <li>
-                            4 - 5 The Old Cow Shed, Cobham Park <br> Estate, Cobham <br> Park Road, Cobham, <br> Surrey,
-                            <br> KT11 3NE
+                            4-5 The Old Cow Shed,<br> Cobham Park Estate,<br> Cobham Park Road,<br> Cobham, Surrey<br> KT11 3NE
                         </li>
                         <br><br><br>
                         <li>
@@ -533,14 +517,11 @@ lg:group-hover:no-underline">
             </div>
             <div class="text-gray-400 mt-2 sm:mt-0">
                 <div class="text-center flex gap-4 flex-wrap justify-center">
-                    <?= $paymentIcons->idealHtml('', 48, 32, ['aria-hidden' => 'true']) ?>
-                    <?= $paymentIcons->visaHtml('', 48, 32, ['aria-hidden' => 'true']) ?>
+                    <?= $paymentIcons->americanExpressHtml('', 48, 32, ['aria-hidden' => 'true']) ?>
+                    <?= $paymentIcons->applePayHtml('', 48, 32, ['aria-hidden' => 'true']) ?>
                     <?= $paymentIcons->mastercardHtml('', 48, 32, ['aria-hidden' => 'true']) ?>
                     <?= $paymentIcons->paypalHtml('', 48, 32, ['aria-hidden' => 'true']) ?>
-                    <?= $paymentIcons->klarnaHtml('', 48, 32, ['aria-hidden' => 'true']) ?>
-                    <?= $paymentIcons->applePayHtml('', 48, 32, ['aria-hidden' => 'true']) ?>
-                    <?= $paymentIcons->googlePayHtml('', 48, 32, ['aria-hidden' => 'true']) ?>
-                    <?= $paymentIcons->bitcoinHtml('', 48, 32, ['aria-hidden' => 'true']) ?>
+                    <?= $paymentIcons->visaHtml('', 48, 32, ['aria-hidden' => 'true']) ?>
                 </div>
             </div>
         </div>
