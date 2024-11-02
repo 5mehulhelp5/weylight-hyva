@@ -88,35 +88,55 @@ $maxSalesQtyLength = ($maxSalesQty ? strlen((string) $maxSalesQty) : 4)
         x-init="$dispatch('update-qty-<?= (int)$product->getId() ?>', qty)"
     >
         <?php if ($product->isSaleable()): ?>
-            <div class="mr-2">
-                <label for="qty[<?= (int)$product->getId() ?>]"
-                    class="sr-only"
-                >
+            <div class="mr-2 flex items-center space-x-2">
+                <label for="qty[<?= (int)$product->getId() ?>]" class="sr-only">
                     <?= $escaper->escapeHtml(__('Quantity')) ?>
                 </label>
+
+                <!-- Decrement Button -->
+                <button type="button" @click="qty = Math.max(qty - 1, <?= $minSalesQty ?>); $dispatch('update-qty-<?= (int)$product->getId() ?>', qty)"
+                        class="border border-primary py-2 px-3 bg-gray-200 text-gray-600 hover:bg-gray-300 focus:outline-none">
+                    -
+                </button>
+
+                <!-- Quantity Input -->
                 <input name="qty"
-                    @private-content-loaded.window="onGetCartData($event.detail, $dispatch)"
-                    id="qty[<?= (int)$product->getId() ?>]"
-                    form="product_addtocart_form"
+                       @private-content-loaded.window="onGetCartData($event.detail, $dispatch)"
+                       id="qty[<?= (int)$product->getId() ?>]"
+                       form="product_addtocart_form"
                     <?php if ($stockItemViewModel->isQtyDecimal($product)): ?>
-                    type="text"
-                    pattern="[0-9]+(\.[0-9]{1,<?= /** @noEscape */ $maxSalesQtyLength ?>})?"
-                    inputmode="decimal"
+                        type="text"
+                        pattern="[0-9]+(\.[0-9]{1,<?= /** @noEscape */ $maxSalesQtyLength ?>})?"
+                        inputmode="decimal"
                     <?php else: ?>
-                    type="number"
-                    pattern="[0-9]{0,<?= /** @noEscape */ $maxSalesQtyLength ?>}"
-                    inputmode="numeric"
-                    <?php if ($minSalesQty): ?>min="<?= /** @noEscape */ $minSalesQty ?>"<?php endif; ?>
-                    <?php if ($maxSalesQty): ?>max="<?= /** @noEscape */ $maxSalesQty ?>"<?php endif; ?>
-                    <?php if ($step): ?>step="<?= /** @noEscape */ $step ?>"<?php endif; ?>
+                        type="number"
+                        pattern="[0-9]{0,<?= /** @noEscape */ $maxSalesQtyLength ?>}"
+                        inputmode="numeric"
+                        <?php if ($minSalesQty): ?>min="<?= /** @noEscape */ $minSalesQty ?>"<?php endif; ?>
+                        <?php if ($maxSalesQty): ?>max="<?= /** @noEscape */ $maxSalesQty ?>"<?php endif; ?>
+                        <?php if ($step): ?>step="<?= /** @noEscape */ $step ?>"<?php endif; ?>
                     <?php endif; ?>
-                    :value="qty"
-                    value="<?= $block->getProductDefaultQty() * 1 ?>"
-                    class="form-input px-2 py-2 w-20 text-center invalid:ring-2 invalid:ring-red-500"
-                    x-model.number="qty"
-                    @input="$dispatch('update-qty-<?= (int)$product->getId() ?>', qty)"
+                       :value="qty"
+                       value="<?= $block->getProductDefaultQty() * 1 ?>"
+                       class="px-2 py-2 w-20 text-center invalid:ring-2 invalid:ring-red-500 border-0 border-t border-b"
+                       x-model.number="qty"
+                       @input="$dispatch('update-qty-<?= (int)$product->getId() ?>', qty)"
                 />
+
+                <!-- Increment Button -->
+                <button type="button" @click="qty = Math.min(qty + 1, <?= $maxSalesQty ?>); $dispatch('update-qty-<?= (int)$product->getId() ?>', qty)"
+                        class="border border-primary py-2 px-3 bg-gray-200 text-gray-600 hover:bg-gray-300 focus:outline-none">
+                    +
+                </button>
             </div>
         <?php endif; ?>
     </div>
 <?php endif; ?>
+
+<style>
+    input[type="number"]::-webkit-inner-spin-button,
+    input[type="number"]::-webkit-outer-spin-button {
+        -webkit-appearance: none;
+        margin: 0;
+    }
+</style>

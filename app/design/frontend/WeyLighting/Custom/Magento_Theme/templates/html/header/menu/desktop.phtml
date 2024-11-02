@@ -44,7 +44,7 @@ $block->setData('cache_tags', $viewModelNavigation->getIdentities());
             <ul class="flex flex-wrap justify-center">
                 <?php foreach ($menuItems as $index => $itemLevel1): ?>
                     <?php $singleItems = []; ?>
-                    <li class="level-0 flex items-center p-1 border-b-2 border-transparent transition transition-colors duration-500 group xl:p-2 hover:border-gray-200 focus-within:border-gray-200"
+                    <li class="level-0 flex items-center border-b-2 border-transparent transition transition-colors duration-500 group hover:border-gray-200 focus-within:border-gray-200"
                          @mouseover.stop="hoverTopPosition = $event.currentTarget.offsetTop +
 $event.currentTarget.getBoundingClientRect().height"
                     >
