@@ -70,7 +70,7 @@ $tooltipBlockHtml = $block->getBlockHtml('product.swatch.tooltip');
                     <div class="swatch-attribute border-t last:border-b border-container min-h-14
                             <?= $escaper->escapeHtmlAttr($productAttribute->getAttributeCode()) ?>">
                         <template x-if="showSwatches">
-                            <div class="flex flex-col sm:flex-row items-center py-4 sm:py-1 w-full border-gray-300">
+                            <div class="flex sm:flex-row items-center py-4 sm:py-1 w-full border-gray-300" style="flex-direction: column">
 
                                 <label
                                     class="w-full sm:w-1/2 text-left text-gray-700 label product-option-label"
@@ -101,7 +101,7 @@ $tooltipBlockHtml = $block->getBlockHtml('product.swatch.tooltip');
                         </template>
                     </div>
                 <?php else: ?>
-                    <div class="flex flex-col sm:flex-row items-center py-2 w-full border-t border-gray-300 last:border-b">
+                    <div style="flex-direction: column" class="flex sm:flex-row items-center py-2 w-full border-t border-gray-300 last:border-b">
                         <label class="w-full sm:w-1/2 text-left text-gray-700 label"
                                for="attribute<?= $escaper->escapeHtmlAttr($attribute->getAttributeId()) ?>"
                         >
