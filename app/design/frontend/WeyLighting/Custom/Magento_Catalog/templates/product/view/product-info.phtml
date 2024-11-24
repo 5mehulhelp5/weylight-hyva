@@ -28,6 +28,19 @@ $attributesViewModel = $viewModels->require(ProductAttributes::class);
 /** @var Product $product */
 $product = $productViewModel->getProduct();
 $productType = $product->getTypeId();
+$stockStatus = '';
+if ($product) {
+    $objectManager = \Magento\Framework\App\ObjectManager::getInstance();
+    $stockRegistry = $objectManager->get(\Magento\CatalogInventory\Api\StockRegistryInterface::class);
+
+    $stockItem = $stockRegistry->getStockItem($product->getId());
+
+    if ($stockItem['is_in_stock']) {
+        $stockStatus = 'In Stock';
+    } else {
+        $stockStatus = 'Out of Stock';
+    }
+}
 
 ?>
 <div class="w-full mb-6">
@@ -45,7 +58,7 @@ $productType = $product->getTypeId();
     </div>
 
     <div class="my-2 flex text-xl">
-        Delivery | Stock Message
+        Delivery | <?= $stockStatus ?>
     </div>
 
     <?= $block->getChildHtml('product.info.form') ?>
@@ -75,7 +88,7 @@ $productType = $product->getTypeId();
     <?php endif; ?>
 
     <?php if ($shortDescription = $productViewModel->getShortDescription()) { ?>
-        <div class="mb-4 leading-relaxed product-description prose"><?= /* @noEscape */ $shortDescription ?></div>
+        <div class="hidden mb-4 leading-relaxed product-description prose"><?= /* @noEscape */ $shortDescription ?></div>
     <?php } ?>
 
     <?= $block->getChildHtml("product.info.additional") ?>

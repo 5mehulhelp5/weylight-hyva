@@ -10,7 +10,9 @@ declare(strict_types=1);
 use Amasty\CustomTabsHyva\ViewModel\TabsList;
 use Hyva\Theme\Model\ViewModelRegistry;
 use Hyva\Theme\ViewModel\HeroiconsOutline;
+use Hyva\Theme\ViewModel\ProductPage;
 use Magento\Catalog\Block\Product\View\Details;
+use Magento\Catalog\Model\Product;
 use Magento\Framework\Escaper;
 
 /** @var Details $block */
@@ -26,6 +28,10 @@ $heroicons = $viewModels->require(HeroiconsOutline::class);
 $sortedTabs = $block->getGroupSortedChildNames('detailed_info', '');
 $sortedTabsTitles = [];
 // phpcs:disable Generic.Files.LineLength.TooLong
+
+$productViewModel = $viewModels->require(ProductPage::class);
+/** @var Product $product */
+$product = $productViewModel->getProduct();
 ?>
 <?php if ($sortedTabs): ?>
     <div class="am-custom-tabs-wrapper flex flex-col gap-x-8 border-0 lg:border"
@@ -204,4 +210,7 @@ $sortedTabsTitles = [];
             }
         }
     </script>
+    <?php if ($shortDescription = $productViewModel->getShortDescription()) { ?>
+        <div class="mt-8 mb-4 leading-relaxed product-description prose"><?= /* @noEscape */ $shortDescription ?></div>
+    <?php } ?>
 <?php endif; ?>

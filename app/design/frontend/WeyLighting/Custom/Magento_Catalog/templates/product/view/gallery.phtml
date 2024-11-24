@@ -67,8 +67,7 @@ $galleryOptionShowMagnifier = (bool) $block->getVar('gallery/magnifier/enable', 
 $galleryOptionShowFullscreenBtn = (bool) $block->getVar('gallery/magnifier/fullscreen', 'Magento_Catalog');
 $galleryOptionShowMagnifierBtn = $block->getVar('gallery/magnifier/trigger', 'Magento_Catalog') !== "hover";
 $galleryOptionMagnifierZoom = (int) $block->getVar('gallery/magnifier/zoom', 'Magento_Catalog');
-$galleryOptionAppendOnReceive = (string) $block->getVar('gallery_switch_strategy', 'Magento_ConfigurableProduct') === 
-'append';
+$galleryOptionAppendOnReceive = (string) $block->getVar('gallery_switch_strategy', 'Magento_ConfigurableProduct') === 'append';
 
 $productName = $block->getProduct()->getName();
 ?>
@@ -77,19 +76,18 @@ $productName = $block->getProduct()->getName();
     <section
         id="gallery"
         <?php if ($galleryOptionShowThumbs): ?>
-            class="relative pb-[var(--thumb-size)] flex flex-col <?= $galleryOptionNavVertical ? 'lg:flex-row lg:pb-0 
-lg:pl-[var(--thumb-size)]' : '' ?>"
+            class="relative pb-[var(--thumb-size)] flex flex-col <?= $galleryOptionNavVertical ? 'lg:flex-row lg:pb-0 lg:pl-[var(--thumb-size)]' : '' ?>"
             style="
                 --gallery-ratio: <?= /* @noEscape */ $mediumWidth . '/' . $mediumHeight ?>;
                 --gallery-width: <?= /* @noEscape */ $mediumWidth ?>px;
                 --thumb-size: calc(<?= /* @noEscape */ $smallWidth ?>px + 1rem);
-            "
+                "
         <?php else: ?>
             class="relative"
             style="
                 --gallery-ratio: <?= /* @noEscape */ $mediumWidth . '/' . $mediumHeight ?>;
                 --gallery-width: <?= /* @noEscape */ $mediumWidth ?>px;
-            "
+                "
         <?php endif; ?>
         aria-label="<?= $escaper->escapeHtml(__('%1 Gallery', $productName)) ?>"
         x-data="initGallery()"
@@ -116,8 +114,7 @@ lg:pl-[var(--thumb-size)]' : '' ?>"
             x-bind="galleryBody"
             x-ref="galleryDialog"
             :class="{
-                'z-50 fixed inset-0 w-screen max-w-[min(1280px,(100%_-_2rem))] max-h-[min(1024px,(100%_-_2rem))] 
-m-auto': fullscreen,
+                'z-50 fixed inset-0 w-screen max-w-[min(1280px,(100%_-_2rem))] max-h-[min(1024px,(100%_-_2rem))] m-auto': fullscreen,
                 'relative': !fullscreen
             }"
             :role="fullscreen ? 'dialog' : false"
@@ -172,29 +169,24 @@ m-auto': fullscreen,
                         x-show="!activeVideo"
                     >
                     <?php if ($galleryOptionShowCaption): ?>
-                        <template x-if="image.type === 'image' && image.caption && image.caption !== '<?= 
-$escaper->escapeJs($productName) ?>'">
+                        <template x-if="image.type === 'image' && image.caption && image.caption !== '<?= $escaper->escapeJs($productName) ?>'">
                             <figcaption
-                                class="absolute inset-x-0 bottom-0 pt-4 pb-2 px-4 text-sm xl:text-base font-bold 
-bg-gradient-to-t from-black/10
-                                <?= $galleryOptionArrows !== "start" && $galleryOptionArrows !== "end" ? 
-'text-center' : 'text-left' ?>
+                                class="absolute inset-x-0 bottom-0 pt-4 pb-2 px-4 text-sm xl:text-base font-bold bg-gradient-to-t from-black/10
+                                <?= $galleryOptionArrows !== "start" && $galleryOptionArrows !== "end" ? 'text-center' : 'text-left' ?>
                                 <?= $galleryOptionArrows === "start" ? 'text-right' : '' ?>"
                                 x-text="image.caption"
                             ></figcaption>
                         </template>
                     <?php endif; ?>
                     <?php if ($galleryOptionShowMagnifier): ?>
-                        <div x-magnifier-target x-show="showMagnifier" class="hidden [@media(pointer:coarse)]:hidden 
-md:block"></div>
+                        <div x-magnifier-target x-show="showMagnifier" class="hidden [@media(pointer:coarse)]:hidden md:block"></div>
                     <?php endif; ?>
                 </figure>
             </template>
-            <div class="z-0 absolute inset-0 p-2 w-full flex flex-col justify-start items-end gap-2">
+            <div class="z-0 absolute inset-0 p-2 w-full flex flex-col justify-start items-end gap-2" x-show="!itemIsVideo" x-cloak>
                 <?php if ($galleryOptionAllowfullscreen): ?>
                     <button
-                        class="p-2 rounded-full transition shadow hover:shadow-primary/30 focus:shadow-primary/30 
-bg-white text-primary"
+                        class="p-2 rounded-full transition shadow hover:shadow-primary/30 focus:shadow-primary/30 bg-white text-primary"
                         title="<?= $escaper->escapeHtml(__('Close fullscreen')) ?>"
                         aria-label="<?= $escaper->escapeHtml(__('Close fullscreen')) ?>"
                         x-show="fullscreen"
@@ -206,8 +198,7 @@ bg-white text-primary"
                     <button
                         aria-label="<?= $escaper->escapeHtml(__('Open fullscreen')) ?>"
                         tabindex="-1"
-                        x-show="!fullscreen && !itemIsVideo"
-                        x-cloak
+                        x-show="!fullscreen"
                         @click="fullscreen = true"
                         <?php if (!$galleryOptionShowFullscreenIcon): ?>
                             class="absolute inset-0 w-full -z-10"
@@ -216,8 +207,7 @@ bg-white text-primary"
                         <?php if ($galleryOptionShowFullscreenIcon): ?>
                             <span
                                 title="<?= $escaper->escapeHtml(__('Open fullscreen')) ?>"
-                                class="block p-2 rounded-full transition shadow hover:shadow-primary/30 
-focus:shadow-primary/30 bg-white text-primary/50 hover:text-primary focus:text-primary"
+                                class="block p-2 rounded-full transition shadow hover:shadow-primary/30 focus:shadow-primary/30 bg-white text-primary/50 hover:text-primary focus:text-primary"
                             >
                                 <?= $heroicons->arrowsExpandHtml('', 24, 24, ['aria-hidden' => 'true']); ?>
                             </span>
@@ -228,8 +218,7 @@ focus:shadow-primary/30 bg-white text-primary/50 hover:text-primary focus:text-p
                 <?php if ($galleryOptionShowMagnifier): ?>
                     <template x-if="!itemIsVideo && showMagnifierButton">
                         <button
-                            class="hidden [@media(pointer:coarse)]:hidden md:block p-2 rounded-full transition shadow 
-hover:shadow-primary/30 focus:shadow-primary/30 bg-white text-primary/50 hover:text-primary focus:text-primary"
+                            class="hidden [@media(pointer:coarse)]:hidden md:block p-2 rounded-full transition shadow hover:shadow-primary/30 focus:shadow-primary/30 bg-white text-primary/50 hover:text-primary focus:text-primary"
                             :aria-label="showMagnifier
                                 ? '<?= $escaper->escapeHtml(__('Disable Magnifier')) ?>'
                                 : '<?= $escaper->escapeHtml(__('Enable Magnifier')) ?>'"
@@ -239,10 +228,8 @@ hover:shadow-primary/30 focus:shadow-primary/30 bg-white text-primary/50 hover:t
                             tabindex="-1"
                             @click="showMagnifier = !showMagnifier"
                         >
-                            <span x-show="!showMagnifier"><?= $heroicons->zoomInHtml('', 24, 24, ['aria-hidden' => 
-'true']); ?></span>
-                            <span x-show="showMagnifier"><?= $heroicons->zoomOutHtml('', 24, 24, ['aria-hidden' => 
-'true']); ?></span>
+                            <span x-show="!showMagnifier"><?= $heroicons->zoomInHtml('', 24, 24, ['aria-hidden' => 'true']); ?></span>
+                            <span x-show="showMagnifier"><?= $heroicons->zoomOutHtml('', 24, 24, ['aria-hidden' => 'true']); ?></span>
                         </button>
                     </template>
                 <?php endif; ?>
@@ -281,8 +268,7 @@ hover:shadow-primary/30 focus:shadow-primary/30 bg-white text-primary/50 hover:t
                         :disabled="!loop && isStart"
                         @click="prevItem"
                     >
-                        <span class="block p-2.5 rounded-full transition disabled:opacity-30 shadow 
-hover:shadow-primary/30 focus:shadow-primary/30 bg-white text-primary">
+                        <span class="block p-2.5 rounded-full transition disabled:opacity-30 shadow hover:shadow-primary/30 focus:shadow-primary/30 bg-white text-primary">
                             <?= $heroiconsSolid->arrowLeftHtml('', 16, 16, ['aria-hidden' => 'true']) ?>
                         </span>
                     </button>
@@ -295,8 +281,7 @@ hover:shadow-primary/30 focus:shadow-primary/30 bg-white text-primary">
                         :disabled="!loop && isEnd"
                         @click="nextItem"
                     >
-                        <span class="block p-2.5 rounded-full transition disabled:opacity-30 shadow 
-hover:shadow-primary/30 focus:shadow-primary/30 bg-white text-primary">
+                        <span class="block p-2.5 rounded-full transition disabled:opacity-30 shadow hover:shadow-primary/30 focus:shadow-primary/30 bg-white text-primary">
                             <?= $heroiconsSolid->arrowRightHtml('', 16, 16, ['aria-hidden' => 'true']) ?>
                         </span>
                     </button>
@@ -306,8 +291,7 @@ hover:shadow-primary/30 focus:shadow-primary/30 bg-white text-primary">
         <?php if ($galleryOptionShowThumbs): ?>
             <div
                 id="gallery-thumbs"
-                class="flex items-center gap-2 outline-0 absolute inset-x-0 bottom-0 <?= $galleryOptionNavVertical ? 
-'lg:left-0 lg:right-auto lg:inset-y-0 lg:order-first lg:flex-col' : '' ?>"
+                class="flex items-center gap-2 outline-0 absolute inset-x-0 bottom-0 <?= $galleryOptionNavVertical ? 'lg:left-0 lg:right-auto lg:inset-y-0 lg:order-first lg:flex-col' : '' ?>"
                 x-init="$nextTick(() => calcThumbsOverflow())"
                 x-show="images.length > 1"
                 x-cloak
@@ -316,16 +300,13 @@ hover:shadow-primary/30 focus:shadow-primary/30 bg-white text-primary">
                 <?php if ($galleryOptionShowNavArrows): ?>
                     <button
                         type="button"
-                        class="shrink-0 flex justify-center items-center backdrop-blur bg-white/30 
-disabled:opacity-30
-                            <?= $galleryOptionShowNavOverflow === "arrow" ? ($galleryOptionNavVertical ? 'z-10 
-absolute left-0 inset-y-0 lg:top-0 lg:inset-y-auto lg:inset-x-0' : 'z-10 absolute left-0 inset-y-0 p-2') : '' ?>"
+                        class="shrink-0 flex justify-center items-center backdrop-blur bg-white/30 disabled:opacity-30
+                            <?= $galleryOptionShowNavOverflow === "arrow" ? ($galleryOptionNavVertical ? 'z-10 absolute left-0 inset-y-0 lg:top-0 lg:inset-y-auto lg:inset-x-0' : 'z-10 absolute left-0 inset-y-0 p-2') : '' ?>"
                         tabindex="-1"
                         aria-hidden="true"
                         :disabled="!loop && isStart"
                         @click="prevItem"
-                        x-show="<?= $galleryOptionShowNavOverflow === "arrow" ? 'thumbsOverflow && !thumbsStart' : 
-'thumbsOverflow' ?>"
+                        x-show="<?= $galleryOptionShowNavOverflow === "arrow" ? 'thumbsOverflow && !thumbsStart' : 'thumbsOverflow' ?>"
                         x-cloak
                     >
                         <?= $heroicons->chevronUpHtml($galleryOptionNavVertical ? 'hidden lg:block' : 'hidden') ?>
@@ -333,11 +314,10 @@ absolute left-0 inset-y-0 lg:top-0 lg:inset-y-auto lg:inset-x-0' : 'z-10 absolut
                     </button>
                 <?php endif; ?>
                 <nav
-                    class="group flex snap overflow-auto overscroll-contain gap-2 outline-none <?= 
-$galleryOptionNavVertical ? 'lg:flex-col' : '' ?>"
+                    class="group flex snap overflow-auto overscroll-contain gap-2 outline-none <?= $galleryOptionNavVertical ? 'lg:flex-col' : '' ?>"
                     tabindex="0"
                     <?php if ($galleryOptionShowNavOverflow): ?>
-                    :class="{
+                        :class="{
                         'mask-overflow <?= $galleryOptionNavVertical ? 'lg:mask-dir-y' : '' ?>': thumbsOverflow,
                         'mask-overflow-end': thumbsStart,
                         'mask-overflow-start': thumbsEnd
@@ -359,8 +339,7 @@ $galleryOptionNavVertical ? 'lg:flex-col' : '' ?>"
                                 'border-primary group-focus:border-gray-400': activeItem === index,
                                 'border-transparent': activeItem !== index
                             }"
-                            :aria-label="hyva.str('View %1', image.caption) || '<?= $escaper->escapeJs("View %1", 
-$productName) ?>'"
+                            :aria-label="hyva.str('View %1', image.caption) || '<?= $escaper->escapeJs("View %1", $productName) ?>'"
                             :aria-current="activeItem === index"
                             x-intersect:enter.full="isThumbInView(index, 'enter')"
                             x-intersect:leave.full="isThumbInView(index, 'leave')"
@@ -375,8 +354,7 @@ $productName) ?>'"
                             >
                             <template x-if="image.type === 'video'">
                                 <span class="absolute inset-0 grid place-items-center">
-                                    <?= $heroicons->videoCameraHtml('stroke-white/75 fill-black/20', 44, 44, 
-['aria-hidden' => 'true']); ?>
+                                    <?= $heroicons->videoCameraHtml('stroke-white/75 fill-black/20', 44, 44, ['aria-hidden' => 'true']); ?>
                                 </span>
                             </template>
                         </button>
@@ -385,17 +363,13 @@ $productName) ?>'"
                 <?php if ($galleryOptionShowNavArrows): ?>
                     <button
                         type="button"
-                        class="shrink-0 flex justify-center items-center backdrop-blur bg-white/30 
-disabled:opacity-30
-                            <?= $galleryOptionShowNavOverflow === "arrow" ? ($galleryOptionNavVertical ? 'z-10 
-absolute right-0 inset-y-0 lg:bottom-0 lg:inset-y-auto lg:inset-x-0 p-1' : 'z-10 absolute right-0 inset-y-0 p-1') : 
-'' ?>"
+                        class="shrink-0 flex justify-center items-center backdrop-blur bg-white/30 disabled:opacity-30
+                            <?= $galleryOptionShowNavOverflow === "arrow" ? ($galleryOptionNavVertical ? 'z-10 absolute right-0 inset-y-0 lg:bottom-0 lg:inset-y-auto lg:inset-x-0 p-1' : 'z-10 absolute right-0 inset-y-0 p-1') : '' ?>"
                         tabindex="-1"
                         aria-hidden="true"
                         :disabled="!loop && isEnd"
                         @click="nextItem"
-                        x-show="<?= $galleryOptionShowNavOverflow === "arrow" ? 'thumbsOverflow && !thumbsEnd' : 
-'thumbsOverflow' ?>"
+                        x-show="<?= $galleryOptionShowNavOverflow === "arrow" ? 'thumbsOverflow && !thumbsEnd' : 'thumbsOverflow' ?>"
                         x-cloak
                     >
                         <?= $heroicons->chevronDownHtml($galleryOptionNavVertical ? 'hidden lg:block' : 'hidden') ?>
@@ -430,7 +404,7 @@ absolute right-0 inset-y-0 lg:bottom-0 lg:inset-y-auto lg:inset-x-0 p-1' : 'z-10
                     showRelated: <?= $galleryOptionShowRelated ? 'true' : 'false' ?>,
                     allowApi: false
                 },
-                swipeStart: null,
+                swipeStart: 0,
                 swipeDir: "x",
                 <?php if ($galleryOptionShowMagnifier): ?>
                 showMagnifier: <?= $galleryOptionShowMagnifierBtn ? 'false' : 'true' ?>,
@@ -440,6 +414,7 @@ absolute right-0 inset-y-0 lg:bottom-0 lg:inset-y-auto lg:inset-x-0 p-1' : 'z-10
                 images: <?= /* @noEscape */ $block->getGalleryImagesJson() ?>,
                 init() {
                     this.itemCount = this.images.length;
+                    this.initActive();
                     this.$watch('activeItem', (item) => {
                         this.itemIsVideo = this.images[item].type === 'video';
                         this.activeVideo = this.itemIsVideo && this.videoOptions.autoplay;
@@ -498,6 +473,8 @@ absolute right-0 inset-y-0 lg:bottom-0 lg:inset-y-auto lg:inset-x-0 p-1' : 'z-10
                         : this.loop ? (this.itemCount - 1) : this.activeItem;
                 },
                 swipeItem(event) {
+                    if (this.swipeStart === 0) return;
+
                     const swipeEnd = this.getTouchPosition(event);
                     if (Math.abs((swipeEnd - this.swipeStart)) < 40) return;
 
@@ -507,7 +484,7 @@ absolute right-0 inset-y-0 lg:bottom-0 lg:inset-y-auto lg:inset-x-0 p-1' : 'z-10
                         this.prevItem();
                     }
 
-                    this.swipeStart = null;
+                    this.swipeStart = 0;
                 },
                 getVideoData(source) {
                     const videoUrl = source.videoUrl;
@@ -527,8 +504,7 @@ absolute right-0 inset-y-0 lg:bottom-0 lg:inset-y-auto lg:inset-x-0 p-1' : 'z-10
                     }
 
                     if (videoUrl.match(/youtube\.com|youtu\.be|youtube-nocookie.com/)) {
-                        const youtubeRegex = 
-/^.*(?:(?:youtu\.be\/|v\/|vi\/|u\/\w\/|embed\/)|(?:(?:watch)?\?v(?:i)?=|\&v(?:i)?=))([^#\&\?]*).*/;
+                        const youtubeRegex = /^.*(?:(?:youtu\.be\/|v\/|vi\/|u\/\w\/|embed\/)|(?:(?:watch)?\?v(?:i)?=|\&v(?:i)?=))([^#\&\?]*).*/;
                         const baseSrc = videoUrl.match(/youtube-nocookie.com/)
                             ? 'https://www.youtube-nocookie.com/embed'
                             : 'https://www.youtube.com/embed';
@@ -547,14 +523,12 @@ absolute right-0 inset-y-0 lg:bottom-0 lg:inset-y-auto lg:inset-x-0 p-1' : 'z-10
                             videoData.additionalParams += '&enablejsapi=1';
                         }
 
-                        videoData.src = `${baseSrc}/${videoData.id}?origin=<?= $block->getBaseUrl() 
-?>${videoData.additionalParams}`;
+                        videoData.src = `${baseSrc}/${videoData.id}?origin=<?= $block->getBaseUrl() ?>${videoData.additionalParams}`;
                         videoData.allow += " accelerometer; clipboard-write; encrypted-media; gyroscope;"
                     } else if (videoUrl.match(/vimeo\.com/)) {
                         const vimeoRegex = new RegExp([
                             'https?:\\/\\/(?:www\\.|player\\.)?vimeo.com\\/(?:channels\\/(?:\\w+\\/)',
-                            
-'?|groups\\/([^\\/]*)\\/videos\\/|album\\/(\\d+)\\/video\\/|video\\/|)(\\d+)(?:$|\\/|\\?)'
+                            '?|groups\\/([^\\/]*)\\/videos\\/|album\\/(\\d+)\\/video\\/|video\\/|)(\\d+)(?:$|\\/|\\?)'
                         ].join(''));
                         const timestamp = new Date().getTime();
                         const baseSrc = "https://player.vimeo.com/video";
@@ -564,8 +538,7 @@ absolute right-0 inset-y-0 lg:bottom-0 lg:inset-y-auto lg:inset-x-0 p-1' : 'z-10
                         if (this.videoOptions.allowApi) {
                             videoData.additionalParams += "&api=1"
                         }
-                        videoData.src = 
-`${baseSrc}/${videoData.id}?player_id=vimeo${videoData.id}${timestamp}${videoData.additionalParams}`;
+                        videoData.src = `${baseSrc}/${videoData.id}?player_id=vimeo${videoData.id}${timestamp}${videoData.additionalParams}`;
                     }
 
                     return videoData;
@@ -576,21 +549,28 @@ absolute right-0 inset-y-0 lg:bottom-0 lg:inset-y-auto lg:inset-x-0 p-1' : 'z-10
                         : event.changedTouches[0].clientX;
                     return Math.round(position);
                 },
+                isSwipeGesture(event) {
+                    return event.touches.length <= 1 && window.visualViewport.scale <= 1.01;
+                },
                 receiveImages(images) {
-                    <?php if ($galleryOptionAppendOnReceive):  ?>
-                        const initialUrls = this.initialImages.map(image => image.full);
-                        const newImages = images.filter(image => !initialUrls.includes(image.full));
-                        this.images = [].concat(this.initialImages, newImages);
-                        this.activeItem = newImages.length ? this.initialImages.length : 0;
+                    <?php if ($galleryOptionAppendOnReceive): ?>
+                    const initialUrls = this.initialImages.map(image => image.full);
+                    const newImages = images.filter(image => !initialUrls.includes(image.full));
+                    this.images = [].concat(this.initialImages, newImages);
+                    this.activeItem = newImages.length ? this.initialImages.length : 0;
                     <?php else: ?>
-                        this.images = images;
+                    this.images = images;
                     <?php endif; ?>
                     this.itemCount = this.images.length;
                 },
                 resetGallery() {
                     this.images = this.initialImages;
                     this.itemCount = this.images.length;
-                    this.activeItem = 0;
+                    this.initActive();
+                },
+                initActive() {
+                    const mainImg = this.images.findIndex(image => image.isMain === true);
+                    this.activeItem = mainImg === -1 ? 0 : mainImg;
                 },
                 eventListeners: {
                     ['@keydown.window.escape']() {
@@ -605,9 +585,12 @@ absolute right-0 inset-y-0 lg:bottom-0 lg:inset-y-auto lg:inset-x-0 p-1' : 'z-10
                 },
                 galleryBody: {
                     ['@touchstart.passive'](event) {
-                        this.swipeStart = this.getTouchPosition(event);
+                        this.swipeStart = this.isSwipeGesture(event)
+                            ? this.getTouchPosition(event)
+                            : 0;
                     },
                     ['@touchend.passive'](event) {
+                        if (!this.isSwipeGesture(event)) return;
                         this.swipeItem(event);
                     },
                 },
@@ -657,8 +640,7 @@ absolute right-0 inset-y-0 lg:bottom-0 lg:inset-y-auto lg:inset-x-0 p-1' : 'z-10
         <script>
             (() => {
                 function alpine_magnifier(el) {
-                    Alpine.directive("magnifier", (el, { expression, modifiers }, { evaluateLater, effect, cleanup }) 
-=> {
+                    Alpine.directive("magnifier", (el, { expression, modifiers }, { evaluateLater, effect, cleanup }) => {
                         const isHoverableDevice = window.matchMedia('(hover: hover) and (pointer: fine)').matches;
                         const zoomSize = parseInt(modifierValue(modifiers, "zoom", 120)) + 100;
                         const getImageSrc = evaluateLater(expression);
@@ -717,4 +699,3 @@ absolute right-0 inset-y-0 lg:bottom-0 lg:inset-y-auto lg:inset-x-0 p-1' : 'z-10
         </script>
     <?php endif; ?>
 </div>
-

@@ -61,6 +61,8 @@ if ($msrpPrice = iterator_to_array($product->getPriceInfo()->getPrices())[MsrpPr
         return;
     }
 }
+
+$isPriceExists = $finalPrice < $regularPrice;
 ?>
 <script>
     function initPrice<?= (int)$product->getId() ?>() {
@@ -244,7 +246,7 @@ if ($msrpPrice = iterator_to_array($product->getPriceInfo()->getPrices())[MsrpPr
 </script>
 <div x-data="initPrice<?= (int)$product->getId() ?>()"
      x-bind="eventListeners"
-     class="price-box price-final_price"
+     class="price-box price-final_price flex items-center"
 >
     <div x-show="!activeProductsPriceData && !isPriceHidden()">
         <div class="price-container flex items-center">
@@ -272,7 +274,7 @@ if ($msrpPrice = iterator_to_array($product->getPriceInfo()->getPrices())[MsrpPr
             <div class="final-price inline-block" itemprop="offers" itemscope="" itemtype="http://schema.org/Offer">
                 <span id="product-price-<?= (int)$product->getId() ?>"
                       class="price-wrapper title-font font-medium text-2xl text-gray-900">
-                    <span class="price text-red-500" x-html="getFormattedFinalPrice()">
+                    <span class="price <?php echo $isPriceExists ? 'text-red-500' : ''?>" x-html="getFormattedFinalPrice()">
                         <?= /** @noEscape */ $productViewModel->format($finalPrice) ?>
                     </span>
                 </span>
@@ -306,7 +308,7 @@ if ($msrpPrice = iterator_to_array($product->getPriceInfo()->getPrices())[MsrpPr
     <template x-if="activeProductsPriceData">
         <div class="final-price inline-block">
             <?php if ($product->canConfigure() && is_int($product->getPrice())): ?>
-                <span class="price-label block" :class="{ 'invisible' : !showRegularPriceLabel }">
+                <span class="price-label block" :class="{ 'invisible hidden' : !showRegularPriceLabel }">
                     <?= $escaper->escapeHtml(__('As low as')) ?>:
                 </span>
             <?php endif; ?>
@@ -327,3 +329,8 @@ if ($msrpPrice = iterator_to_array($product->getPriceInfo()->getPrices())[MsrpPr
         </template>
     <?php endif; ?>
 </div>
+<style>
+    .prose {
+        max-width: 100% !important;
+    }
+</style>

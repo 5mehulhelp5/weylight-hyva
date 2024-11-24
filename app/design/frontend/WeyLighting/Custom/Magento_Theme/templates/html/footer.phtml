@@ -59,9 +59,10 @@ $items = [
     ],
 ];
 $itemIndex = 1;
+$isHomePage = $block->getRequest()->getFullActionName() === 'cms_index_index';
 ?>
 
-
+<?php if ($isHomePage): ?>
 <div class="my-20 px-10">
     <div class="mb-4 sm:flex sm:justify-between sm:items-baseline">
         <div class="text-3xl leading-9 font-bold text-gray-800">
@@ -134,7 +135,7 @@ tab key. You can skip the carousel using the skip link.')) ?>
         </div>
     </div>
 </div>
-
+<?php endif; ?>
 
 <div class="text-gray-600 text-base leading-6 bg-gray-50 relative">
     <div class="bg-primaryBg text-gray-50 sm:flex p-7 text-center lg:text-left">

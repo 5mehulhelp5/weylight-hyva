@@ -1,0 +1,93 @@
+<?xml version="1.0"?>
+<!--
+/**
+ * @author Amasty Team
+ * @copyright Copyright (c) Amasty (https://www.amasty.com)
+ * @package Product Tabs Hyva by Amasty
+ */
+ -->
+<page xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+      xsi:noNamespaceSchemaLocation="urn:magento:framework:View/Layout/etc/page_configuration.xsd">
+    <body>
+        <referenceBlock name="product.attributes">
+            <arguments>
+                <argument name="title" xsi:type="string" translate="true">More Information</argument>
+                <argument name="sort_order" xsi:type="number">20</argument>
+            </arguments>
+        </referenceBlock>
+        <referenceBlock name="product.info.details">
+            <!-- set custom tabs template description block if CustomTabs enabled -->
+            <action method="setTemplate" ifconfig="amcustomtabs/general/enabled">
+                <argument name="template" xsi:type="string">Amasty_CustomTabsHyva::product/product-sections-tabs.phtml
+                </argument>
+            </action>
+            <!-- remove Hyva description block if CustomTabs enabled -->
+            <action method="unsetChild" ifconfig="amcustomtabs/general/enabled">
+                <argument name="block" xsi:type="string">description</argument>
+            </action>
+            <!-- remove Hyva product.section.title.renderer block if CustomTabs enabled -->
+            <action method="unsetChild" ifconfig="amcustomtabs/general/enabled">
+                <argument name="block" xsi:type="string">product.section.title.renderer</argument>
+            </action>
+            <!-- add custom description block if CustomTabs enabled -->
+            <block name="product.info.description"
+                   template="Magento_Catalog::product/view/sections/description.phtml"
+                   group="detailed_info"
+                   ifconfig="amcustomtabs/general/enabled">
+                <arguments>
+                    <argument name="title" xsi:type="string" translate="true">Details</argument>
+                    <argument name="sort_order" xsi:type="number">10</argument>
+                </arguments>
+            </block>
+            <!-- add custom review tab if CustomTabs enabled -->
+            <block name="reviews.tab"
+                   group="detailed_info"
+                   ifconfig="amcustomtabs/general/enabled"
+                   template="Amasty_CustomTabsHyva::product/tabs/review-tab.phtml">
+                <arguments>
+                    <argument name="title" xsi:type="string" translate="true">Reviews</argument>
+                    <argument name="sort_order" xsi:type="number">30</argument>
+                </arguments>
+                <block class="Magento\Review\Block\Product\View" name="amtabs.review.list"
+                       template="Magento_Review::product/view/list.phtml"
+                       ifconfig="catalog/review/active">
+                    <block class="Magento\Theme\Block\Html\Pager"
+                           name="amtabs.review.toolbar"
+                           ifconfig="catalog/review/active">
+                        <arguments>
+                            <argument name="pagination_url_anchor" xsi:type="string">customer-review-list</argument>
+                        </arguments>
+                    </block>
+                </block>
+                <block class="Magento\Review\Block\Form"
+                       name="amtabs.review.form"
+                       template="Magento_Review::form.phtml"
+                       ifconfig="catalog/review/active">
+                    <container name="product.review.form.fields.before"
+                               as="form_fields_before"
+                               label="Review Form Fields Before"
+                    />
+                </block>
+            </block>
+        </referenceBlock>
+
+        <!-- remove Hyva reviews if CustomTabs enabled -->
+        <referenceBlock name="product.detail.page">
+            <action method="unsetChild" ifconfig="amcustomtabs/general/enabled">
+                <argument name="block" xsi:type="string">review_list</argument>
+            </action>
+            <action method="unsetChild" ifconfig="amcustomtabs/general/enabled">
+                <argument name="block" xsi:type="string">review_form</argument>
+            </action>
+        </referenceBlock>
+
+        <referenceBlock name="custom.tabs.script" remove="true"/>
+
+        <referenceContainer name="before.body.end">
+            <block class="Magento\Framework\View\Element\Template"
+                   name="tabs.gridsizes.hyva"
+                   template="Amasty_CustomTabsHyva::js/grid-sizes.phtml"
+                   after="-"/>
+        </referenceContainer>
+    </body>
+</page>
