@@ -33,14 +33,7 @@ $newsletterBlock = $block->getLayout()->createBlock(Subscribe::class);
 $recaptcha = $newsletterBlock->getData('viewModelRecaptcha');
 
 $items = [
-    [
-        'url'          => $block->getUrl('home'), // optional
-        'svg'          => $icons->renderHtml('lorum-logo-1', '', 170, 38)
-    ],
-    [
-        'url'          => $block->getUrl('home'),
-        'svg'          => $icons->renderHtml('lorum-logo-2', '', 170, 38)
-    ],
+
     [
         'url'          => $block->getUrl('home'),
         'svg'          => $icons->renderHtml('lorum-logo-3', '', 170, 52)
@@ -50,7 +43,7 @@ $items = [
         'svg'          => $icons->renderHtml('lorum-logo-4', '', 170, 88)
     ],
     [
-        'url'          => $block->getUrl('home'),
+        'url'          => $block->getUrl('home'), // optional
         'svg'          => $icons->renderHtml('lorum-logo-1', '', 170, 38)
     ],
     [
@@ -69,7 +62,7 @@ $isHomePage = $block->getRequest()->getFullActionName() === 'cms_index_index';
             Our favourite brands
         </div>
         <a
-            href="<?= $escaper->escapeUrl($block->getUrl('home')) ?>"
+            href="<?= $escaper->escapeUrl($block->getUrl('#')) ?>"
             class="text-primaryBg hover:text-gray-800 text-lg leading-7 font-semibold"
         >
             Browse all brands →

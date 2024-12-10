@@ -108,7 +108,7 @@ $modal = $modalViewModel->createModal();
                value="<?= $escaper->escapeHtml($optionItem['value']) ?>">
     <?php endforeach; ?>
     <?php else: ?>
-    <div class="item product product-item card card-interactive flex flex-col w-full <?= $viewIsGrid ? '' : 'md:flex-row' ?>">
+    <div class="item product product-item card card-interactive flex flex-col w-full relative <?= $viewIsGrid ? '' : 'md:flex-row' ?>">
         <?php endif; ?>
         <?php /* Product Image */ ?>
         <a href="<?= $escaper->escapeUrl($product->getProductUrl()) ?>"
@@ -188,10 +188,13 @@ $modal = $modalViewModel->createModal();
 <?php endif; ?>
 
 <style>
-    .btn-primary {
+    .btn-primary, .bg-primary {
         background: #555656 !important;
     }
-    .btn-primary:hover {
+    .btn-primary:hover, .bg-primary:hover {
         background: #555656 !important;
+    }
+    .category-image > img {
+        height: 50vh;
     }
 </style>
