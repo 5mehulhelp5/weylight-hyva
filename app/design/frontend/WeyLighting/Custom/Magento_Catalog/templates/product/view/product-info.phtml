@@ -56,7 +56,7 @@ if ($product) {
 
         $replacements = [
             '{qty}' => $productQty,
-            '{special_price}' => number_format($specialPrice, 2),
+            '{special_price}' => number_format((float)$specialPrice, 2),
             '{expected_date}' => $expectedDate,
             '{day-after-tomorrow}' => date('Y-m-d', strtotime('+2 days'))
         ];
