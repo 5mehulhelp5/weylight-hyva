@@ -12,8 +12,7 @@ use Hyva\Theme\Model\ViewModelRegistry;
 use Hyva\Theme\ViewModel\HeroiconsOutline;
 use Magento\Framework\Escaper;
 use Magento\LayeredNavigation\Block\Navigation;
-
-// phpcs:disable Generic.Files.LineLength.TooLong
+use Magento\Catalog\Model\Category;
 
 /** @var Navigation $block */
 /** @var Escaper $escaper */
@@ -21,7 +20,59 @@ use Magento\LayeredNavigation\Block\Navigation;
 
 /** @var HeroiconsOutline $heroicons */
 $heroicons = $viewModels->require(HeroiconsOutline::class);
+
+// Fetch current category and its subcategories
+/** @var Category $currentCategory */
+$objectManager = \Magento\Framework\App\ObjectManager::getInstance();
+$currentCategory = $objectManager->get('Magento\Framework\Registry')->registry('current_category');
+
+$subcategories = [];
+
+if ($currentCategory->getId()) {
+    /** @var CategoryRepository $categoryRepository */
+    /** @var \Magento\Framework\View\Element\Template $block */
+
+    try {
+        $categoryRepository = $objectManager->get('Magento\Catalog\Model\CategoryRepository');
+        $categoryIds = explode(',', $categoryRepository->get($currentCategory->getId())->getChildren());
+        foreach ($categoryIds as $categoryId) {
+            try {
+                $category = $categoryRepository->get($categoryId);
+                $subcategories[] = $category;
+            } catch (\Magento\Framework\Exception\NoSuchEntityException $e) {
+                // Handle non-existent category
+                continue;
+            }
+        }
+    } catch (\Exception $e) {
+        echo 'Error fetching categories: ' . $e->getMessage();
+    }
+}
 ?>
+
+<?php if ($subcategories): ?>
+    <div class="subcategory-slider mt-6">
+        <div class="slider-wrapper flex overflow-x-auto space-x-4">
+            <?php foreach ($subcategories as $subcategory): ?>
+                <?php if ($subcategory->getIsActive()): ?>
+                    <div class="slider-item flex-none w-64 p-4 border border-container-lighter rounded">
+                        <a href="<?= $subcategory->getUrl() ?>" class="flex justify-center items-center space-x-4">
+                            <img
+                                src="<?= $subcategory->getImageUrl() ?>"
+                                alt="<?= $escaper->escapeHtml($subcategory->getName()) ?>"
+                                class="w-20 h-fit object-cover rounded mb-2"
+                            >
+                            <span class="block text-lg font-sm text-primary">
+                                <?= $escaper->escapeHtml($subcategory->getName()) ?>
+                            </span>
+                        </a>
+                    </div>
+                <?php endif; ?>
+            <?php endforeach; ?>
+        </div>
+    </div>
+<?php endif; ?>
+
 <?php if ($block->canShowBlock()): ?>
     <div
         x-data="initLayeredNavigation()"
