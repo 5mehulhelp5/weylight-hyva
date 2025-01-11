@@ -52,15 +52,15 @@ if ($currentCategory->getId()) {
 
 <?php if ($subcategories): ?>
     <div class="subcategory-slider mt-6">
-        <div class="slider-wrapper flex overflow-x-auto space-x-4">
+        <div class="slider-wrapper flex overflow-x-auto space-x-4 no-scrollbar">
             <?php foreach ($subcategories as $subcategory): ?>
                 <?php if ($subcategory->getIsActive()): ?>
-                    <div class="slider-item flex-none w-64 p-4 border border-container-lighter rounded">
+                    <div class="slider-item flex-none flex flex-row justify-center items-center w-64 p-4 border border-container-lighter rounded">
                         <a href="<?= $subcategory->getUrl() ?>" class="flex justify-center items-center space-x-4">
                             <img
                                 src="<?= $subcategory->getImageUrl() ?>"
                                 alt="<?= $escaper->escapeHtml($subcategory->getName()) ?>"
-                                class="w-20 h-fit object-cover rounded mb-2"
+                                class="w-20 h-fit object-cover rounded"
                             >
                             <span class="block text-lg font-sm text-primary">
                                 <?= $escaper->escapeHtml($subcategory->getName()) ?>
