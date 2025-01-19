@@ -78,6 +78,7 @@ $hyvaUIHeaderVariant = $popupViewModel->getHyvaUIHeaderVariant();
             <div class="w-full flex align-center justify-center"
                  :style="`max-width: ${!isDefaultSearchInput && !isFullWidthSearch ? searchPopupWidth + 'px' : '100%'}`">
                 <input id="search"
+                       style="border-radius: unset;"
                        x-ref="searchInput"
                        maxlength="<?= $escaper->escapeHtml($popupViewModel->getMaxQueryLength()) ?>"
                        form="search_mini_form"
@@ -102,6 +103,7 @@ $hyvaUIHeaderVariant = $popupViewModel->getHyvaUIHeaderVariant();
                        @keydown.arrow-down.prevent="focusElement($el.querySelector('[tabindex]'))"/>
                 <?php if ($popupViewModel->showSearchButton()): ?>
                     <button type="submit" title="<?= $escaper->escapeHtml(__('Search')) ?>"
+                            style="border-radius: unset;"
                             class="am-custom-search-button h-full action search w-auto btn bg-primaryBg hover:bg-gray-800 cursor-pointer justify-center text-sm mb-3 md:mb-0 mr-auto rounded-none"
                             x-bind:disabled="isLoading || latestQuery.length < minSearchLength"
                             :class="{

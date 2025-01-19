@@ -52,7 +52,7 @@ if ($currentCategory->getId()) {
 
 <?php if ($subcategories): ?>
     <div class="subcategory-slider mt-6">
-        <div class="slider-wrapper flex overflow-x-auto space-x-4 no-scrollbar">
+        <div class="slider-wrapper flex overflow-x-auto space-x-4 no-scrollbar mb-4">
             <?php foreach ($subcategories as $subcategory): ?>
                 <?php if ($subcategory->getIsActive()): ?>
                     <div class="slider-item flex-none flex flex-row justify-center items-center w-64 p-4 border border-container-lighter rounded">
@@ -118,7 +118,7 @@ if ($currentCategory->getId()) {
         </h2>
         <div
             id="filters-content"
-            class="block-content filter-content hidden md:block pt-4"
+            class="block-content filter-content md:block pt-4"
             :class="{ 'hidden': !blockOpen }"
         >
             <?= $block->getChildHtml('state') ?>
@@ -194,3 +194,12 @@ if ($currentCategory->getId()) {
         }
     </script>
 <?php endif; ?>
+
+<style>
+    @media screen and (max-width: 767px) {
+        .mst-nav__horizontal-bar .block-content {
+            flex-wrap: unset !important;
+            flex-direction: column;
+        }
+    }
+</style>

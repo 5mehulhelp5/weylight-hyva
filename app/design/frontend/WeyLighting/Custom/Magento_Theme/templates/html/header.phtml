@@ -125,7 +125,7 @@ toggle).
     </div>
 
     <div class="bg-white shadow-md relative p-4">
-        <div class="container flex justify-between items-center">
+        <div class="container flex justify-between items-center px-0">
 
             <?= $block->getChildHtml('topmenu.mobile') ?>
 
@@ -247,7 +247,7 @@ focus:ring-blue-700 focus:ring-1"
     </div>
 
     <!--Search mobile-->
-    <div x-ref="searchContainerMobile" class="hidden">
+    <div x-ref="searchContainerMobile">
         <div x-ref="searchForm" class="container p-0 relative z-[9]">
             <?= $block->getChildHtml('header-search'); ?>
         </div>
@@ -284,5 +284,11 @@ focus:ring-blue-700 focus:ring-1"
 <style>
     .page-wrapper {
         background-color: white;
+    }
+    @media screen and (max-width: 425px) {
+        .block > img {
+            height: 50px;
+            width: auto;
+        }
     }
 </style>
