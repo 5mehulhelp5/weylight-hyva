@@ -39,37 +39,9 @@
                     <argument name="sort_order" xsi:type="number">10</argument>
                 </arguments>
             </block>
-            <!-- add custom review tab if CustomTabs enabled -->
-            <block name="reviews.tab"
-                   group="detailed_info"
-                   ifconfig="amcustomtabs/general/enabled"
-                   template="Amasty_CustomTabsHyva::product/tabs/review-tab.phtml">
-                <arguments>
-                    <argument name="title" xsi:type="string" translate="true">Reviews</argument>
-                    <argument name="sort_order" xsi:type="number">30</argument>
-                </arguments>
-                <block class="Magento\Review\Block\Product\View" name="amtabs.review.list"
-                       template="Magento_Review::product/view/list.phtml"
-                       ifconfig="catalog/review/active">
-                    <block class="Magento\Theme\Block\Html\Pager"
-                           name="amtabs.review.toolbar"
-                           ifconfig="catalog/review/active">
-                        <arguments>
-                            <argument name="pagination_url_anchor" xsi:type="string">customer-review-list</argument>
-                        </arguments>
-                    </block>
-                </block>
-                <block class="Magento\Review\Block\Form"
-                       name="amtabs.review.form"
-                       template="Magento_Review::form.phtml"
-                       ifconfig="catalog/review/active">
-                    <container name="product.review.form.fields.before"
-                               as="form_fields_before"
-                               label="Review Form Fields Before"
-                    />
-                </block>
-            </block>
         </referenceBlock>
+
+        <referenceBlock name="reviews.tab" remove="true"/>
 
         <!-- remove Hyva reviews if CustomTabs enabled -->
         <referenceBlock name="product.detail.page">
