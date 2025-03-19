@@ -46,6 +46,9 @@
             "src": "vendor\/amasty\/module-elastic-search-hyva-compatibility"
         },
         {
+            "src": "app\/code\/Hyva\/MagezonBuilder"
+        },
+        {
             "src": "app\/code\/Hyva\/MagezonNinjaMenus"
         },
         {

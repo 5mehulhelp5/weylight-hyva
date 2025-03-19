@@ -129,17 +129,12 @@ $product = $productViewModel->getProduct();
                     })
                 },
                 setActiveTabs(currentName) {
-                    const anchor = document.getElementById(currentName).closest(selectors.tabItem);
-                    const behavior = this.isAccordion ? 'instant' : 'smooth';
                     for (let tab of this.tabs) {
                         if (this.isOpenAllTabs) {
                             this._toggleCollapsible(currentName, tab);
                         } else {
                             tab.isActive = currentName === tab.name;
                         }
-                    }
-                    if (!this.isOpenAllTabs) {
-                        this._scrollToElement(anchor, behavior);
                     }
                 },
                 isActiveTab(currentName) {

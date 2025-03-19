@@ -30,6 +30,7 @@ class Helper implements ArgumentInterface
      * @var Data
      */
     private $data;
+    private Output $catalogHelper;
 
     /**
      * Construct

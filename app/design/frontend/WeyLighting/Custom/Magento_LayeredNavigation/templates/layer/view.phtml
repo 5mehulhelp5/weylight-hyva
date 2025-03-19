@@ -52,10 +52,10 @@ if ($currentCategory->getId()) {
 
 <?php if ($subcategories): ?>
     <div class="subcategory-slider mt-6">
-        <div class="slider-wrapper flex overflow-x-auto space-x-4 no-scrollbar mb-4">
+        <div class="owl-carousel owl-theme">
             <?php foreach ($subcategories as $subcategory): ?>
                 <?php if ($subcategory->getIsActive()): ?>
-                    <div class="slider-item flex-none flex flex-row justify-center items-center w-64 p-4 border border-container-lighter rounded">
+                    <div class="item flex flex-row justify-center items-center w-64 p-4 mx-auto border border-container-lighter rounded">
                         <a href="<?= $subcategory->getUrl() ?>" class="flex justify-center items-center space-x-4">
                             <img
                                 src="<?= $subcategory->getImageUrl() ?>"
@@ -72,6 +72,7 @@ if ($currentCategory->getId()) {
         </div>
     </div>
 <?php endif; ?>
+
 
 <?php if ($block->canShowBlock()): ?>
     <div
@@ -193,6 +194,22 @@ if ($currentCategory->getId()) {
             }
         }
     </script>
+    <script>
+        jQuery(document).ready(function($){
+            $(".owl-carousel").owlCarousel({
+                loop: true,
+                margin: 10,
+                nav: false,
+                dots: true,
+                responsive: {
+                    0: { items: 1 },
+                    600: { items: 3 },
+                    1000: { items: 5 }
+                }
+            });
+        });
+    </script>
+
 <?php endif; ?>
 
 <style>

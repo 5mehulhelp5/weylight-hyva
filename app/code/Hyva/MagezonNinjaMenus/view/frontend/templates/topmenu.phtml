@@ -33,7 +33,7 @@ $block->setData('cache_tags', $viewModelNavigation->getIdentities());
 <div class="z-20 order-2 sm:order-1 lg:order-2 navigation hidden lg:flex"
 >
     <?php if($html) :?>
-        <div class="sections nav-sections">
+        <div class="sections nav-sections mx-auto">
             <nav class="navigation" data-action="navigation">
                 <?= $html ?>
             </nav>
@@ -66,7 +66,7 @@ $block->setData('cache_tags', $viewModelNavigation->getIdentities());
     <div
             x-ref="mobileMenuNavLinks"
             class="
-            fixed top-0 right-0 w-full h-full p-1 flex
+            fixed top-0 z-30 right-0 w-full h-full p-1 flex
             flex-col border-t border-container bg-container-lighter
             overflow-y-auto overflow-x-hidden hidden
         "
@@ -141,9 +141,6 @@ $block->setData('cache_tags', $viewModelNavigation->getIdentities());
 
 <script>
     loadScript('<?= $block->getViewFileUrl('Hyva_MagezonBuilder::js/jquery.min.js') ?>', 'jquery')
-        .then(() => {
-            return loadScript('<?= $block->getViewFileUrl('Magezon_NinjaMenus::js/jquery.drilldown.min.js') ?>', 'drilldown');
-        })
         .then(() => {
             return loadScript('<?= $block->getViewFileUrl('Magezon_NinjaMenus::js/jquery.hoverIntent.min.js') ?>', 'hoverIntent');
         })

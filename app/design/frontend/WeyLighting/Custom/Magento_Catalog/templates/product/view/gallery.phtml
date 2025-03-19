@@ -89,7 +89,7 @@ $productName = $block->getProduct()->getName();
                 --gallery-width: <?= /* @noEscape */ $mediumWidth ?>px;
                 "
         <?php endif; ?>
-        aria-label="<?= $escaper->escapeHtml(__('%1 Gallery', $productName)) ?>"
+        aria-label="<?= $escaper->escapeHtmlAttr(__('%1 Gallery', $productName)) ?>"
         x-data="initGallery()"
         x-bind="eventListeners"
     >
@@ -187,8 +187,8 @@ $productName = $block->getProduct()->getName();
                 <?php if ($galleryOptionAllowfullscreen): ?>
                     <button
                         class="p-2 rounded-full transition shadow hover:shadow-primary/30 focus:shadow-primary/30 bg-white text-primary"
-                        title="<?= $escaper->escapeHtml(__('Close fullscreen')) ?>"
-                        aria-label="<?= $escaper->escapeHtml(__('Close fullscreen')) ?>"
+                        title="<?= $escaper->escapeHtmlAttr(__('Close fullscreen')) ?>"
+                        aria-label="<?= $escaper->escapeHtmlAttr(__('Close fullscreen')) ?>"
                         x-show="fullscreen"
                         @click="fullscreen = false"
                         @mouseenter="showMagnifier = false"
@@ -196,7 +196,7 @@ $productName = $block->getProduct()->getName();
                         <?= $heroicons->xHtml('', 24, 24, ['aria-hidden' => 'true']); ?>
                     </button>
                     <button
-                        aria-label="<?= $escaper->escapeHtml(__('Open fullscreen')) ?>"
+                        aria-label="<?= $escaper->escapeHtmlAttr(__('Open fullscreen')) ?>"
                         tabindex="-1"
                         x-show="!fullscreen"
                         @click="fullscreen = true"
@@ -206,7 +206,7 @@ $productName = $block->getProduct()->getName();
                     >
                         <?php if ($galleryOptionShowFullscreenIcon): ?>
                             <span
-                                title="<?= $escaper->escapeHtml(__('Open fullscreen')) ?>"
+                                title="<?= $escaper->escapeHtmlAttr(__('Open fullscreen')) ?>"
                                 class="block p-2 rounded-full transition shadow hover:shadow-primary/30 focus:shadow-primary/30 bg-white text-primary/50 hover:text-primary focus:text-primary"
                             >
                                 <?= $heroicons->arrowsExpandHtml('', 24, 24, ['aria-hidden' => 'true']); ?>
@@ -220,11 +220,11 @@ $productName = $block->getProduct()->getName();
                         <button
                             class="hidden [@media(pointer:coarse)]:hidden md:block p-2 rounded-full transition shadow hover:shadow-primary/30 focus:shadow-primary/30 bg-white text-primary/50 hover:text-primary focus:text-primary"
                             :aria-label="showMagnifier
-                                ? '<?= $escaper->escapeHtml(__('Disable Magnifier')) ?>'
-                                : '<?= $escaper->escapeHtml(__('Enable Magnifier')) ?>'"
+                                ? '<?= $escaper->escapeJs(__('Disable Magnifier')) ?>'
+                                : '<?= $escaper->escapeJs(__('Enable Magnifier')) ?>'"
                             :title="showMagnifier
-                                ? '<?= $escaper->escapeHtml(__('Disable Magnifier')) ?>'
-                                : '<?= $escaper->escapeHtml(__('Enable Magnifier')) ?>'"
+                                ? '<?= $escaper->escapeJs(__('Disable Magnifier')) ?>'
+                                : '<?= $escaper->escapeJs(__('Enable Magnifier')) ?>'"
                             tabindex="-1"
                             @click="showMagnifier = !showMagnifier"
                         >
@@ -237,8 +237,8 @@ $productName = $block->getProduct()->getName();
             </div>
             <button
                 class="group z-0 absolute inset-0 w-full -outline-offset-2 grid place-items-center"
-                title="<?= $escaper->escapeHtml(__('Click to play video')) ?>"
-                aria-label="<?= $escaper->escapeHtml(__('Click to play video')) ?>"
+                title="<?= $escaper->escapeHtmlAttr(__('Click to play video')) ?>"
+                aria-label="<?= $escaper->escapeHtmlAttr(__('Click to play video')) ?>"
                 x-show="itemIsVideo && !activeVideo"
                 x-cloak
                 @click="activeVideo = true"
@@ -255,7 +255,7 @@ $productName = $block->getProduct()->getName();
                     class="z-10 absolute bottom-2 lg:bottom-4 xl:bottom-8 flex justify-between gap-2
                         <?= $galleryOptionArrows !== "start" ? 'right-2 lg:right-4 xl:right-8' : '' ?>
                         <?= $galleryOptionArrows !== "end" ? 'left-2 lg:left-4 xl:left-8' : '' ?>"
-                    aria-label="<?= $escaper->escapeHtml(__('%1 Gallery Navigation', $productName)) ?>"
+                    aria-label="<?= $escaper->escapeHtmlAttr(__('%1 Gallery Navigation', $productName)) ?>"
                     x-show="images.length > 1"
                     x-cloak
                 >
@@ -263,8 +263,8 @@ $productName = $block->getProduct()->getName();
                         type="button"
                         tabindex="-1"
                         class="shrink-0 p-1.5 md:p-0"
-                        title="<?= $escaper->escapeHtml(__('Previous')) ?>"
-                        aria-label="<?= $escaper->escapeHtml(__('Previous')) ?>"
+                        title="<?= $escaper->escapeHtmlAttr(__('Previous')) ?>"
+                        aria-label="<?= $escaper->escapeHtmlAttr(__('Previous')) ?>"
                         :disabled="!loop && isStart"
                         @click="prevItem"
                     >
@@ -276,8 +276,8 @@ $productName = $block->getProduct()->getName();
                         type="button"
                         tabindex="-1"
                         class="shrink-0 p-1.5 md:p-0"
-                        title="<?= $escaper->escapeHtml(__('Next')) ?>"
-                        aria-label="<?= $escaper->escapeHtml(__('Next')) ?>"
+                        title="<?= $escaper->escapeHtmlAttr(__('Next')) ?>"
+                        aria-label="<?= $escaper->escapeHtmlAttr(__('Next')) ?>"
                         :disabled="!loop && isEnd"
                         @click="nextItem"
                     >
@@ -328,7 +328,7 @@ $productName = $block->getProduct()->getName();
                     @keyup.arrow-right="nextItem()"
                     @keyup.arrow-down="nextItem()"
                     @keyup.arrow-left="prevItem()"
-                    aria-label="<?= $escaper->escapeHtml(__('%1 Gallery Thumbnails', $productName)) ?>"
+                    aria-label="<?= $escaper->escapeHtmlAttr(__('%1 Gallery Thumbnails', $productName)) ?>"
                 >
                     <template x-for="(image, index) in images" :key="index">
                         <button

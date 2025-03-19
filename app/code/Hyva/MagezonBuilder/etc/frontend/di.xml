@@ -4,9 +4,9 @@
     <type name="Hyva\CompatModuleFallback\Model\CompatModuleRegistry">
         <arguments>
             <argument name="compatModules" xsi:type="array">
-                <item name="hyva-magento2-magezon-ninja-menus" xsi:type="array">
-                    <item name="original_module" xsi:type="string">Magezon_NinjaMenus</item>
-                    <item name="compat_module" xsi:type="string">Hyva_MagezonNinjaMenus</item>
+                <item name="hyva-magento2-magezon-builder" xsi:type="array">
+                    <item name="original_module" xsi:type="string">Magezon_Builder</item>
+                    <item name="compat_module" xsi:type="string">Hyva_MagezonBuilder</item>
                 </item>
             </argument>
         </arguments>

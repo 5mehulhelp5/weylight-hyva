@@ -1,0 +1,20 @@
+<?php
+/**
+ * Hyvä Themes - https://hyva.io
+ * Copyright © Hyvä Themes 2020-present. All rights reserved.
+ * This product is licensed per Magento install
+ * See https://hyva.io/license
+ */
+
+use Magezon\Builder\Block\Element\SearchForm;
+/**
+ * @var $block SearchForm
+ */
+
+$element = $this->getElement();
+$html = $block->renderElement('header-search');
+if ($html) {
+    $html = str_replace('search_mini_form', 'search_mini_form' . uniqid() . time(), $html);
+    $html = str_replace('<input', '<input placeholder="' . $element->getData('placeholder') . '"', $html);
+    echo $html;
+}

@@ -85,42 +85,39 @@ $secondHoverStyles = $builderHelper->parseStyles($secondHoverColors);
 <?php } ?>
 <?php if ($menu->getIdentifier() == 'top-menu' && $menu->getOverlay()) { ?>
     <div class="ninjamenus-top-overlay" style="position: fixed !important; top: 50px; <?= $menu->getOverlayOpacity() ? 'opacity: ' . (float)$menu->getOverlayOpacity() . ';' : '' ?>"></div>
-    <script>
-        loadScript('<?= $block->getViewFileUrl('Hyva_MagezonBuilder::js/jquery.min.js') ?>', 'jquery')
-            .then(() => {
-                $('.ninjamenus-top-overlay').appendTo('.page-wrapper');
-                $('.ninjamenus-top').hover(function() {
-                    $('.nav-sections').css('z-index', 999);
-                    $('.ninjamenus-top-overlay').fadeIn(400);
-                }, function() {
-                    if (!$('.nav-sections').hasClass('scroll-to-fixed-fixed')) {
-                        $('.nav-sections').css('z-index', '');
-                    }
-                    $('.ninjamenus-top-overlay').fadeOut(400);
-                });
-            })
-            .then(() => {
-                return loadScript('<?= $block->getViewFileUrl('Magezon_NinjaMenus::js/jquery.drilldown.min.js') ?>', 'drilldown');
-            })
-            .then(() => {
-                return loadScript('<?= $block->getViewFileUrl('Magezon_NinjaMenus::js/jquery.hoverIntent.min.js') ?>', 'hoverIntent');
-            })
-            .then(() => {
-                return loadScript('<?= $block->getViewFileUrl('Magezon_Core::js/jquery-scrolltofixed-min.js') ?>', 'scrolltofixed');
-            })
-            .then(() => {
-                return loadScript('<?= $block->getViewFileUrl('Hyva_MagezonNinjaMenus::js/menu.js') ?>', 'menu');
-            })
-            .then(() => {
-                return loadScript('<?= $block->getViewFileUrl('Hyva_MagezonNinjaMenus::js/jquery.drilldown.min.js') ?>', 'drilldown');
-            })
-            .then(() => {
-                const menuElement = $(".ninjamenus");
-                const options = {
-                    "mobileBreakpoint": 1024,
-                    "stick": <?= $sticky ?>,
-                };
-                let ninjaMenus = new NinjaMenus(menuElement, options);
-            })
-    </script>
 <?php } ?>
+<script>
+    loadScript('<?= $block->getViewFileUrl('Hyva_MagezonBuilder::js/jquery.min.js') ?>', 'jquery')
+        .then(() => {
+            $('.ninjamenus-top-overlay').appendTo('.page-wrapper');
+            $('.ninjamenus-top').hover(function() {
+                $('.nav-sections').css('z-index', 999);
+                $('.ninjamenus-top-overlay').fadeIn(400);
+            }, function() {
+                if (!$('.nav-sections').hasClass('scroll-to-fixed-fixed')) {
+                    $('.nav-sections').css('z-index', '');
+                }
+                $('.ninjamenus-top-overlay').fadeOut(400);
+            });
+        })
+        .then(() => {
+            return loadScript('<?= $block->getViewFileUrl('Magezon_NinjaMenus::js/jquery.hoverIntent.min.js') ?>', 'hoverIntent');
+        })
+        .then(() => {
+            return loadScript('<?= $block->getViewFileUrl('Magezon_Core::js/jquery-scrolltofixed-min.js') ?>', 'scrolltofixed');
+        })
+        .then(() => {
+            return loadScript('<?= $block->getViewFileUrl('Hyva_MagezonNinjaMenus::js/menu.js') ?>', 'menu');
+        })
+        .then(() => {
+            return loadScript('<?= $block->getViewFileUrl('Hyva_MagezonNinjaMenus::js/jquery.drilldown.min.js') ?>', 'drilldown');
+        })
+        .then(() => {
+            const menuElement = $(".ninjamenus");
+            const options = {
+                "mobileBreakpoint": 1024,
+                "stick": <?= $sticky ?>,
+            };
+            let ninjaMenus = new NinjaMenus(menuElement, options);
+        })
+</script>

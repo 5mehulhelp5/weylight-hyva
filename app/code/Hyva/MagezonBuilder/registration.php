@@ -8,4 +8,4 @@
 
 use Magento\Framework\Component\ComponentRegistrar;
 
-ComponentRegistrar::register(ComponentRegistrar::MODULE, 'Hyva_MagezonNinjaMenus', __DIR__);
+ComponentRegistrar::register(ComponentRegistrar::MODULE, 'Hyva_MagezonBuilder', __DIR__);

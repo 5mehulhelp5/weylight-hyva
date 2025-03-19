@@ -1,4 +1,3 @@
-<?php
 /**
  * Hyvä Themes - https://hyva.io
  * Copyright © Hyvä Themes 2020-present. All rights reserved.
@@ -6,6 +5,9 @@
  * See https://hyva.io/license
  */
 
-use Magento\Framework\Component\ComponentRegistrar;
+module.exports = {
+    content: [
+        '../templates/**/*.phtml',
+    ]
+}
 
-ComponentRegistrar::register(ComponentRegistrar::MODULE, 'Hyva_MagezonNinjaMenus', __DIR__);
