@@ -215,24 +215,7 @@ $productName = $block->getProduct()->getName();
                         <?php endif; ?>
                     </button>
                 <?php endif; ?>
-                <?php if ($galleryOptionShowMagnifier): ?>
-                    <template x-if="!itemIsVideo && showMagnifierButton">
-                        <button
-                            class="hidden [@media(pointer:coarse)]:hidden md:block p-2 rounded-full transition shadow hover:shadow-primary/30 focus:shadow-primary/30 bg-white text-primary/50 hover:text-primary focus:text-primary"
-                            :aria-label="showMagnifier
-                                ? '<?= $escaper->escapeHtml(__('Disable Magnifier')) ?>'
-                                : '<?= $escaper->escapeHtml(__('Enable Magnifier')) ?>'"
-                            :title="showMagnifier
-                                ? '<?= $escaper->escapeHtml(__('Disable Magnifier')) ?>'
-                                : '<?= $escaper->escapeHtml(__('Enable Magnifier')) ?>'"
-                            tabindex="-1"
-                            @click="showMagnifier = !showMagnifier"
-                        >
-                            <span x-show="!showMagnifier"><?= $heroicons->zoomInHtml('', 24, 24, ['aria-hidden' => 'true']); ?></span>
-                            <span x-show="showMagnifier"><?= $heroicons->zoomOutHtml('', 24, 24, ['aria-hidden' => 'true']); ?></span>
-                        </button>
-                    </template>
-                <?php endif; ?>
+                <!-- The magnifier toggle button has been removed so that zoom is always applied on hover -->
                 <?= $block->getChildHtml('product.media.additional') ?>
             </div>
             <button
@@ -407,8 +390,8 @@ $productName = $block->getProduct()->getName();
                 swipeStart: 0,
                 swipeDir: "x",
                 <?php if ($galleryOptionShowMagnifier): ?>
-                showMagnifier: <?= $galleryOptionShowMagnifierBtn ? 'false' : 'true' ?>,
-                showMagnifierButton: <?= $galleryOptionShowMagnifierBtn ? 'true' : 'false' ?>,
+                // Always enable zoom on hover (for non-video images)
+                showMagnifier: true,
                 <?php endif; ?>
                 initialImages: <?= /* @noEscape */ $block->getGalleryImagesJson() ?>,
                 images: <?= /* @noEscape */ $block->getGalleryImagesJson() ?>,
@@ -421,34 +404,31 @@ $productName = $block->getProduct()->getName();
                         this.isStart = this.activeItem === 0;
                         this.isEnd = this.activeItem === (this.itemCount - 1);
                         <?php if ($galleryOptionShowMagnifier): ?>
-                        this.showMagnifier = <?= $galleryOptionShowMagnifierBtn
-                            ? 'false'
-                            : '!this.fullscreen && !this.itemIsVideo' ?>;
+                        // Always enable zoom for images (disable for videos)
+                        this.showMagnifier = !this.itemIsVideo;
                         <?php endif; ?>
                         <?php if ($galleryOptionShowThumbs): ?>
                         this.$nextTick(() => {
                             const activeThumb = this.getActiveThumb();
                             if (activeThumb) {
                                 this.scrollTo(activeThumb);
-                            };
+                            }
                         });
                         <?php endif; ?>
                     });
                     this.$watch('itemCount', () => {
-                        this.calcThumbsOverflow()
+                        this.calcThumbsOverflow();
                     });
                     this.$watch('fullscreen', (open) => {
                         <?php if ($galleryOptionShowMagnifier): ?>
-                        this.showMagnifier = <?= $galleryOptionShowMagnifierBtn ? 'false' : '!open' ?>;
-                        this.showMagnifierButton = <?= !$galleryOptionShowMagnifierBtn
-                            ? 'open'
-                            : ($galleryOptionShowFullscreenBtn ? 'true' : '!open') ?>;
+                        // Always enable zoom for images regardless of fullscreen state
+                        this.showMagnifier = !this.itemIsVideo;
                         <?php endif; ?>
                         this.$nextTick(() => {
                             this.scrollLock(open);
                             this.tabLock(this.$refs.galleryDialog, open);
-                        })
-                    })
+                        });
+                    });
                 },
                 scrollLock(use = true) {
                     document.body.style.overflow = use ? "hidden" : "";
@@ -462,28 +442,17 @@ $productName = $block->getProduct()->getName();
                 },
                 nextItem() {
                     const hasNext = this.activeItem < (this.itemCount - 1);
-                    this.activeItem = hasNext
-                        ? this.activeItem += 1
-                        : this.loop ? 0 : this.activeItem;
+                    this.activeItem = hasNext ? this.activeItem + 1 : this.loop ? 0 : this.activeItem;
                 },
                 prevItem() {
                     const hasPrev = this.activeItem > 0;
-                    this.activeItem = hasPrev
-                        ? this.activeItem -= 1
-                        : this.loop ? (this.itemCount - 1) : this.activeItem;
+                    this.activeItem = hasPrev ? this.activeItem - 1 : this.loop ? (this.itemCount - 1) : this.activeItem;
                 },
                 swipeItem(event) {
                     if (this.swipeStart === 0) return;
-
                     const swipeEnd = this.getTouchPosition(event);
-                    if (Math.abs((swipeEnd - this.swipeStart)) < 40) return;
-
-                    if (this.swipeStart > swipeEnd) {
-                        this.nextItem();
-                    } else {
-                        this.prevItem();
-                    }
-
+                    if (Math.abs(swipeEnd - this.swipeStart) < 40) return;
+                    this.swipeStart > swipeEnd ? this.nextItem() : this.prevItem();
                     this.swipeStart = 0;
                 },
                 getVideoData(source) {
@@ -494,37 +463,29 @@ $productName = $block->getProduct()->getName();
                         src: null,
                         additionalParams: "&autoplay=1",
                         allow: "fullscreen; picture-in-picture; autoplay;"
-                    }
+                    };
                     if (!videoUrl) {
                         return videoData;
-                    };
-
+                    }
                     if (this.videoOptions.loop) {
                         videoData.additionalParams += '&loop=1';
                     }
-
                     if (videoUrl.match(/youtube\.com|youtu\.be|youtube-nocookie.com/)) {
                         const youtubeRegex = /^.*(?:(?:youtu\.be\/|v\/|vi\/|u\/\w\/|embed\/)|(?:(?:watch)?\?v(?:i)?=|\&v(?:i)?=))([^#\&\?]*).*/;
                         const baseSrc = videoUrl.match(/youtube-nocookie.com/)
                             ? 'https://www.youtube-nocookie.com/embed'
                             : 'https://www.youtube.com/embed';
-
                         videoData.type = "youtube";
                         videoData.id = videoUrl.match(youtubeRegex)[1];
-
-                        // If rel=0 it only shows related for the channel not external
                         videoData.additionalParams += (this.videoOptions.showRelated ? '&rel=1' : '&rel=0');
-
                         if (this.videoOptions.loop) {
-                            videoData.additionalParams += `&playlist=${videoData.id}`
+                            videoData.additionalParams += `&playlist=${videoData.id}`;
                         }
-
                         if (this.videoOptions.allowApi) {
                             videoData.additionalParams += '&enablejsapi=1';
                         }
-
                         videoData.src = `${baseSrc}/${videoData.id}?origin=<?= $block->getBaseUrl() ?>${videoData.additionalParams}`;
-                        videoData.allow += " accelerometer; clipboard-write; encrypted-media; gyroscope;"
+                        videoData.allow += " accelerometer; clipboard-write; encrypted-media; gyroscope;";
                     } else if (videoUrl.match(/vimeo\.com/)) {
                         const vimeoRegex = new RegExp([
                             'https?:\\/\\/(?:www\\.|player\\.)?vimeo.com\\/(?:channels\\/(?:\\w+\\/)',
@@ -532,15 +493,13 @@ $productName = $block->getProduct()->getName();
                         ].join(''));
                         const timestamp = new Date().getTime();
                         const baseSrc = "https://player.vimeo.com/video";
-
                         videoData.type = "vimeo";
                         videoData.id = videoUrl.match(vimeoRegex)[3];
                         if (this.videoOptions.allowApi) {
-                            videoData.additionalParams += "&api=1"
+                            videoData.additionalParams += "&api=1";
                         }
                         videoData.src = `${baseSrc}/${videoData.id}?player_id=vimeo${videoData.id}${timestamp}${videoData.additionalParams}`;
                     }
-
                     return videoData;
                 },
                 getTouchPosition(event) {
@@ -581,7 +540,7 @@ $productName = $block->getProduct()->getName();
                     },
                     ['@reset-gallery.window']() {
                         this.resetGallery();
-                    },
+                    }
                 },
                 galleryBody: {
                     ['@touchstart.passive'](event) {
@@ -592,7 +551,7 @@ $productName = $block->getProduct()->getName();
                     ['@touchend.passive'](event) {
                         if (!this.isSwipeGesture(event)) return;
                         this.swipeItem(event);
-                    },
+                    }
                 },
                 <?php if ($galleryOptionShowThumbs): ?>
                 thumbsOverflow: false,
@@ -611,11 +570,9 @@ $productName = $block->getProduct()->getName();
                 isThumbInView(index, action = "leave") {
                     const isFirst = index === 0;
                     const isLast = index === (this.itemCount - 1);
-
                     if (isFirst) {
                         this.thumbsStart = (action === "enter");
                     }
-
                     if (isLast) {
                         this.thumbsEnd = (action === "enter");
                     }
@@ -623,12 +580,10 @@ $productName = $block->getProduct()->getName();
                 calcThumbsOverflow() {
                     const thumbs = this.$refs.jsThumbSlides;
                     if (!thumbs) return;
-
                     const { scrollWidth, scrollHeight, offsetWidth, offsetHeight } = thumbs;
                     const hasOverflow = scrollHeight > scrollWidth
                         ? scrollHeight > offsetHeight
                         : scrollWidth > offsetWidth;
-
                     this.thumbsOverflow = hasOverflow;
                 },
                 <?php endif; ?>
@@ -645,26 +600,21 @@ $productName = $block->getProduct()->getName();
                         const zoomSize = parseInt(modifierValue(modifiers, "zoom", 120)) + 100;
                         const getImageSrc = evaluateLater(expression);
                         let imageSrc;
-
                         effect(() => {
-                            getImageSrc(img => { imageSrc = img || null });
+                            getImageSrc(img => { imageSrc = img || null; });
                             el.style.setProperty("--zoom-src", imageSrc ? `url(${imageSrc})` : null);
                         });
-
                         el.addEventListener('mouseleave', resetZoom, false);
                         el.addEventListener('mousemove', updateZoom, false);
-
                         cleanup(() => {
                             el.removeEventListener('mouseleave', resetZoom);
                             el.removeEventListener('mousemove', updateZoom);
                         });
-
                         function resetZoom(e) {
                             el.style.setProperty("--zoom", null);
                             el.style.setProperty("--zoom-y", null);
                             el.style.setProperty("--zoom-x", null);
                         }
-
                         function updateZoom(e) {
                             if (!imageSrc || !isHoverableDevice) return;
                             const dimensions = this.getBoundingClientRect();
@@ -676,7 +626,6 @@ $productName = $block->getProduct()->getName();
                         }
                     });
                 }
-
                 function alpine_magnifier_target(el) {
                     Alpine.directive("magnifier-target", (el, {}, { evaluate }) => {
                         el.style.position = "absolute";
@@ -684,13 +633,11 @@ $productName = $block->getProduct()->getName();
                         el.style.background = "var(--zoom-src) var(--zoom-x) var(--zoom-y)/var(--zoom) no-repeat";
                     });
                 }
-
                 function modifierValue(modifiers, key, fallback) {
                     if (modifiers.indexOf(key) === -1) return fallback;
                     const value = modifiers[modifiers.indexOf(key) + 1];
                     return value || fallback;
                 }
-
                 document.addEventListener("alpine:init", () => {
                     window.Alpine.plugin(alpine_magnifier);
                     window.Alpine.plugin(alpine_magnifier_target);
