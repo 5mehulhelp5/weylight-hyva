@@ -55,7 +55,7 @@ if ($currentCategory->getId()) {
         <div class="owl-carousel owl-theme">
             <?php foreach ($subcategories as $subcategory): ?>
                 <?php if ($subcategory->getIsActive()): ?>
-                    <div class="item flex flex-row justify-center items-center w-64 min-h-[117.33px] p-4 mx-auto md:mx-0 border border-container-lighter rounded">
+                    <div class="item flex flex-row justify-center items-center w-64 min-h-[184px] p-4 mx-auto md:mx-0 border border-container-lighter rounded">
                         <a href="<?= $subcategory->getUrl() ?>" class="flex justify-center items-center space-x-4">
                             <img
                                 src="<?= $subcategory->getImageUrl() ?>"
