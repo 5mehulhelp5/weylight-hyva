@@ -80,7 +80,7 @@ if ($currentCategory->getId()) {
         x-init="checkIsMobileResolution()"
         @resize.window.debounce="checkIsMobileResolution()"
         @visibilitychange.window.debounce="checkIsMobileResolution()"
-        class="block p-4 border-0 bg-transparent md:py-0 md:px-0 my-6"
+        class="block border border-container bg-container-darker p-4 md:border-0 md:bg-transparent md:py-0 md:px-0 my-6"
         role="region"
         aria-label="<?= $escaper->escapeHtmlAttr(__('Product filters')) ?>"
     >

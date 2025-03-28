@@ -1,0 +1,77 @@
+<?php
+/**
+ * @var $block \Mirasvit\LayeredNavigation\Block\Css
+ */
+$css = $block->getCss();
+
+?>
+<?php if ($css): ?>
+    <style><?= $css ?></style>
+<?php endif ?>
+
+
+<style>
+    [data-element="filter"][data-hidden=true],
+    [data-element="filter"][data-search-hidden=true],
+    [data-element="filter"][data-letter-hidden=true] {
+        display: none !important;
+    }
+
+    @media screen and (min-width: 768px) {
+        .mst-nav__horizontal-bar .block-title {
+            display: none;
+        }
+        .mst-nav__horizontal-bar .block-content {
+            display: flex;
+            flex-wrap: wrap;
+        }
+        .mst-nav__horizontal-bar .block-content .filter-options-content {
+            position: absolute;
+            width: max-content;
+            background-color: #fff;
+            padding: 1rem;
+            left: 0;
+            margin-top: 1rem;
+            box-shadow: 0 1px 3px 0 rgba(0, 0, 0, 0.1), 0 1px 2px 0 rgba(0, 0, 0, 0.06);
+            z-index: 1;
+        }
+    }
+
+    .mst-nav__horizontal-bar>[x-data="initLayeredNavigation()"] {
+        margin: 0;
+    }
+
+    .mst-nav__horizontal-bar .block-content .filter-option {
+        margin: .5rem;
+        position: relative;
+    }
+    .mst-nav__horizontal-bar .filter-options-title {
+        padding-bottom: 0!important;
+        border-bottom: none;
+    }
+
+    .mst-nav__horizontal-bar .block-content .filter-option .title {
+        margin: 0 .5rem;
+    }
+
+    .mst-nav__horizontal-bar .block-content .mst-nav__search-suggestion {
+        max-height: 600px;
+        overflow-y: auto;
+    }
+
+    .mst-nav__horizontal-bar .block-content .mst-nav__search-suggestion .filter-options-content {
+        position: relative;
+        width: 100%;
+        padding: 0;
+        box-shadow: none;
+    }
+
+    @media screen and (max-width: 767px){
+
+        .mst-nav__horizontal-bar .block-content .filter-options-content {
+            width: auto;
+            right: .125rem;
+            left: .125rem;
+        }
+    }
+</style>
