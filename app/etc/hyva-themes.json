@@ -70,6 +70,9 @@
             "src": "vendor\/mirasvit\/module-navigation-hyva\/src\/MirasvitLayeredNavigation"
         },
         {
+            "src": "vendor\/mollie\/magento2-hyva-compatibility\/src\/Mollie_HyvaCompatibility"
+        },
+        {
             "src": "vendor\/hyva-themes\/magento2-hyva-widgets\/src"
         }
     ]

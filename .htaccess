@@ -5,7 +5,3 @@ RewriteCond %{REQUEST_URI} !^/update/
 RewriteCond %{REQUEST_URI} !^/dev/
 RewriteRule .* /pub/$0 [L]
 DirectoryIndex index.php
-
-# php -- BEGIN cPanel-generated handler, do not edit
-# This domain inherits the “PHP” package.
-# php -- END cPanel-generated handler, do not edit
