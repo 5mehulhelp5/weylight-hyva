@@ -46,13 +46,19 @@
             "src": "vendor\/amasty\/module-elastic-search-hyva-compatibility"
         },
         {
-            "src": "app\/code\/Hyva\/MagezonBuilder"
+            "src": "vendor\/hyva-themes\/magento2-magezon-builder\/src"
         },
         {
             "src": "app\/code\/Hyva\/MagezonNinjaMenus"
         },
         {
-            "src": "app\/code\/Hyva\/MagezonPageBuilder"
+            "src": "vendor\/hyva-themes\/magento2-magezon-page-builder\/src"
+        },
+        {
+            "src": "vendor\/mirasvit\/module-blog-mx-hyva\/src\/MirasvitBlogMx"
+        },
+        {
+            "src": "vendor\/mirasvit\/module-comment-hyva\/src\/MirasvitComment"
         },
         {
             "src": "vendor\/mirasvit\/module-navigation-hyva\/src\/MirasvitAllProducts"

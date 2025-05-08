@@ -22,11 +22,14 @@ class ContactForm extends \Magezon\Builder\Block\Element
      */
     public function getContactFormHtml()
     {
+        $uniqId = uniqid('contactForm', true);
+        $sanitizedUniqId = str_replace([',', '.'], ['',''], $uniqId);
+
         $objectManager = \Magento\Framework\App\ObjectManager::getInstance();
         $viewModel = $objectManager->get(\Magento\Contact\ViewModel\UserDataProvider::class);
         $contactForm = $this->getLayout()->createBlock(
             \Magento\Contact\Block\ContactForm::class,
-            'contactForm',
+            $sanitizedUniqId,
             [
                 'data' => [
                     'view_model' => $viewModel

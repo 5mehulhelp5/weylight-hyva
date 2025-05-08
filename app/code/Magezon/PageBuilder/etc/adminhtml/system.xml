@@ -50,13 +50,13 @@
 					<label>Exclude for Namespaces</label>
 				</field>
 			</group>
-			<group id="instagram" translate="label" type="text" sortOrder="10" showInDefault="1" showInWebsite="1" showInStore="1">
+			<!-- <group id="instagram" translate="label" type="text" sortOrder="10" showInDefault="1" showInWebsite="1" showInStore="1">
 				<label>Instagrams</label>
 				<field id="user_token" translate="label" type="text" sortOrder="10" showInDefault="1" showInWebsite="1" showInStore="1">
 					<label>User Token Key</label>
 					<comment><![CDATA[Read <a href="https://developers.facebook.com/docs/instagram-basic-display-api/getting-started" target="_blank">this guide</a> to get your Instagram token.]]></comment>
 				</field>
-			</group>
+			</group> -->
 		</section>
 	</system>
 </config>

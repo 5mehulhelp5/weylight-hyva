@@ -1,20 +1,4 @@
-[30-Sep-2024 13:30:26 Europe/London] PHP Fatal error:  Uncaught Error: Call to undefined function Symfony\Component\Process\proc_get_status() in phar:///opt/cpanel/composer/bin/composer/vendor/symfony/process/Process.php:1345
-Stack trace:
-#0 phar:///opt/cpanel/composer/bin/composer/vendor/symfony/process/Process.php(868): Symfony\Component\Process\Process->updateStatus()
-#1 phar:///opt/cpanel/composer/bin/composer/vendor/symfony/process/Process.php(920): Symfony\Component\Process\Process->isRunning()
-#2 phar:///opt/cpanel/composer/bin/composer/vendor/symfony/process/Process.php(218): Symfony\Component\Process\Process->stop()
-#3 [internal function]: Symfony\Component\Process\Process->__destruct()
-#4 {main}
-  thrown in phar:///opt/cpanel/composer/bin/composer/vendor/symfony/process/Process.php on line 1345
-[30-Sep-2024 13:30:51 Europe/London] PHP Fatal error:  Uncaught Error: Call to undefined function Symfony\Component\Process\proc_get_status() in phar:///opt/cpanel/composer/bin/composer/vendor/symfony/process/Process.php:1345
-Stack trace:
-#0 phar:///opt/cpanel/composer/bin/composer/vendor/symfony/process/Process.php(868): Symfony\Component\Process\Process->updateStatus()
-#1 phar:///opt/cpanel/composer/bin/composer/vendor/symfony/process/Process.php(920): Symfony\Component\Process\Process->isRunning()
-#2 phar:///opt/cpanel/composer/bin/composer/vendor/symfony/process/Process.php(218): Symfony\Component\Process\Process->stop()
-#3 [internal function]: Symfony\Component\Process\Process->__destruct()
-#4 {main}
-  thrown in phar:///opt/cpanel/composer/bin/composer/vendor/symfony/process/Process.php on line 1345
-[30-Sep-2024 13:33:39 Europe/London] PHP Fatal error:  Uncaught Error: Call to undefined function Symfony\Component\Console\proc_close() in phar:///opt/cpanel/composer/bin/composer/vendor/symfony/console/Terminal.php:169
+[12-Apr-2025 00:30:23 Europe/London] PHP Fatal error:  Uncaught Error: Call to undefined function Symfony\Component\Console\proc_close() in phar:///opt/cpanel/composer/bin/composer/vendor/symfony/console/Terminal.php:169
 Stack trace:
 #0 phar:///opt/cpanel/composer/bin/composer/vendor/symfony/console/Terminal.php(145): Symfony\Component\Console\Terminal::readFromProcess()
 #1 phar:///opt/cpanel/composer/bin/composer/vendor/symfony/console/Terminal.php(111): Symfony\Component\Console\Terminal::getSttyColumns()
@@ -26,7 +10,7 @@ Stack trace:
 #7 /opt/cpanel/composer/bin/composer(29): require('phar:///opt/cpa...')
 #8 {main}
   thrown in phar:///opt/cpanel/composer/bin/composer/vendor/symfony/console/Terminal.php on line 169
-[30-Sep-2024 13:33:52 Europe/London] PHP Fatal error:  Uncaught Error: Call to undefined function Symfony\Component\Console\proc_close() in phar:///opt/cpanel/composer/bin/composer/vendor/symfony/console/Terminal.php:169
+[12-Apr-2025 00:30:47 Europe/London] PHP Fatal error:  Uncaught Error: Call to undefined function Symfony\Component\Console\proc_close() in phar:///opt/cpanel/composer/bin/composer/vendor/symfony/console/Terminal.php:169
 Stack trace:
 #0 phar:///opt/cpanel/composer/bin/composer/vendor/symfony/console/Terminal.php(145): Symfony\Component\Console\Terminal::readFromProcess()
 #1 phar:///opt/cpanel/composer/bin/composer/vendor/symfony/console/Terminal.php(111): Symfony\Component\Console\Terminal::getSttyColumns()
@@ -38,19 +22,7 @@ Stack trace:
 #7 /opt/cpanel/composer/bin/composer(29): require('phar:///opt/cpa...')
 #8 {main}
   thrown in phar:///opt/cpanel/composer/bin/composer/vendor/symfony/console/Terminal.php on line 169
-[30-Sep-2024 13:36:18 Europe/London] PHP Fatal error:  Uncaught Error: Call to undefined function Symfony\Component\Console\proc_close() in phar:///opt/cpanel/composer/bin/composer/vendor/symfony/console/Terminal.php:169
-Stack trace:
-#0 phar:///opt/cpanel/composer/bin/composer/vendor/symfony/console/Terminal.php(145): Symfony\Component\Console\Terminal::readFromProcess()
-#1 phar:///opt/cpanel/composer/bin/composer/vendor/symfony/console/Terminal.php(111): Symfony\Component\Console\Terminal::getSttyColumns()
-#2 phar:///opt/cpanel/composer/bin/composer/vendor/symfony/console/Terminal.php(94): Symfony\Component\Console\Terminal::initDimensionsUsingStty()
-#3 phar:///opt/cpanel/composer/bin/composer/vendor/symfony/console/Terminal.php(52): Symfony\Component\Console\Terminal::initDimensions()
-#4 phar:///opt/cpanel/composer/bin/composer/vendor/symfony/console/Application.php(140): Symfony\Component\Console\Terminal->getHeight()
-#5 phar:///opt/cpanel/composer/bin/composer/src/Composer/Console/Application.php(145): Symfony\Component\Console\Application->run()
-#6 phar:///opt/cpanel/composer/bin/composer/bin/composer(93): Composer\Console\Application->run()
-#7 /opt/cpanel/composer/bin/composer(29): require('phar:///opt/cpa...')
-#8 {main}
-  thrown in phar:///opt/cpanel/composer/bin/composer/vendor/symfony/console/Terminal.php on line 169
-[30-Sep-2024 13:37:58 Europe/London] PHP Fatal error:  Uncaught Error: Call to undefined function Symfony\Component\Process\proc_get_status() in phar:///opt/cpanel/composer/bin/composer/vendor/symfony/process/Process.php:1345
+[12-Apr-2025 00:31:23 Europe/London] PHP Fatal error:  Uncaught Error: Call to undefined function Symfony\Component\Process\proc_get_status() in phar:///opt/cpanel/composer/bin/composer/vendor/symfony/process/Process.php:1345
 Stack trace:
 #0 phar:///opt/cpanel/composer/bin/composer/vendor/symfony/process/Process.php(868): Symfony\Component\Process\Process->updateStatus()
 #1 phar:///opt/cpanel/composer/bin/composer/vendor/symfony/process/Process.php(920): Symfony\Component\Process\Process->isRunning()
@@ -58,5 +30,37 @@ Stack trace:
 #3 [internal function]: Symfony\Component\Process\Process->__destruct()
 #4 {main}
   thrown in phar:///opt/cpanel/composer/bin/composer/vendor/symfony/process/Process.php on line 1345
-[02-Oct-2024 22:13:50 UTC] PHP Fatal error:  Allowed memory size of 536870912 bytes exhausted (tried to allocate 20480 bytes) in /home/weylight/public_html/setup/src/Magento/Setup/Module/Di/Compiler/Config/Chain/PreferencesResolving.php on line 55
-[02-Oct-2024 22:18:18 UTC] PHP Fatal error:  Allowed memory size of 536870912 bytes exhausted (tried to allocate 20480 bytes) in /home/weylight/public_html/setup/src/Magento/Setup/Module/Di/Compiler/Config/Chain/PreferencesResolving.php on line 55
+[15-Apr-2025 06:25:05 UTC] PHP Fatal error:  Allowed memory size of 268435456 bytes exhausted (tried to allocate 65536 bytes) in /home/weylight/public_html/generated/code/Magento/ConfigurableProduct/Model/ResourceModel/Product/Type/Configurable/Attribute/Collection/Interceptor.php on line 92
+[15-Apr-2025 06:25:05 UTC] PHP Fatal error:  Allowed memory size of 268435456 bytes exhausted (tried to allocate 65536 bytes) in Unknown on line 0
+[15-Apr-2025 06:26:03 UTC] PHP Fatal error:  Allowed memory size of 268435456 bytes exhausted (tried to allocate 65536 bytes) in /home/weylight/public_html/vendor/mollie/magento2/Helper/General.php on line 349
+[15-Apr-2025 06:27:18 UTC] PHP Deprecated:  Creation of dynamic property Mirasvit_M2_Command_Execute_DeployCommand::$outputHelper is deprecated in Standard input code on line 42
+[15-Apr-2025 06:27:21 UTC] PHP Fatal error:  Uncaught Error: Call to undefined function escapeshellcmd() in Standard input code:47
+Stack trace:
+#0 Standard input code(68): Mirasvit_M2_Command_Execute_DeployCommand->findSCSS()
+#1 Standard input code(25): Mirasvit_M2_Command_Execute_DeployCommand->execute()
+#2 Standard input code(1919): Mirasvit_M2_Application->run()
+#3 {main}
+  thrown in Standard input code on line 47
+[15-Apr-2025 06:28:19 UTC] PHP Fatal error:  Allowed memory size of 268435456 bytes exhausted (tried to allocate 20480 bytes) in /home/weylight/public_html/vendor/wikimedia/less.php/lib/Less/Tree/Ruleset.php on line 35
+[15-Apr-2025 06:35:00 UTC] PHP Fatal error:  Allowed memory size of 268435456 bytes exhausted (tried to allocate 12288 bytes) in /home/weylight/public_html/vendor/wikimedia/less.php/lib/Less/Tree/Selector.php on line 57
+[15-Apr-2025 06:40:57 UTC] PHP Fatal error:  Allowed memory size of 268435456 bytes exhausted (tried to allocate 5976928 bytes) in /home/weylight/public_html/vendor/magento/framework/Filesystem/Driver/File.php on line 184
+[15-Apr-2025 06:44:59 UTC] PHP Fatal error:  Allowed memory size of 268435456 bytes exhausted (tried to allocate 4096 bytes) in /home/weylight/public_html/vendor/wikimedia/less.php/lib/Less/Parser.php on line 2667
+[15-Apr-2025 06:45:33 UTC] PHP Fatal error:  Allowed memory size of 268435456 bytes exhausted (tried to allocate 11486088 bytes) in /home/weylight/public_html/vendor/magento/module-translation/Model/Js/DataProvider.php on line 137
+[15-Apr-2025 07:38:11 UTC] PHP Fatal error:  Allowed memory size of 268435456 bytes exhausted (tried to allocate 12288 bytes) in /home/weylight/public_html/vendor/wikimedia/less.php/lib/Less/Tree/Selector.php on line 57
+[15-Apr-2025 07:38:50 UTC] PHP Fatal error:  Allowed memory size of 268435456 bytes exhausted (tried to allocate 5976928 bytes) in /home/weylight/public_html/vendor/magento/framework/Filesystem/Driver/File.php on line 184
+[15-Apr-2025 07:39:48 UTC] PHP Fatal error:  Allowed memory size of 268435456 bytes exhausted (tried to allocate 4096 bytes) in /home/weylight/public_html/vendor/wikimedia/less.php/lib/Less/Parser.php on line 1127
+[15-Apr-2025 07:45:00 UTC] PHP Fatal error:  Allowed memory size of 268435456 bytes exhausted (tried to allocate 6262064 bytes) in /home/weylight/public_html/vendor/magento/module-deploy/Package/Bundle/RequireJs.php on line 235
+[16-Apr-2025 06:25:48 UTC] PHP Fatal error:  Allowed memory size of 268435456 bytes exhausted (tried to allocate 32768 bytes) in /home/weylight/public_html/vendor/magento/module-tax/view/base/templates/pricing/adjustment.phtml on line 1
+[16-Apr-2025 08:49:51 UTC] PHP Fatal error:  Allowed memory size of 268435456 bytes exhausted (tried to allocate 655360 bytes) in /home/weylight/public_html/vendor/colinmollenhour/cache-backend-file/File.php on line 669
+[16-Apr-2025 09:01:15 UTC] PHP Fatal error:  Allowed memory size of 268435456 bytes exhausted (tried to allocate 20480 bytes) in /home/weylight/public_html/vendor/magento/zend-db/library/Zend/Db/Statement/Pdo.php on line 292
+[16-Apr-2025 11:43:13 UTC] PHP Fatal error:  Allowed memory size of 268435456 bytes exhausted (tried to allocate 1310720 bytes) in /home/weylight/public_html/vendor/composer/ClassLoader.php on line 576
+[16-Apr-2025 11:45:32 UTC] PHP Fatal error:  Allowed memory size of 268435456 bytes exhausted (tried to allocate 32768 bytes) in /home/weylight/public_html/vendor/magento/module-login-as-customer-frontend-ui/Controller/Login/Index.php on line 1
+[16-Apr-2025 11:45:52 UTC] PHP Fatal error:  Allowed memory size of 268435456 bytes exhausted (tried to allocate 1310720 bytes) in /home/weylight/public_html/vendor/composer/ClassLoader.php on line 576
+[16-Apr-2025 11:47:31 UTC] PHP Fatal error:  Allowed memory size of 268435456 bytes exhausted (tried to allocate 1310720 bytes) in /home/weylight/public_html/vendor/composer/ClassLoader.php on line 576
+[16-Apr-2025 11:48:20 UTC] PHP Fatal error:  Allowed memory size of 268435456 bytes exhausted (tried to allocate 1310720 bytes) in /home/weylight/public_html/vendor/composer/ClassLoader.php on line 576
+[16-Apr-2025 11:49:11 UTC] PHP Fatal error:  Allowed memory size of 268435456 bytes exhausted (tried to allocate 32768 bytes) in /home/weylight/public_html/vendor/magento/module-login-as-customer-frontend-ui/Controller/Login/Index.php on line 1
+[16-Apr-2025 11:56:48 UTC] PHP Fatal error:  Allowed memory size of 268435456 bytes exhausted (tried to allocate 20480 bytes) in /home/weylight/public_html/generated/metadata/adminhtml.php on line 8
+[16-Apr-2025 21:34:16 UTC] PHP Fatal error:  Allowed memory size of 268435456 bytes exhausted (tried to allocate 12288 bytes) in /home/weylight/public_html/vendor/wikimedia/less.php/lib/Less/Tree/Selector.php on line 57
+[16-Apr-2025 21:37:22 UTC] PHP Fatal error:  Allowed memory size of 268435456 bytes exhausted (tried to allocate 65536 bytes) in /home/weylight/public_html/vendor/magento/module-saas-common/Model/Logging/Base.php on line 24
+[08-May-2025 01:32:14 UTC] PHP Fatal error:  Cannot use Elasticsearch\ClientBuilder as ClientBuilder because the name is already in use in /home/weylight/public_html/vendor/amasty/module-elastic-search/Model/Client/Elasticsearch7/Client.php on line 19
+[08-May-2025 01:32:24 UTC] PHP Fatal error:  Cannot use Elasticsearch\ClientBuilder as ClientBuilder because the name is already in use in /home/weylight/public_html/vendor/amasty/module-elastic-search/Model/Client/Elasticsearch7/Client.php on line 19

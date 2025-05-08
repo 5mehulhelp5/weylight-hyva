@@ -3906,7 +3906,7 @@ See http://bgrins.github.io/spectrum/themes/ for instructions.
   background-image: url(data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSIyNSIgaGVpZ2h0PSIyNSIgc3R5bGU9ImJhY2tncm91bmQ6I2ZmZiIgdmlld0JveD0iMCAwIDI1IDI1Ij4KICA8cGF0aCBmaWxsPSJub25lIiBzdHJva2U9IiNGMDAiIHN0cm9rZS1saW5lY2FwPSJzcXVhcmUiIGQ9Ik0wLjUsMC41IEwyNS41LDI0LjUiLz4KPC9zdmc+Cg==);
 }
 .sp-palette-row-selection {
-  padding-top: 10px;
+  padding-top: 20px;
 }
 .sp-palette-row-selection:before {
   content: "Favorite Colors";

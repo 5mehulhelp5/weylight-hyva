@@ -73,7 +73,7 @@ pub/media/email/*
 bizbox2/
 pub/media/media/*
 app/code/Onestepcheckout/Iosc/view/__frontend/
-
+pub/media/bss/*
 /var/*
 !/var/.htaccess
 /generated/*
@@ -91,3 +91,10 @@ app/code/Onestepcheckout/Iosc/view/__frontend/
 !/Docker/elasticsearch/data/readme.txt
 !/Docker/httpd/mail/readme.txt
 !/Docker/sql/readme.txt
+pub/media/.thumbscatalog/*
+pub/media/.thumbswysiwyg/*
+pub/media/blog/*
+pub/media/brand/*
+pub/media/magezon/*
+pub/media/Bss/Gallery/*
+pub/media/.thumbsbrand/*

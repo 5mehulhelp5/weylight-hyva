@@ -11,7 +11,8 @@
             "dealerdirect/phpcodesniffer-composer-installer": true,
             "laminas/laminas-dependency-plugin": true,
             "magento/*": true,
-            "php-http/discovery": true
+            "php-http/discovery": true,
+            "tbachert/spi": true
         },
         "preferred-install": "dist",
         "sort-packages": true
@@ -33,10 +34,14 @@
         "amasty/stockstatus-graphql": "^1.0",
         "bsscommerce/hyva-compat-base": "^1.0",
         "bsscommerce/url-rewrite-import-export": "^1.1",
+        "elasticsearch/elasticsearch": "^8.15",
+        "firebear/importexport": "^3.8",
+        "firebear/importexport-msi": "^1.1",
         "hyva-themes/magento2-amasty-stockstatus": "^1.0",
         "hyva-themes/magento2-cms-tailwind-jit": "^1.1",
         "hyva-themes/magento2-default-theme": "1.3.13",
         "hyva-themes/magento2-hyva-widgets": "^1.0",
+        "hyva-themes/magento2-magezon-page-builder": "^1.0",
         "hyva-themes/magento2-payment-icons": "^1.0",
         "magento/composer-dependency-version-audit-plugin": "^0.1",
         "magento/composer-root-update-plugin": "^2.0",
@@ -62,6 +67,10 @@
         "magento/product-community-edition": "2.4.8",
         "magento/sample-data-media": "^100.4.0",
         "magento/zendframework1": "^1.15",
+        "mirasvit/module-backend-search": "*",
+        "mirasvit/module-blog-mx": "*",
+        "mirasvit/module-blog-mx-hyva": "*",
+        "mirasvit/module-indexer": "*",
         "mirasvit/module-navigation": "*",
         "mirasvit/module-navigation-hyva": "*",
         "mirasvit/module-seo-filter": "*",
@@ -120,6 +129,22 @@
     "minimum-stability": "stable",
     "prefer-stable": true,
     "repositories": {
+        "mirasvit-bks2": {
+            "type": "composer",
+            "url": "https://66276:2B8KC0F9E6@packages.mirasvit.com/66276:2B8KC0F9E6/"
+        },
+        "mirasvit-blg2": {
+            "type": "composer",
+            "url": "https://66607:4IRZ5UW9C2@packages.mirasvit.com/66607:4IRZ5UW9C2/"
+        },
+        "mirasvit-far2": {
+            "type": "composer",
+            "url": "https://66277:2OWI495JCN@packages.mirasvit.com/66277:2OWI495JCN/"
+        },
+        "firebear": {
+            "type": "composer",
+            "url": "https://firebearstudio.com/composer/download/package/type/ce/user/5a71f4b7ab89fbfa6ee18d01abe39740/password/ec8b82521bfd1b5cd4718c7a74512ffb/"
+        },
         "bsscommerce": {
             "type": "composer",
             "url": "https://composer.bsscommerce.com/community"
